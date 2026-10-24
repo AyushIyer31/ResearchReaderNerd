@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ResearchReaderNerd</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: top bar for input; below it the report area and a collapsible prompt panel on the right. */
+:root {
+  --paper: #fafbfc; --ink: #1c2330; --muted: #5b6577; --rule: #dde2ea; --panel: #f1f4f8; --raised: #ffffff;
+  --accent: #1f5c8a; --accent-ink: #ffffff; --accent-tint: #e4eef7;
+  --edited: #9a5b00; --edited-tint: #fbf0dc; --error: #b42318; --error-tint: #fdecea; --done: #2f7d4f;
+  --display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --panel-w: 28rem;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --paper: #11151c; --ink: #e2e7ef; --muted: #9aa5b6; --rule: #2a323f; --panel: #181e27; --raised: #1c232e;
+  --accent: #82b6de; --accent-ink: #0d1520; --accent-tint: #1b2a3a;
+  --edited: #e3ad55; --edited-tint: #2d2414; --error: #f2877c; --error-tint: #3a1d1a; --done: #6cc495;
+  color-scheme: dark } }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body { display: flex; flex-direction: column; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--body); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Top bar */
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; padding: .7rem 1rem; border-bottom: 1px solid var(--rule); background: var(--raised); }
+.wordmark { font: 600 1.25rem var(--display); background: none; border: 0; padding: 0; }
+.run-form { display: flex; flex-wrap: wrap; gap: .5rem; flex: 1; min-width: 0; align-items: center; }
+.run-form input { flex: 1 1 14rem; min-width: 0; padding: .45rem .7rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); font-family: var(--data); font-size: .9rem; }
+.run-form select { padding: .45rem .5rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); }
+.btn { padding: .45rem .9rem; border-radius: 4px; border: 1px solid var(--rule); background: var(--raised); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn.small { padding: .15rem .5rem; font-size: .8rem; }
+.panel-toggle { display: inline-flex; gap: .45rem; align-items: center; }
+.count { font: .75rem var(--data); padding: 0 .4rem; border-radius: 3px; background: var(--edited-tint); color: var(--edited); }
+.file-chip { flex: 1 1 14rem; min-width: 0; display: flex; align-items: center; gap: .5rem; padding: .35rem .4rem .35rem .7rem;
+  border: 1px solid var(--accent); border-radius: 4px; background: var(--accent-tint); font: .88rem var(--data); }
+.file-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-chip button { border: 0; background: none; font-size: 1.1rem; line-height: 1; padding: 0 .35rem; color: var(--muted); }
+.file-chip button:hover { color: var(--ink); }
+.or { color: var(--muted); font-size: .85rem; }
+label.btn { cursor: pointer; }
+.drop-overlay { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: rgb(0 0 0 / .35); pointer-events: none; }
+.drop-overlay > div { padding: 2rem 3rem; border: 2px dashed var(--accent); border-radius: 8px; background: var(--raised); font: 600 1.1rem var(--body); }
+.form-error { flex-basis: 100%; color: var(--error); font-size: .88rem; margin: 0; }
+
+/* Workspace */
+.workspace { flex: 1; min-height: 0; display: flex; }
+main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: auto; }
+.view { padding: 2rem clamp(1rem, 4vw, 3rem); display: grid; gap: 1.25rem; align-content: start; max-width: 54rem; width: 100%; }
+h1, h2 { font-family: var(--display); font-weight: 600; margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.15rem; }
+.muted { color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+.label { font: 600 .72rem var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Saved reports */
+.reports { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); border-radius: 4px; background: var(--raised); }
+.reports li + li { border-top: 1px solid var(--rule); }
+.reports button { width: 100%; text-align: left; background: none; border: 0; padding: .8rem 1rem; display: grid; grid-template-columns: 1fr auto; gap: .15rem 1rem; }
+.reports button:hover { background: var(--panel); }
+.reports .t { font-weight: 600; }
+.reports .m { font: .8rem var(--data); color: var(--muted); grid-column: 1; }
+.reports .chip { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+.chip { font: .75rem var(--data); padding: .1rem .45rem; border-radius: 3px; background: var(--panel); color: var(--muted); white-space: nowrap; }
+.chip.edited { background: var(--edited-tint); color: var(--edited); }
+
+/* Progress */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+.steps li { display: grid; grid-template-columns: 1.75rem 1fr; gap: .1rem .75rem; align-items: start; }
+.dot { width: 1.75rem; height: 1.75rem; border-radius: 50%; border: 2px solid var(--rule); display: grid; place-items: center; font: .8rem var(--data); color: var(--muted); grid-row: span 2; }
+.steps .name { font-weight: 600; color: var(--muted); }
+.steps .sub { font-size: .88rem; color: var(--muted); grid-column: 2; }
+.steps li.active .dot { border-color: var(--accent); color: var(--accent); animation: pulse 1.6s ease-in-out infinite; }
+.steps li.active .name, .steps li.done .name { color: var(--ink); }
+.steps li.done .dot { border-color: var(--done); background: var(--done); color: var(--paper); }
+.steps li.failed .dot { border-color: var(--error); color: var(--error); }
+@keyframes pulse { 50% { box-shadow: 0 0 0 .3rem var(--accent-tint); } }
+@media (prefers-reduced-motion: reduce) { .steps li.active .dot { animation: none; } }
+.error-box { padding: .9rem 1rem; border-radius: 4px; background: var(--error-tint); color: var(--error); max-width: 65ch; }
+.elapsed { font: .9rem var(--data); font-variant-numeric: tabular-nums; color: var(--muted); }
+
+/* Report */
+.report-view { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.run-bar { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; padding: .55rem 1rem; border-bottom: 1px solid var(--rule); background: var(--panel); font-size: .85rem; }
+.run-bar .facts { font: .8rem var(--data); color: var(--muted); font-variant-numeric: tabular-nums; }
+.run-bar .spacer { flex: 1; }
+iframe { flex: 1; width: 100%; border: 0; background: var(--paper); min-height: 20rem; }
+
+/* Prompt panel */
+aside { width: var(--panel-w); flex: none; border-left: 1px solid var(--rule); background: var(--raised); overflow: auto; display: flex; flex-direction: column; }
+.panel-head { position: sticky; top: 0; z-index: 1; background: var(--raised); padding: 1rem 1.1rem .8rem; border-bottom: 1px solid var(--rule); display: grid; gap: .3rem; }
+.panel-head .row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+.panel-body { padding: 1rem 1.1rem 2rem; display: grid; gap: 1.5rem; }
+.stage[open] { display: grid; gap: .7rem; }
+.stage-head { display: grid; grid-template-columns: 1.6rem 1fr auto; gap: .1rem .6rem; cursor: pointer; list-style: none; }
+.stage-head::-webkit-details-marker { display: none; }
+.stage-head::after { content: ""; grid-column: 3; grid-row: 1; align-self: center; width: .45rem; height: .45rem;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
+.stage[open] > .stage-head::after { transform: rotate(45deg); }
+.stage-head:hover .title { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .stage-head::after { transition: none; } }
+.stage-head .num { font: .85rem var(--data); color: var(--accent); grid-row: span 2; padding-top: .1rem; }
+.stage-head .title { font-weight: 600; }
+.stage-head .detail { font-size: .85rem; color: var(--muted); grid-column: 2 / 4; }
+.field { display: grid; gap: .3rem; margin-left: 2.2rem; }
+.field-head { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.field-head label { font-weight: 600; font-size: .88rem; }
+.role { font: .7rem var(--data); color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 .3rem; }
+.field-head .grow { flex: 1; }
+textarea { width: 100%; min-height: 6rem; resize: vertical; padding: .55rem .65rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); font: .8rem/1.5 var(--data); }
+textarea.is-edited { border-color: var(--edited); }
+details.schema { margin-left: 2.2rem; font-size: .85rem; }
+details.schema summary { cursor: pointer; color: var(--muted); }
+details.schema pre { max-height: 22rem; overflow: auto; padding: .6rem; background: var(--panel); border-radius: 4px; font: .72rem/1.45 var(--data); white-space: pre; }
+
+@media (max-width: 900px) {
+  aside { position: fixed; inset: 0 0 0 auto; width: min(100%, var(--panel-w)); z-index: 20; box-shadow: -12px 0 32px rgb(0 0 0 / .18); }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <button class="wordmark" id="home-link" type="button">ResearchReaderNerd</button>
+  <form class="run-form" id="run-form">
+    <input id="paper" name="paper" placeholder="arXiv ID or link, e.g. 1706.03762" autocomplete="off" aria-label="arXiv ID or link">
+    <span class="file-chip" id="file-chip" hidden>
+      <span class="file-name" id="file-name"></span>
+      <button type="button" id="file-clear" aria-label="Remove the PDF">×</button>
+    </span>
+    <span class="or">or</span>
+    <label class="btn" for="file-input">Upload PDF</label>
+    <input type="file" id="file-input" accept="application/pdf,.pdf" hidden>
+    <select id="effort" name="effort" aria-label="Effort"></select>
+    <button class="btn primary" id="run-btn" type="submit">Analyze</button>
+    <p class="form-error" id="form-error" hidden></p>
+  </form>
+  <button class="btn panel-toggle" id="panel-toggle" type="button" aria-controls="panel" aria-expanded="true">
+    Prompts <span class="count" id="edited-count" hidden></span>
+  </button>
+</header>
+
+<div class="drop-overlay" id="drop-overlay" hidden><div>Drop the PDF to choose it</div></div>
+
+<div class="workspace">
+  <main id="main">
+    <section class="view" id="home-view">
+      <div>
+        <h1>Read a paper</h1>
+        <p class="muted">Enter an arXiv ID above, or upload a PDF (you can also drop one anywhere on this page). You get the paper's assumptions (R1) and benchmarks with every reported result (R2). Edit the prompts in the panel on the right before you run.</p>
+      </div>
+      <div class="label">Saved reports</div>
+      <ul class="reports" id="reports"></ul>
+      <p class="muted" id="no-reports" hidden>No reports yet. Your first analysis will appear here.</p>
+    </section>
+
+    <section class="view" id="progress-view" hidden>
+      <div>
+        <div class="label">Analyzing</div>
+        <h1 id="progress-title"></h1>
+      </div>
+      <ol class="steps" id="steps"></ol>
+      <div class="elapsed" id="elapsed"></div>
+      <p class="muted" id="progress-note">Reading a paper usually takes one to three minutes.</p>
+      <div class="error-box" id="progress-error" hidden></div>
+    </section>
+
+    <section class="report-view" id="report-view" hidden>
+      <div class="run-bar" id="run-bar"></div>
+      <iframe id="report-frame" title="Report"></iframe>
+    </section>
+  </main>
+
+  <aside id="panel" aria-label="Prompts">
+    <div class="panel-head">
+      <div class="row">
+        <h2>Prompts for each stage</h2>
+        <button class="btn small" id="panel-close" type="button" aria-label="Collapse prompt panel">Collapse</button>
+      </div>
+      <p class="muted" style="font-size:.85rem">Edits apply to your next run and are kept in this browser. Each report saves the prompts it was made with.</p>
+      <div class="row">
+        <span class="muted" style="font-size:.85rem" id="model-note"></span>
+        <button class="btn small" id="reset-all" type="button" hidden>Reset all</button>
+      </div>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+  </aside>
+</div>
+
+<script>
+const STORE_PROMPTS = "rrn.prompts";
+const STORE_PANEL = "rrn.panelOpen";
+const $ = (id) => document.getElementById(id);
+const state = { config: null, prompts: {}, poll: null, tick: null, file: null };
+const MAX_PDF_MB = 24;
+
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) node.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of children.flat()) if (c != null) node.append(c);
+  return node;
+}
+
+function store(key, value) {
+  try { value === undefined ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+function recall(key) {
+  try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+}
+
+async function api(path, options) {
+  const res = await fetch(path, options);
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const detail = Array.isArray(body.detail) ? body.detail.map((d) => d.msg).join("; ") : body.detail;
+    throw new Error(detail || `Request failed (${res.status}).`);
+  }
+  return body;
+}
+
+/* ---------- Prompt panel ---------- */
+
+function renderPanel() {
+  const { stages, defaults, model } = state.config;
+  $("model-note").textContent = `Model: ${model}`;
+  const body = $("panel-body");
+  body.replaceChildren();
+  stages.forEach((stage, i) => {
+    const section = el("details", { class: "stage", open: stage.prompts.length > 0 },
+      el("summary", { class: "stage-head" },
+        el("span", { class: "num" }, String(i + 1).padStart(2, "0")),
+        el("span", { class: "title" }, stage.title),
+        el("span", { class: "detail" }, stage.detail)));
+    for (const p of stage.prompts) {
+      const id = `prompt-${p.key}`;
+      const area = el("textarea", { id, spellcheck: "false", oninput: (e) => setPrompt(p.key, e.target.value) });
+      area.value = state.prompts[p.key];
+      section.append(el("div", { class: "field" },
+        el("div", { class: "field-head" },
+          el("label", { for: id }, p.label),
+          el("span", { class: "role" }, p.role),
+          el("span", { class: "grow" }),
+          el("span", { class: "chip edited", id: `${id}-badge`, hidden: true }, "Edited"),
+          el("button", { class: "btn small", type: "button", id: `${id}-reset`, hidden: true,
+            onclick: () => { setPrompt(p.key, defaults[p.key]); area.value = defaults[p.key]; fit(area); } }, "Reset")),
+        area));
+    }
+    if (stage.id === "analyze") {
+      section.append(el("details", { class: "schema" },
+        el("summary", {}, "Output format (sent with the request, read-only)"),
+        el("pre", {}, JSON.stringify(state.config.output_schema, null, 2))));
+    }
+    body.append(section);
+  });
+  body.querySelectorAll("textarea").forEach(fit);
+  refreshEdited();
+}
+
+function fit(area) {
+  area.style.height = "auto";
+  area.style.height = Math.min(area.scrollHeight + 2, 420) + "px";
+}
+
+function setPrompt(key, value) {
+  state.prompts[key] = value;
+  const edits = {};
+  for (const [k, v] of Object.entries(state.prompts)) if (v !== state.config.defaults[k]) edits[k] = v;
+  store(STORE_PROMPTS, Object.keys(edits).length ? edits : undefined);
+  refreshEdited();
+}
+
+function refreshEdited() {
+  let n = 0;
+  for (const [key, def] of Object.entries(state.config.defaults)) {
+    const edited = state.prompts[key] !== def;
+    n += edited;
+    $(`prompt-${key}-badge`).hidden = !edited;
+    $(`prompt-${key}-reset`).hidden = !edited;
+    $(`prompt-${key}`).classList.toggle("is-edited", edited);
+  }
+  $("edited-count").hidden = n === 0;
+  $("edited-count").textContent = `${n} edited`;
+  $("reset-all").hidden = n === 0;
+}
+
+function loadPrompts(prompts) {
+  state.prompts = { ...state.config.defaults, ...prompts };
+  for (const key of Object.keys(state.config.defaults)) {
+    const area = $(`prompt-${key}`);
+    area.value = state.prompts[key];
+    fit(area);
+  }
+  setPrompt("user", state.prompts.user);
+}
+
+function setPanel(open) {
+  $("panel").hidden = !open;
+  $("panel-toggle").setAttribute("aria-expanded", String(open));
+  store(STORE_PANEL, open);
+}
+
+/* ---------- Views ---------- */
+
+function show(view) {
+  for (const id of ["home-view", "progress-view", "report-view"]) $(id).hidden = id !== view;
+}
+
+async function showHome() {
+  stopPolling();
+  show("home-view");
+  history.replaceState(null, "", location.pathname);
+  const reports = await api("/api/reports");
+  const list = $("reports");
+  list.replaceChildren(...reports.map((r) => el("li", {},
+    el("button", { type: "button", onclick: () => openReport(r.name) },
+      el("span", { class: "t" }, r.title),
+      el("span", { class: "m" }, `${r.name} · ${new Date(r.modified * 1000).toLocaleDateString()}`),
+      r.custom_prompts ? el("span", { class: "chip edited" }, "Custom prompts") : el("span", { class: "chip" }, "Default prompts")))));
+  list.hidden = reports.length === 0;
+  $("no-reports").hidden = reports.length > 0;
+}
+
+async function openReport(name) {
+  stopPolling();
+  const report = await api(`/api/reports/${encodeURIComponent(name)}`);
+  history.replaceState(null, "", `#${name}`);
+  const bar = $("run-bar");
+  bar.replaceChildren(el("button", { class: "btn small", type: "button", onclick: showHome }, "All reports"));
+  const run = report.run;
+  if (run) {
+    const cost = run.estimated_cost_usd == null ? "" : ` · ~$${run.estimated_cost_usd.toFixed(2)}`;
+    bar.append(
+      el("span", { class: "facts" },
+        `${run.model} · effort ${run.effort} · ${run.input_tokens.toLocaleString()} in / ${run.output_tokens.toLocaleString()} out${cost}`),
+      run.prompts_are_default ? el("span", { class: "chip" }, "Default prompts") : el("span", { class: "chip edited" }, "Custom prompts"),
+      el("span", { class: "spacer" }),
+      el("button", { class: "btn small", type: "button", onclick: () => { loadPrompts(run.prompts); setPanel(true); } },
+        "Load this run's prompts"));
+  } else {
+    bar.append(el("span", { class: "facts" }, "Run details were not saved for this report."));
+  }
+  $("report-frame").srcdoc = report.html;
+  show("report-view");
+}
+
+function renderSteps(job) {
+  const stages = state.config.stages;
+  const current = stages.findIndex((s) => s.id === job.stage);
+  $("steps").replaceChildren(...stages.map((s, i) => {
+    let cls = i < current || job.status === "done" ? "done" : i === current ? "active" : "";
+    if (job.status === "error" && i === current) cls = "failed";
+    return el("li", { class: cls },
+      el("span", { class: "dot" }, cls === "done" ? "✓" : String(i + 1)),
+      el("span", { class: "name" }, s.title),
+      el("span", { class: "sub" }, s.detail));
+  }));
+}
+
+function stopPolling() {
+  clearTimeout(state.poll);
+  clearInterval(state.tick);
+  state.poll = state.tick = null;
+  $("run-btn").disabled = false;
+}
+
+async function startRun(event) {
+  event.preventDefault();
+  $("form-error").hidden = true;
+  const paper = $("paper").value.trim();
+  if (!state.file && !paper) return showFormError("Enter an arXiv ID or upload a PDF.");
+  $("run-btn").disabled = true;
+  let job;
+  try {
+    const body = { effort: $("effort").value, prompts: state.prompts };
+    if (state.file) {
+      $("run-btn").textContent = "Uploading…";
+      const res = await fetch(`/api/uploads?filename=${encodeURIComponent(state.file.name)}`, {
+        method: "POST", headers: { "Content-Type": "application/pdf" }, body: state.file,
+      });
+      const uploaded = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(uploaded.detail || `Upload failed (${res.status}).`);
+      body.upload_id = uploaded.upload_id;
+    } else {
+      body.paper = paper;
+    }
+    job = await api("/api/runs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  } catch (e) {
+    $("run-btn").disabled = false;
+    return showFormError(e.message);
+  } finally {
+    $("run-btn").textContent = "Analyze";
+  }
+  stopPolling();
+  $("run-btn").disabled = true;
+  $("progress-title").textContent = job.label;
+  $("progress-error").hidden = true;
+  $("progress-note").hidden = false;
+  show("progress-view");
+  renderSteps(job);
+  const started = Date.now() - job.elapsed * 1000;
+  const tick = () => {
+    const s = Math.round((Date.now() - started) / 1000);
+    $("elapsed").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} elapsed`;
+  };
+  tick();
+  state.tick = setInterval(tick, 1000);
+  pollRun(job.id);
+}
+
+async function pollRun(id) {
+  let job;
+  try {
+    job = await api(`/api/runs/${id}`);
+  } catch (e) {
+    return failRun({ stage: "fetch", status: "error", error: e.message });
+  }
+  renderSteps(job);
+  if (job.status === "done") {
+    stopPolling();
+    openReport(job.report);
+  } else if (job.status === "error") {
+    failRun(job);
+  } else {
+    state.poll = setTimeout(() => pollRun(id), 1500);
+  }
+}
+
+function failRun(job) {
+  stopPolling();
+  renderSteps(job);
+  $("progress-note").hidden = true;
+  $("progress-error").textContent = job.error;
+  $("progress-error").hidden = false;
+}
+
+function showFormError(message) {
+  $("form-error").textContent = message;
+  $("form-error").hidden = false;
+}
+
+function setFile(file) {
+  $("form-error").hidden = true;
+  if (!file) return;
+  const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+  if (!isPdf) return showFormError(`${file.name} is not a PDF.`);
+  if (file.size > MAX_PDF_MB * 1024 * 1024) return showFormError(`${file.name} is larger than ${MAX_PDF_MB} MB.`);
+  state.file = file;
+  $("file-name").textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} MB`;
+  $("file-chip").hidden = false;
+  $("paper").hidden = true;
+  $("paper").value = "";
+}
+
+function clearFile() {
+  state.file = null;
+  $("file-input").value = "";
+  $("file-chip").hidden = true;
+  $("paper").hidden = false;
+  $("paper").focus();
+}
+
+function setupDrop() {
+  let depth = 0;
+  const hasFiles = (e) => [...(e.dataTransfer?.types || [])].includes("Files");
+  window.addEventListener("dragenter", (e) => { if (hasFiles(e)) { depth++; $("drop-overlay").hidden = false; } });
+  window.addEventListener("dragleave", (e) => { if (hasFiles(e) && --depth <= 0) { depth = 0; $("drop-overlay").hidden = true; } });
+  window.addEventListener("dragover", (e) => { if (hasFiles(e)) e.preventDefault(); });
+  window.addEventListener("drop", (e) => {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    depth = 0;
+    $("drop-overlay").hidden = true;
+    setFile(e.dataTransfer.files[0]);
+  });
+}
+
+/* ---------- Start ---------- */
+
+async function init() {
+  state.config = await api("/api/config");
+  $("effort").replaceChildren(...state.config.efforts.map((e) =>
+    el("option", { value: e, selected: e === state.config.effort }, `${e} effort`)));
+  state.prompts = { ...state.config.defaults, ...(recall(STORE_PROMPTS) || {}) };
+  renderPanel();
+  setPanel(recall(STORE_PANEL) ?? window.innerWidth > 900);
+
+  $("run-form").addEventListener("submit", startRun);
+  $("file-input").addEventListener("change", (e) => setFile(e.target.files[0]));
+  $("file-clear").addEventListener("click", clearFile);
+  setupDrop();
+  $("home-link").addEventListener("click", showHome);
+  $("panel-toggle").addEventListener("click", () => setPanel($("panel").hidden));
+  $("panel-close").addEventListener("click", () => setPanel(false));
+  $("reset-all").addEventListener("click", () => loadPrompts({}));
+
+  const name = decodeURIComponent(location.hash.slice(1));
+  if (name) openReport(name).catch(showHome);
+  else showHome();
+}
+
+init().catch((e) => {
+  document.body.replaceChildren(el("p", { class: "error-box", style: "margin:2rem" }, `Could not start the app: ${e.message}`));
+});
+</script>
+</body>
+</html>
