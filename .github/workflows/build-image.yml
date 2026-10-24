@@ -1,0 +1,94 @@
+# Build the container image and push it to ECR, tagged with the short commit SHA.
+#
+# This only builds. deploy.yml points production at an image, so a deploy is a
+# rollout of something already built (same split as ProtocolNerd).
+#
+# Repository variables used (Settings > Secrets and variables > Actions > Variables):
+#   AWS_DEPLOY_ROLE_ARN  IAM role GitHub assumes through OIDC (no stored AWS keys)
+#   ECR_REPOSITORY       ECR repository name, e.g. researchreadernerd
+
+name: Build and push image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch, tag or commit SHA to build"
+        type: string
+        required: false
+        default: main
+
+permissions:
+  id-token: write        # OIDC token for AWS; no stored credentials
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e '.[dev]'
+      - run: pytest -q
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+
+      - name: Identify the commit being built
+        id: sha
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Building $SHA: $(git log -1 --format=%s)"
+
+      - name: Assume the deploy role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: aws-actions/amazon-ecr-login@v2
+        id: ecr
+
+      - name: Skip if this commit was already built
+        id: exists
+        env:
+          SHA: ${{ steps.sha.outputs.sha }}
+        run: |
+          if aws ecr describe-images --region "$AWS_REGION" \
+               --repository-name "${{ vars.ECR_REPOSITORY }}" --image-ids imageTag="$SHA" >/dev/null 2>&1; then
+            echo "already=true" >> "$GITHUB_OUTPUT"
+            echo "${{ vars.ECR_REPOSITORY }}:$SHA is already in ECR; nothing to build."
+          else
+            echo "already=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push
+        if: steps.exists.outputs.already == 'false'
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          SHA: ${{ steps.sha.outputs.sha }}
+        run: |
+          TAG="$REGISTRY/${{ vars.ECR_REPOSITORY }}:$SHA"
+          docker build --platform linux/amd64 \
+            --build-arg BUILD_SHA="$SHA" \
+            --build-arg BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            -t "$TAG" .
+          docker push "$TAG"
+          echo "Pushed $TAG"
+          echo "Deploy it with the 'Deploy to production' workflow, image_tag=$SHA"

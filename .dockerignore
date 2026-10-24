@@ -1,0 +1,14 @@
+# Only src/, pyproject.toml and README.md are copied into the image; this keeps
+# everything else (especially secrets and local data) out of the build context.
+.env
+.env.*
+.venv/
+.git/
+reports/
+tests/
+docs/
+deploy/
+**/__pycache__/
+*.egg-info/
+.pytest_cache/
+.DS_Store

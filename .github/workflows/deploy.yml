@@ -1,0 +1,140 @@
+# Point production at an image that is already in ECR.
+#
+# Never builds: build-image.yml does that. Manual dispatch only, so production
+# changes only when a person starts it. Rolling back is the same operation with
+# an older tag, and a failed smoke test rolls back automatically.
+#
+# Repository variables used:
+#   AWS_DEPLOY_ROLE_ARN  IAM role GitHub assumes through OIDC
+#   ECR_REPOSITORY       e.g. researchreadernerd
+#   ECS_CLUSTER          e.g. default (Express Mode's default cluster)
+#   ECS_SERVICE          e.g. researchreadernerd
+#   ECS_TASK_FAMILY      task-definition family Express Mode created for the service
+#   HEALTH_URL           e.g. https://<service>.ecs.us-east-1.on.aws/health
+#                        (the AWS hostname; /health is the one path open without Cloudflare)
+
+name: Deploy to production
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Image tag in ECR to deploy (a short commit SHA)"
+        type: string
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      CLUSTER: ${{ vars.ECS_CLUSTER }}
+      SERVICE: ${{ vars.ECS_SERVICE }}
+      TASK_FAMILY: ${{ vars.ECS_TASK_FAMILY }}
+    steps:
+      - name: Assume the deploy role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Confirm the image exists before touching the service
+        run: |
+          aws ecr describe-images --region "$AWS_REGION" \
+            --repository-name "${{ vars.ECR_REPOSITORY }}" \
+            --image-ids imageTag="${{ inputs.image_tag }}" \
+            --query 'imageDetails[0].imagePushedAt' --output text
+          echo "Image ${{ inputs.image_tag }} is present in ECR."
+
+      - name: Record what is live now, for rollback
+        id: current
+        run: |
+          # With a canary strategy the live revision is the COMPLETED deployment.
+          CUR=$(aws ecs describe-services --region "$AWS_REGION" \
+                  --cluster "$CLUSTER" --services "$SERVICE" \
+                  --query "services[0].deployments[?status=='COMPLETED']|[0].taskDefinition" \
+                  --output text)
+          [ "$CUR" = "None" ] && CUR=$(aws ecs describe-services --region "$AWS_REGION" \
+                  --cluster "$CLUSTER" --services "$SERVICE" \
+                  --query 'services[0].deployments[-1].taskDefinition' --output text)
+          echo "previous=$CUR" >> "$GITHUB_OUTPUT"
+          echo "Currently live: $CUR"
+
+      - name: Register a task-definition revision with the new image
+        id: register
+        run: |
+          ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+          IMAGE="$ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/${{ vars.ECR_REPOSITORY }}:${{ inputs.image_tag }}"
+          aws ecs describe-task-definition --region "$AWS_REGION" \
+            --task-definition "$TASK_FAMILY" --query taskDefinition > td.json
+          python3 - "$IMAGE" <<'PY'
+          import json, sys
+          td = json.load(open("td.json"))
+          for k in ("taskDefinitionArn", "revision", "status", "requiresAttributes",
+                    "compatibilities", "registeredAt", "registeredBy"):
+              td.pop(k, None)
+          td["containerDefinitions"][0]["image"] = sys.argv[1]
+          json.dump(td, open("td.json", "w"))
+          PY
+          REV=$(aws ecs register-task-definition --region "$AWS_REGION" \
+                  --cli-input-json file://td.json \
+                  --query taskDefinition.revision --output text)
+          echo "revision=$REV" >> "$GITHUB_OUTPUT"
+          echo "Registered $TASK_FAMILY:$REV with $IMAGE"
+
+      - name: Roll the service over
+        run: |
+          aws ecs update-service --region "$AWS_REGION" --cluster "$CLUSTER" \
+            --service "$SERVICE" \
+            --task-definition "$TASK_FAMILY:${{ steps.register.outputs.revision }}" \
+            --query 'service.serviceName' --output text
+          # Poll the PRIMARY deployment's rollout state; "wait services-stable" can
+          # return early while the old deployment is still the steady one.
+          echo "Waiting for the PRIMARY deployment to complete..."
+          for i in $(seq 1 100); do
+            STATE=$(aws ecs describe-services --region "$AWS_REGION" \
+                      --cluster "$CLUSTER" --services "$SERVICE" \
+                      --query "services[0].deployments[?status=='PRIMARY']|[0].rolloutState" \
+                      --output text)
+            echo "  [$((i*20))s] PRIMARY rollout: $STATE"
+            case "$STATE" in
+              COMPLETED) echo "Rollout complete."; break ;;
+              FAILED)    echo "::error::ECS reported the rollout FAILED."; exit 1 ;;
+            esac
+            sleep 20
+          done
+
+      - name: Smoke test, and roll back if the image is bad
+        run: |
+          sleep 15
+          H=$(curl -sf --max-time 30 "${{ vars.HEALTH_URL }}" || echo '{}')
+          echo "$H" | python3 -m json.tool || true
+          SHA=$(echo "$H" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('build',{}).get('sha','unknown'))")
+          STORE=$(echo "$H" | python3 -c "import json,sys; print(json.load(sys.stdin).get('storage',''))")
+
+          FAIL=""
+          [ "$SHA" = "${{ inputs.image_tag }}" ] || FAIL="build stamp is $SHA, expected ${{ inputs.image_tag }}"
+          [ "$STORE" = "S3Storage" ] || FAIL="storage is '$STORE', expected S3Storage (reports would be lost on restart)"
+
+          if [ -z "$FAIL" ]; then
+            echo "Smoke test passed: $SHA is live with S3 storage."
+            exit 0
+          fi
+
+          echo "::error::Smoke test failed: $FAIL"
+          echo "Rolling back to ${{ steps.current.outputs.previous }}"
+          aws ecs update-service --region "$AWS_REGION" --cluster "$CLUSTER" \
+            --service "$SERVICE" --task-definition "${{ steps.current.outputs.previous }}" \
+            --query 'service.serviceName' --output text
+          aws ecs wait services-stable --region "$AWS_REGION" \
+            --cluster "$CLUSTER" --services "$SERVICE" \
+            --waiter-config Delay=15,MaxAttempts=80 || true
+          echo "Rolled back. Investigate before deploying ${{ inputs.image_tag }} again."
+          exit 1

@@ -1,0 +1,17 @@
+{
+  "rules": [
+    {
+      "rulePriority": 1,
+      "description": "Expire untagged images after 7 days (multi-platform build leftovers)",
+      "selection": { "tagStatus": "untagged", "countType": "sinceImagePushed",
+                     "countUnit": "days", "countNumber": 7 },
+      "action": { "type": "expire" }
+    },
+    {
+      "rulePriority": 2,
+      "description": "Keep only the 20 most recently pushed images",
+      "selection": { "tagStatus": "any", "countType": "imageCountMoreThan", "countNumber": 20 },
+      "action": { "type": "expire" }
+    }
+  ]
+}
