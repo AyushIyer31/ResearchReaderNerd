@@ -4,16 +4,18 @@ Same shape as ProtocolNerd: one container on **ECS Fargate** (Express Mode), ima
 **ECR**, GitHub Actions with OIDC for build and deploy, in the same AWS account
 (921135845455) but with its own roles, bucket, repository and secrets.
 
-**Current choice (2026-10-24):** only you have access, at the AWS hostname
-(`https://<service>.ecs.us-east-1.on.aws`), behind a password. Cloudflare in front, with
-a custom domain and email login, is optional and can be added later (step 8) without
-changing the app.
+**Current choice (2026-10-24):** the app is served at the AWS hostname
+(`https://<service>.ecs.us-east-1.on.aws`) with **no sign-in**. Anyone who has the URL can
+run analyses on your Anthropic key, and the prompt panel lets them change what Claude is
+asked, so the daily run limit (`RRN_DAILY_RUN_LIMIT`) is the only spending cap. To add
+protection later, without code changes: set a password (`RRN_BASIC_AUTH_PASSWORD`, see
+"Adding protection later"), or put Cloudflare Access in front (step 8).
 
 ```
 browser ── HTTPS ──> ECS Express hostname  <service>.ecs.us-east-1.on.aws
-                       └─> Fargate task: rrn-web on :8080  (asks for the password)
+                       └─> Fargate task: rrn-web on :8080  (no sign-in for now)
                              ├─ reports, uploads, run records ─> S3 bucket (private)
-                             └─ ANTHROPIC_API_KEY, password ─> Secrets Manager
+                             └─ ANTHROPIC_API_KEY ─> Secrets Manager
 ```
 
 Later, with Cloudflare (step 8):
@@ -32,8 +34,8 @@ Why each piece:
 
 | Piece | Reason |
 |---|---|
-| Password (`RRN_BASIC_AUTH_PASSWORD`) | The AWS hostname is public. Every analysis spends API credit, and the prompt panel lets a visitor rewrite the system prompt, so nothing but `/health` answers without the password. |
-| Origin secret (for Cloudflare, later) | Lets requests through when they come from your Cloudflare Worker after a Cloudflare Access login. Either the password or this header is enough. |
+| Password (`RRN_BASIC_AUTH_PASSWORD`, off for now) | When set, nothing but `/health` answers without it. Off by choice; see "Adding protection later". |
+| Origin secret (`RRN_ORIGIN_SECRET`, off for now) | When set, requests must come through your Cloudflare Worker. Set it only together with step 8, or the app answers 403 to every browser. |
 | S3 | Fargate's disk is wiped on every restart and deploy. Reports and uploads must outlive the task. |
 | One task | Runs in progress live in the task's memory. Run records are in S3, so a deploy never loses a finished report. |
 | `RRN_DAILY_RUN_LIMIT` | A ceiling on spend even if a login leaks. Set to 50 below; change as you like. |
@@ -78,19 +80,7 @@ key from `.env` without printing it.
 ```bash
 aws secretsmanager create-secret --name $APP/anthropic-api-key \
   --secret-string "$(grep '^ANTHROPIC_API_KEY=' .env | cut -d= -f2- | tr -d \"\'\")"
-aws secretsmanager create-secret --name $APP/password \
-  --secret-string "$(openssl rand -base64 18)"
-aws secretsmanager create-secret --name $APP/origin-secret \
-  --secret-string "$(openssl rand -hex 32)"
 ```
-
-To see the password (you need it to sign in; any username works):
-
-```bash
-aws secretsmanager get-secret-value --secret-id $APP/password --query SecretString --output text
-```
-
-The origin secret is only needed if you add Cloudflare later (step 8).
 
 ### 4. IAM roles
 
@@ -160,9 +150,7 @@ aws ecs create-express-gateway-service \
       {\"name\": \"RRN_DAILY_RUN_LIMIT\", \"value\": \"50\"}
     ],
     \"secrets\": [
-      {\"name\": \"ANTHROPIC_API_KEY\", \"valueFrom\": \"$(aws secretsmanager describe-secret --secret-id $APP/anthropic-api-key --query ARN --output text)\"},
-      {\"name\": \"RRN_BASIC_AUTH_PASSWORD\", \"valueFrom\": \"$(aws secretsmanager describe-secret --secret-id $APP/password --query ARN --output text)\"},
-      {\"name\": \"RRN_ORIGIN_SECRET\", \"valueFrom\": \"$(aws secretsmanager describe-secret --secret-id $APP/origin-secret --query ARN --output text)\"}
+      {\"name\": \"ANTHROPIC_API_KEY\", \"valueFrom\": \"$(aws secretsmanager describe-secret --secret-id $APP/anthropic-api-key --query ARN --output text)\"}
     ]
   }" \
   --monitor-resources
@@ -173,7 +161,7 @@ check it:
 
 ```bash
 curl -s https://<name>.ecs.us-east-1.on.aws/health   # build sha, "storage": "S3Storage"
-curl -s -o /dev/null -w '%{http_code}\n' https://<name>.ecs.us-east-1.on.aws/   # 401: password required
+curl -s -o /dev/null -w '%{http_code}\n' https://<name>.ecs.us-east-1.on.aws/   # 200: the app page
 ```
 
 Find the task-definition family Express Mode created (needed by the deploy workflow):
@@ -210,21 +198,43 @@ In GitHub, Settings > Secrets and variables > Actions > Variables, add:
 | `ECS_TASK_FAMILY` | the family from step 6 |
 | `HEALTH_URL` | `https://<name>.ecs.us-east-1.on.aws/health` |
 
-Then open `https://<name>.ecs.us-east-1.on.aws/` in a browser and sign in with any
-username and the password from step 3.
+Then open `https://<name>.ecs.us-east-1.on.aws/` in a browser.
 
 ### 8. Cloudflare (optional, later)
 
-Adds a custom domain and email login in front. The password keeps working alongside it.
+Adds a custom domain and email login in front. If you have set a password, it keeps
+working alongside it.
 
-1. **Worker:** create one from `deploy/cloudflare-worker.js`. Add a variable `ORIGIN` (the
+1. **Origin secret:** create it, and add it to the service's container secrets as
+   `RRN_ORIGIN_SECRET` (same form as `ANTHROPIC_API_KEY` in step 6). Do this together with
+   the Worker below: once the app has it, browsers that skip the Worker get 403.
+
+   ```bash
+   aws secretsmanager create-secret --name $APP/origin-secret --secret-string "$(openssl rand -hex 32)"
+   ```
+
+2. **Worker:** create one from `deploy/cloudflare-worker.js`. Add a variable `ORIGIN` (the
    Express hostname, without `https://`) and a secret `ORIGIN_SECRET` (the value of
    `researchreadernerd/origin-secret`). Route it to `<your domain>/*`.
-2. **DNS:** a proxied record for the domain (the Worker handles the traffic).
-3. **Access:** Zero Trust > Access > Applications > Self-hosted, on the same domain,
+3. **DNS:** a proxied record for the domain (the Worker handles the traffic).
+4. **Access:** Zero Trust > Access > Applications > Self-hosted, on the same domain,
    with a policy allowing only the emails you choose (one-time PIN login is enough).
 
 Then `https://<your domain>/` asks for a login, and after it shows the app.
+
+## Adding protection later
+
+A password, with no Cloudflare needed. Any username works; the browser asks once.
+
+```bash
+aws secretsmanager create-secret --name $APP/password --secret-string "$(openssl rand -base64 18)"
+aws secretsmanager get-secret-value --secret-id $APP/password --query SecretString --output text   # to sign in
+```
+
+Then add it to the service's container secrets as `RRN_BASIC_AUTH_PASSWORD` (same form as
+`ANTHROPIC_API_KEY` in step 6, via `aws ecs update-express-gateway-service` or a new
+task-definition revision) and deploy. For Cloudflare, use step 8 and set
+`RRN_ORIGIN_SECRET` (the `$APP/origin-secret` value) at the same time.
 
 ## Deploying a change
 
