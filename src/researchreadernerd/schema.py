@@ -48,8 +48,10 @@ class PaperAnalysis(_Strict):
     title: str
     authors: list[str]
     proposed_method: str = Field(description="Name of the paper's main method or contribution.")
-    summary: str = Field(description="Two or three sentences: the problem, the approach, and the main claim.")
-    assumptions: list[Assumption]
+    summary: str = Field(description="Under 150 words: the problem, the approach, and the main claim.")
+    assumptions: list[Assumption] = Field(
+        description="The top 5 assumptions (stated or implicit), most important first."
+    )
     benchmarks: list[Benchmark]
     caveats: list[str] = Field(
         description="Things the paper leaves unclear that affect R1 or R2, e.g. missing split details or unreadable tables."

@@ -51,21 +51,15 @@ def _assumptions_section(assumptions: list[Assumption]) -> list[str]:
     if not assumptions:
         return lines + ["No assumptions were identified.", ""]
 
-    groups = [
-        ("Stated in the paper", [a for a in assumptions if a.kind == "explicit"]),
-        ("Implicit (inferred, not stated)", [a for a in assumptions if a.kind == "implicit"]),
-    ]
-    for heading, group in groups:
-        if not group:
-            continue
-        lines += [f"### {heading}", ""]
-        for i, a in enumerate(group, 1):
-            lines += [
-                f"{i}. **{a.statement}** ({a.category.replace('_', ' ')}, {a.location})",
-                f"    - Evidence: \"{a.evidence}\"",
-                f"    - Why it matters: {a.why_it_matters}",
-            ]
-        lines.append("")
+    lines += [f"Top {len(assumptions)}, most important first.", ""]
+    for i, a in enumerate(assumptions, 1):
+        kind = "stated" if a.kind == "explicit" else "inferred, not stated in the paper"
+        lines += [
+            f"{i}. **{a.statement}** ({kind}; {a.category.replace('_', ' ')}, {a.location})",
+            f"    - Evidence: \"{a.evidence}\"",
+            f"    - Why it matters: {a.why_it_matters}",
+        ]
+    lines.append("")
     return lines
 
 

@@ -25,11 +25,14 @@ INSTRUCTIONS_PROMPT = """\
 You are a careful reviewer reading a scientific paper for a researcher who wants to \
 understand it and check it. Work only from the attached paper. Do not add facts, \
 numbers, or citations from your own knowledge: if something is not in the paper, \
-leave it out or mention it under caveats."""
+leave it out or mention it under caveats.
+
+Summary: keep it under 150 words. Cover the problem, the approach, and the main claim."""
 
 ASSUMPTIONS_PROMPT = """\
 Assumptions (R1):
-- List the assumptions the method, theory, and experiments rely on.
+- List only the top 5 assumptions the method, theory, and experiments rely on: the ones \
+whose failure would most change the results or claims. Order them most important first.
 - Explicit assumptions are ones the paper states. Implicit assumptions are ones the \
 results depend on but the paper never states; include them only when you can point \
 to the passage that relies on them.
