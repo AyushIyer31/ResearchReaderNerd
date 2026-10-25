@@ -20,10 +20,13 @@ def test_sections_present():
     assert "2026-10-22" in report
 
 
-def test_stated_assumptions_listed_before_implicit():
+def test_assumptions_keep_rank_order_with_kind_marked():
     report = render()
-    assert report.index("### Stated in the paper") < report.index("### Implicit (inferred, not stated)")
-    assert "Noise is Gaussian." in report
+    assert "Top 2, most important first." in report
+    # The sample lists the inferred assumption first; rank order wins over stated/inferred.
+    first = report.index("1. **Training and test data come from the same distribution.** (inferred, not stated in the paper;")
+    second = report.index("2. **Noise is Gaussian.** (stated;")
+    assert first < second
 
 
 def test_proposed_method_bold_and_pipes_escaped():

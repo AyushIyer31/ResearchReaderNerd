@@ -61,6 +61,7 @@ ol.assumptions { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.
 ol.assumptions li { display: grid; gap: .35rem; padding-left: 1rem; border-left: 2px solid var(--rule); }
 ol.assumptions li.implicit { border-left-color: var(--inferred); }
 .statement { font-weight: 600; }
+.rank { font: 500 .85rem var(--data); color: var(--accent); margin-right: .6rem; }
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; font: .78rem var(--data); }
 .tag { padding: .1rem .45rem; border-radius: 3px; background: var(--panel); color: var(--muted); }
 .tag.inferred { background: var(--inferred-tint); color: var(--inferred); font-weight: 600; }
@@ -136,7 +137,7 @@ def render_html(
             f'<p class="method">Proposed method: <strong>{e(analysis.proposed_method)}</strong></p>',
             meta=e(analysis.proposed_method),
         ),
-        _assumptions_html(stated, inferred),
+        _assumptions_html(analysis.assumptions),
         _benchmarks_html(analysis.benchmarks, analysis.proposed_method),
     ]
     if analysis.caveats:
@@ -183,14 +184,14 @@ def _link(source: str) -> str:
     return escape(source)
 
 
-def _assumption_li(a: Assumption) -> str:
+def _assumption_li(a: Assumption, rank: int) -> str:
     e = escape
     tags = [f'<span class="tag">{e(a.location)}</span>', f'<span class="tag">{e(a.category.replace("_", " "))}</span>']
     if a.kind == "implicit":
         tags.insert(0, '<span class="tag inferred">Inferred</span>')
     return (
         f'<li class="{a.kind}">'
-        f'<div class="statement">{e(a.statement)}</div>'
+        f'<div class="statement"><span class="rank">{rank}</span>{e(a.statement)}</div>'
         f'<div class="tags">{"".join(tags)}</div>'
         f"<blockquote>“{e(a.evidence)}”</blockquote>"
         f'<p class="why"><b>Why it matters:</b> {e(a.why_it_matters)}</p>'
@@ -207,20 +208,13 @@ def _sub(title: str, body: str, *, meta: str = "", open: bool = True) -> str:
     )
 
 
-def _assumptions_html(stated: list[Assumption], inferred: list[Assumption]) -> str:
-    total = len(stated) + len(inferred)
-    if not total:
+def _assumptions_html(assumptions: list[Assumption]) -> str:
+    if not assumptions:
         return _section("Assumptions", "<p>No assumptions were identified.</p>", qid="R1", meta="none found")
-    groups = []
-    for label, note, group in (
-        ("Stated in the paper", "the authors say so", stated),
-        ("Inferred", "the results depend on it, but the paper never says so", inferred),
-    ):
-        if group:
-            items = '<ol class="assumptions">' + "".join(_assumption_li(a) for a in group) + "</ol>"
-            groups.append(_sub(label, items, meta=f"{len(group)} · {note}"))
-    meta = f"{total} · {len(stated)} stated, {len(inferred)} inferred"
-    return _section("Assumptions", "".join(groups), qid="R1", meta=meta)
+    inferred = sum(a.kind == "implicit" for a in assumptions)
+    items = '<ol class="assumptions">' + "".join(_assumption_li(a, i) for i, a in enumerate(assumptions, 1)) + "</ol>"
+    meta = f"top {len(assumptions)}, most important first · {len(assumptions) - inferred} stated, {inferred} inferred"
+    return _section("Assumptions", items, qid="R1", meta=meta)
 
 
 def _results_table(b: Benchmark) -> str:
