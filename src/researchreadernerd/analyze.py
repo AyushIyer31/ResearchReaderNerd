@@ -11,15 +11,19 @@ from pydantic import ValidationError
 from .paper import Paper
 from .schema import PaperAnalysis
 
-DEFAULT_MODEL = "claude-sonnet-5-5"
+DEFAULT_MODEL = "claude-haiku-5-5"
 DEFAULT_EFFORT = "high"
-DEFAULT_MAX_TOKENS = 16000
+# Room for the model's reasoning plus long results tables. Above ~16K the response
+# must be streamed, or the HTTP request can time out.
+DEFAULT_MAX_TOKENS = 32000
 
 OUTPUT_FORMAT = {"type": "json_schema", "schema": anthropic.transform_schema(PaperAnalysis.model_json_schema())}
 
 # On a safety-classifier decline, the API re-runs the request on Anthropic's
-# recommended fallback model instead of returning the refusal.
+# recommended fallback model instead of returning the refusal. Haiku has no
+# server-side fallback (the parameter must not be sent), so only these models get it.
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
+FALLBACK_MODELS = {"claude-sonnet-5-5", "claude-opus-5-5"}
 
 INSTRUCTIONS_PROMPT = """\
 You are a careful reviewer reading a scientific paper for a researcher who wants to \
@@ -93,16 +97,16 @@ def analyze_paper(
     if not prompts.user.strip():
         raise AnalysisError("The user message is empty. Add an instruction for Claude.")
 
-    # create() rather than parse(): parse() validates the JSON before we can see
-    # the stop reason, so a refusal or truncated output would surface as a
+    # Streamed and read as plain text, not parse(): parse() validates the JSON before
+    # we can see the stop reason, so a refusal or truncated output would surface as a
     # confusing validation error instead of the messages below.
-    response = client.beta.messages.create(
+    fallback = {"betas": [FALLBACK_BETA], "fallbacks": "default"} if model in FALLBACK_MODELS else {}
+    with client.beta.messages.stream(
         model=model,
         max_tokens=max_tokens,
         output_config={"effort": effort, "format": OUTPUT_FORMAT},
-        betas=[FALLBACK_BETA],
-        fallbacks="default",
         system=prompts.system(),
+        **fallback,
         messages=[
             {
                 "role": "user",
@@ -120,7 +124,8 @@ def analyze_paper(
                 ],
             }
         ],
-    )
+    ) as stream:
+        response = stream.get_final_message()
 
     if response.stop_reason == "refusal":
         category = response.stop_details.category if response.stop_details else None

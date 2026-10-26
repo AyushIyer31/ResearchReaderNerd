@@ -52,13 +52,33 @@ def fake_message(text: str, stop_reason: str = "end_turn", stop_details=None) ->
         "id": "msg_test",
         "type": "message",
         "role": "assistant",
-        "model": "claude-sonnet-5-5",
+        "model": "claude-haiku-5-5",
         "content": [{"type": "text", "text": text}],
         "stop_reason": stop_reason,
         "stop_sequence": None,
         "stop_details": stop_details,
         "usage": {"input_tokens": 10, "output_tokens": 10},
     }
+
+
+def as_event_stream(message: dict) -> bytes:
+    """Replay a complete message as the server-sent events of a streamed response."""
+    start = {**message, "content": [], "stop_reason": None, "stop_details": None,
+             "usage": {"input_tokens": message["usage"]["input_tokens"], "output_tokens": 0}}
+    events = [("message_start", {"type": "message_start", "message": start})]
+    for i, block in enumerate(message["content"]):
+        events += [
+            ("content_block_start", {"type": "content_block_start", "index": i, "content_block": {"type": "text", "text": ""}}),
+            ("content_block_delta", {"type": "content_block_delta", "index": i, "delta": {"type": "text_delta", "text": block["text"]}}),
+            ("content_block_stop", {"type": "content_block_stop", "index": i}),
+        ]
+    events += [
+        ("message_delta", {"type": "message_delta",
+                           "delta": {"stop_reason": message["stop_reason"], "stop_sequence": None, "stop_details": message["stop_details"]},
+                           "usage": {"output_tokens": message["usage"]["output_tokens"]}}),
+        ("message_stop", {"type": "message_stop"}),
+    ]
+    return "".join(f"event: {name}\ndata: {json.dumps(data)}\n\n" for name, data in events).encode()
 
 
 @pytest.fixture
@@ -76,8 +96,13 @@ def fake_api():
             )
 
         def _handle(self, request: httpx.Request) -> httpx.Response:
-            self.requests.append(json.loads(request.content))
+            body = json.loads(request.content)
+            self.requests.append(body)
             self.headers.append(request.headers)
+            if body.get("stream"):
+                return httpx.Response(
+                    200, headers={"content-type": "text/event-stream"}, content=as_event_stream(self.reply)
+                )
             return httpx.Response(200, json=self.reply)
 
     return FakeAPI()
