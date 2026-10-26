@@ -14,10 +14,10 @@ def test_request_shape(fake_api):
     analyze_paper(PAPER, fake_api.client)
     body = fake_api.requests[0]
 
-    assert body["model"] == "claude-sonnet-5-5"
+    assert body["model"] == "claude-haiku-5-5"
     assert body["output_config"]["effort"] == "high"
-    assert body["fallbacks"] == "default"
-    assert FALLBACK_BETA in fake_api.headers[0]["anthropic-beta"]
+    assert "fallbacks" not in body  # Haiku has no server-side fallback; sending it is an error
+    assert FALLBACK_BETA not in fake_api.headers[0].get("anthropic-beta", "")
 
     document, instruction = body["messages"][0]["content"]
     assert document["type"] == "document"
@@ -31,7 +31,7 @@ def test_request_shape(fake_api):
 
 def test_parses_analysis(fake_api):
     result = analyze_paper(PAPER, fake_api.client)
-    assert (result.model, result.input_tokens, result.output_tokens) == ("claude-sonnet-5-5", 10, 10)
+    assert (result.model, result.input_tokens, result.output_tokens) == ("claude-haiku-5-5", 10, 10)
     analysis = result.analysis
     assert analysis.proposed_method == "SampleNet"
     assert [a.kind for a in analysis.assumptions] == ["implicit", "explicit"]
@@ -76,3 +76,9 @@ def test_empty_user_message_rejected(fake_api):
     with pytest.raises(AnalysisError, match="user message is empty"):
         analyze_paper(PAPER, fake_api.client, prompts=Prompts(user="  "))
     assert fake_api.requests == []
+
+
+def test_sonnet_gets_server_side_fallback(fake_api):
+    analyze_paper(PAPER, fake_api.client, model="claude-sonnet-5-5")
+    assert fake_api.requests[0]["fallbacks"] == "default"
+    assert FALLBACK_BETA in fake_api.headers[0]["anthropic-beta"]

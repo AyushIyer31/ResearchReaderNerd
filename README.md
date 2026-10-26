@@ -44,13 +44,13 @@ Each run writes two files to `reports/` (change it with `-o`):
 - `<paper>.md`: the readable report.
 - `<paper>.json`: the same analysis as structured data. Later phases build on its benchmark list.
 
-Options: `--model` (default `claude-sonnet-5-5`; `claude-opus-5-5` reads more carefully at about twice the cost), `--effort` (`low` to `max`, default `high`), and `--max-tokens` (default 16000; raise it if a paper with many results tables hits the limit).
+Options: `--model` (default `claude-haiku-5-5`, the cheapest; `claude-sonnet-5-5` and `claude-opus-5-5` read more carefully at roughly 20x and 40x the cost), `--effort` (`low` to `max`, default `high`), and `--max-tokens` (default 16000; raise it if a paper with many results tables hits the limit).
 
 ## How it works
 
 The PDF goes to Claude as a document, so tables and figures are read along with the text. Claude must answer in a fixed JSON schema ([schema.py](src/researchreadernerd/schema.py)), which the report writer turns into Markdown. The prompt limits Claude to the paper itself: no numbers or citations from its own memory.
 
-If Claude's safety classifiers decline a request, it is re-run automatically on Anthropic's recommended fallback model (the API's `fallbacks: "default"` option).
+With Sonnet or Opus, a request Claude's safety classifiers decline is re-run automatically on Anthropic's recommended fallback model (the API's `fallbacks: "default"` option). Haiku has no such fallback; a declined paper reports the refusal.
 
 ## Tests
 

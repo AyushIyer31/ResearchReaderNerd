@@ -13,15 +13,21 @@ from .report import render_report
 from .report_html import render_html
 from .storage import Storage
 
-# USD per million tokens (input, output), for the cost estimate shown after a run.
-PRICES = {"claude-sonnet-5-5": (2.0, 10.0), "claude-opus-5-5": (4.0, 20.0)}
+# USD per million tokens: (input, output), and for Haiku a higher card once the
+# prompt is over 100K tokens. Used for the cost estimate shown after a run.
+PRICES = {
+    "claude-haiku-5-5": {"small": (0.10, 0.50), "large": (0.50, 2.50), "threshold": 100_000},
+    "claude-sonnet-5-5": {"small": (2.0, 10.0)},
+    "claude-opus-5-5": {"small": (4.0, 20.0)},
+}
 
 
 def estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float | None:
     price = PRICES.get(model)
     if price is None:
         return None
-    return (input_tokens * price[0] + output_tokens * price[1]) / 1_000_000
+    card = price["large"] if "threshold" in price and input_tokens > price["threshold"] else price["small"]
+    return (input_tokens * card[0] + output_tokens * card[1]) / 1_000_000
 
 
 def save_run(
