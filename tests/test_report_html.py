@@ -52,6 +52,7 @@ def test_assumptions_ranked_with_inferred_tag():
 
 def test_sections_collapsible_with_benchmarks_closed():
     html = render()
-    assert html.count('<details class="sec" open>') == 4  # summary, R1, R2, caveats
-    assert '<details class="sub"><summary><h3>ToyBench</h3><span class="sum-meta">classification · 2 rows' in html
+    assert html.count('<details class="sec">') == 4  # summary, R1, R2, caveats: all collapsed until clicked
+    assert '<details class="sec" open>' not in html
+    assert '<details class="sub"><summary><span class="twisty" aria-hidden="true"></span><h3>ToyBench</h3><span class="sum-meta">classification · 2 rows' in html
     assert 'data-open="0">Collapse all' in html

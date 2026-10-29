@@ -41,9 +41,14 @@ details.sec { border-top: 1px solid var(--rule); padding-top: 1.25rem; min-width
 details.sub { border: 1px solid var(--rule); border-radius: 4px; padding: .7rem .9rem; min-width: 0; }
 details > summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .75rem; }
 details > summary::-webkit-details-marker { display: none; }
-details > summary::before { content: ""; flex: none; align-self: center; width: .45rem; height: .45rem; margin-right: .2rem;
-  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
-details[open] > summary::before { transform: rotate(45deg); }
+.twisty { flex: none; align-self: center; display: grid; place-items: center; width: 1.45rem; height: 1.45rem;
+  border-radius: 50%; border: 1.5px solid var(--accent); background: var(--accent-tint); transition: transform .15s; }
+.twisty::before { content: ""; width: .36rem; height: .36rem; margin-left: -.14rem;
+  border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
+details[open] > summary > .twisty { transform: rotate(90deg); }
+@media (prefers-reduced-motion: reduce) { .twisty { transition: none; } }
+details > summary { border-radius: 6px; padding: .25rem .35rem; margin: -.25rem -.35rem; }
+details > summary:hover { background: var(--accent-tint); }
 details > summary:hover h2, details > summary:hover h3 { color: var(--accent); }
 .sum-meta { font: .8rem var(--data); color: var(--muted); }
 .sec-body { display: grid; gap: 1.25rem; padding-top: 1.1rem; min-width: 0; }
@@ -53,7 +58,6 @@ details > summary:hover h2, details > summary:hover h3 { color: var(--accent); }
 .toggles button { font: .8rem var(--body); color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: .15rem .55rem; cursor: pointer; }
 .toggles button:hover { color: var(--accent); border-color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { details > summary::before { transition: none; } }
 .lede { font-size: 1.1rem; }
 .method { color: var(--muted); }
 .method strong { color: var(--ink); }
@@ -181,12 +185,13 @@ def _count(n: int, noun: str) -> str:
     return f"{n} {noun}" if n == 1 else f"{n} {noun}s"
 
 
-def _section(title: str, body: str, *, meta: str = "", qid: str = "", open: bool = True) -> str:
-    """A top-level report section that collapses to its heading and a one-line summary."""
+def _section(title: str, body: str, *, meta: str = "", qid: str = "", open: bool = False) -> str:
+    """A top-level report section, collapsed to its heading and a one-line summary until clicked."""
     qid_html = f'<span class="qid">{qid}</span> ' if qid else ""
     return (
         f'<details class="sec"{" open" if open else ""}>'
-        f'<summary><h2>{qid_html}{title}</h2><span class="sum-meta">{meta}</span></summary>'
+        f'<summary><span class="twisty" aria-hidden="true"></span><h2>{qid_html}{title}</h2>'
+        f'<span class="sum-meta">{meta}</span></summary>'
         f'<div class="sec-body">{body}</div></details>'
     )
 
@@ -212,11 +217,12 @@ def _assumption_li(a: Assumption, rank: int) -> str:
     )
 
 
-def _sub(title: str, body: str, *, meta: str = "", open: bool = True) -> str:
+def _sub(title: str, body: str, *, meta: str = "", open: bool = False) -> str:
     """A collapsible group inside a section."""
     return (
         f'<details class="sub"{" open" if open else ""}>'
-        f'<summary><h3>{title}</h3><span class="sum-meta">{meta}</span></summary>'
+        f'<summary><span class="twisty" aria-hidden="true"></span><h3>{title}</h3>'
+        f'<span class="sum-meta">{meta}</span></summary>'
         f'<div class="sub-body">{body}</div></details>'
     )
 
