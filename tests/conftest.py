@@ -46,6 +46,17 @@ SAMPLE_ANALYSIS = {
 
 MINIMAL_PDF = b"%PDF-1.4\n%fake pdf for tests\n"
 
+# Answers for the "benchmarks to consider" steps, keyed by a property of each step's schema.
+SAMPLE_PLAN = {
+    "field": "Machine learning",
+    "themes": ["image classification"],
+    "catalog_queries": ["image classification"],
+    "source_titles": [{"benchmark": "ToyBench", "title": "ToyBench: a toy benchmark"}],
+}
+SAMPLE_EXTRACTION = {"papers": [{"paper": 0, "benchmarks": ["CIFAR-10"]}, {"paper": 1, "benchmarks": ["CIFAR-10", "ToyBench"]}]}
+SAMPLE_RANKING = {"picks": [{"candidate": 0, "why": "The standard small image benchmark."},
+                            {"candidate": 99, "why": "Not a real candidate."}]}
+
 
 def fake_message(text: str, stop_reason: str = "end_turn", stop_details=None) -> dict:
     return {
@@ -99,10 +110,34 @@ def fake_api():
             body = json.loads(request.content)
             self.requests.append(body)
             self.headers.append(request.headers)
+            reply = self._reply_for(body)
             if body.get("stream"):
-                return httpx.Response(
-                    200, headers={"content-type": "text/event-stream"}, content=as_event_stream(self.reply)
-                )
-            return httpx.Response(200, json=self.reply)
+                return httpx.Response(200, headers={"content-type": "text/event-stream"}, content=as_event_stream(reply))
+            return httpx.Response(200, json=reply)
+
+        def _reply_for(self, body: dict) -> dict:
+            props = body.get("output_config", {}).get("format", {}).get("schema", {}).get("properties", {})
+            for key, sample in (("catalog_queries", SAMPLE_PLAN), ("picks", SAMPLE_RANKING), ("papers", SAMPLE_EXTRACTION)):
+                if key in props:
+                    return fake_message(json.dumps(sample))
+            return self.reply
 
     return FakeAPI()
+
+
+@pytest.fixture(autouse=True)
+def no_network(monkeypatch):
+    """Stub OpenAlex and the dataset catalogs: tests never reach the network."""
+    from researchreadernerd import consider, scholar
+    from researchreadernerd.catalogs import CatalogHit
+
+    def work(i, title):
+        return scholar.Work(id=f"W{i}", title=title, abstract=f"We evaluate on things ({title}).", year=2020,
+                            url=f"https://doi.org/10.0/{i}", cited_by=10)
+
+    monkeypatch.setattr(scholar, "find_paper", lambda title, arxiv_id=None: (work(0, title), ["W1"]))
+    monkeypatch.setattr(scholar, "get_works", lambda ids: [work(1, "A referenced paper")])
+    monkeypatch.setattr(scholar, "find_by_title", lambda title: work(2, title))
+    monkeypatch.setattr(scholar, "citing_works", lambda work_id, limit=20: [work(3, "A paper using ToyBench")])
+    monkeypatch.setattr(consider, "search_all", lambda queries, per_query=4: (
+        [CatalogHit("TPC", "TPC-H", "decision support", "https://www.tpc.org/tpch/")], []))

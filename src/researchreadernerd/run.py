@@ -4,54 +4,87 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
+from typing import Callable
 
 import anthropic
 
-from .analyze import AnalysisError, AnalysisResult, Prompts
+from .analyze import AnalysisError, AnalysisResult, Prompts, analyze_paper
+from .consider import Consideration, consider_benchmarks
 from .paper import Paper, PaperError
+from .pricing import Spend
 from .report import render_report
 from .report_html import render_html
+from .scholar import ScholarError
 from .storage import Storage
 
-# USD per million tokens: (input, output), and for Haiku a higher card once the
-# prompt is over 100K tokens. Used for the cost estimate shown after a run.
-PRICES = {
-    "claude-haiku-5-5": {"small": (0.10, 0.50), "large": (0.50, 2.50), "threshold": 100_000},
-    "claude-sonnet-5-5": {"small": (2.0, 10.0)},
-    "claude-opus-5-5": {"small": (4.0, 20.0)},
-}
+BUDGET_USD = 1.00  # per paper; later paid steps are skipped once a run reaches it
 
 
-def estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float | None:
-    price = PRICES.get(model)
-    if price is None:
-        return None
-    card = price["large"] if "threshold" in price and input_tokens > price["threshold"] else price["small"]
-    return (input_tokens * card[0] + output_tokens * card[1]) / 1_000_000
+def run_pipeline(
+    paper: Paper,
+    client,
+    prompts: Prompts,
+    *,
+    model: str,
+    effort: str,
+    consider: bool = True,
+    arxiv_id: str | None = None,
+    progress: Callable[[str], None] = lambda stage: None,
+) -> tuple[AnalysisResult, Consideration | None, Spend]:
+    """R1/R2 from the PDF, then (optionally) the benchmarks the paper might consider."""
+    spend = Spend()
+    progress("analyze")
+    result = analyze_paper(paper, client, prompts=prompts, model=model, effort=effort)
+    spend.add("analyze", result.model, result.input_tokens, result.output_tokens)
+    consideration = None
+    if consider:
+        consideration = consider_benchmarks(
+            result.analysis, client=client, model=model, effort=effort, prompts=prompts, spend=spend,
+            budget_usd=BUDGET_USD, arxiv_id=arxiv_id, progress=progress,
+        )
+    return result, consideration, spend
 
 
 def save_run(
-    paper: Paper, result: AnalysisResult, prompts: Prompts, *, storage: Storage, requested_model: str, effort: str
+    paper: Paper,
+    result: AnalysisResult,
+    prompts: Prompts,
+    *,
+    storage: Storage,
+    requested_model: str,
+    effort: str,
+    consideration: Consideration | None = None,
+    spend: Spend | None = None,
 ) -> str:
-    """Write <name>.md, .html, .json (the analysis) and .run.json (prompts, model, tokens). Returns <name>."""
+    """Write <name>.md, .html, .json (the analysis), .consider.json and .run.json. Returns <name>."""
     name = paper.name
+    if spend is None:
+        spend = Spend()
+        spend.add("analyze", result.model, result.input_tokens, result.output_tokens)
     storage.write_text(
-        f"{name}.md", render_report(result.analysis, source=paper.source, model=result.model), "text/markdown; charset=utf-8"
+        f"{name}.md",
+        render_report(result.analysis, source=paper.source, model=result.model, consideration=consideration),
+        "text/markdown; charset=utf-8",
     )
     storage.write_text(
-        f"{name}.html", render_html(result.analysis, source=paper.source, model=result.model), "text/html; charset=utf-8"
+        f"{name}.html",
+        render_html(result.analysis, source=paper.source, model=result.model, consideration=consideration),
+        "text/html; charset=utf-8",
     )
-    # The analysis JSON keeps the structured data for later steps (R3 to R6 build on the benchmark list).
+    # The analysis JSON keeps the structured data for later steps.
     storage.write_text(f"{name}.json", result.analysis.model_dump_json(indent=2), "application/json")
+    if consideration is not None:
+        storage.write_text(f"{name}.consider.json", consideration.model_dump_json(indent=2), "application/json")
     run_info = {
         "source": paper.source,
         "finished_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "requested_model": requested_model,
         "model": result.model,
         "effort": effort,
-        "input_tokens": result.input_tokens,
-        "output_tokens": result.output_tokens,
-        "estimated_cost_usd": estimate_cost(result.model, result.input_tokens, result.output_tokens),
+        "input_tokens": spend.input_tokens,
+        "output_tokens": spend.output_tokens,
+        "estimated_cost_usd": spend.cost,
+        "calls": spend.calls,
         "prompts": prompts.to_dict(),
         "prompts_are_default": prompts == Prompts(),
     }
@@ -61,7 +94,7 @@ def save_run(
 
 def describe_error(e: Exception) -> str | None:
     """A plain message for failures a user can act on, or None for unexpected errors."""
-    if isinstance(e, (PaperError, AnalysisError)):
+    if isinstance(e, (PaperError, AnalysisError, ScholarError)):
         return str(e)
     if isinstance(e, anthropic.AuthenticationError):
         return "The Anthropic API key was rejected. Check ANTHROPIC_API_KEY."

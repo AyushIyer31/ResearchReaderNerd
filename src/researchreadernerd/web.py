@@ -23,10 +23,10 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
-from .analyze import DEFAULT_EFFORT, DEFAULT_MODEL, OUTPUT_FORMAT, Prompts, analyze_paper
+from .analyze import DEFAULT_EFFORT, DEFAULT_MODEL, OUTPUT_FORMAT, Prompts
 from .cli import load_dotenv
 from .paper import MAX_PDF_BYTES, Paper, PaperError, load_paper, paper_from_bytes, parse_arxiv_id
-from .run import describe_error, save_run
+from .run import describe_error, run_pipeline, save_run
 from .storage import LocalStorage, S3Storage, Storage
 
 Effort = Literal["low", "medium", "high", "xhigh", "max"]
@@ -58,6 +58,32 @@ STAGES = [
         ],
     },
     {
+        "id": "plan",
+        "title": "Plan the benchmark search",
+        "detail": "From R1/R2: the paper's field, themes, catalog search terms, and the paper each benchmark is cited to.",
+        "prompts": [{"key": "plan", "label": "Planning instructions", "role": "system"}],
+    },
+    {
+        "id": "related",
+        "title": "Read related papers",
+        "detail": "OpenAlex: the paper's references, and the most-cited papers that use each of its benchmarks. "
+                  "Claude reads their titles and abstracts and lists the benchmarks each one uses.",
+        "prompts": [{"key": "extract", "label": "Benchmark extraction", "role": "system"}],
+    },
+    {
+        "id": "catalogs",
+        "title": "Search benchmark catalogs",
+        "detail": "Keyword search of TPC, the UCR time series archive, UCI, Hugging Face, data.gov, data.gov.uk "
+                  "and data.europa.eu. Runs locally, no prompt.",
+        "prompts": [],
+    },
+    {
+        "id": "rank",
+        "title": "Choose 10 to consider",
+        "detail": "Claude ranks the candidates. Each suggestion keeps the evidence our code found for it.",
+        "prompts": [{"key": "rank", "label": "Ranking instructions", "role": "system"}],
+    },
+    {
         "id": "write",
         "title": "Write the report",
         "detail": "Turns Claude's structured answer into the report. Runs locally, no prompt.",
@@ -71,6 +97,9 @@ class PromptsIn(BaseModel):
     assumptions: str = Field(max_length=MAX_PROMPT_CHARS)
     benchmarks: str = Field(max_length=MAX_PROMPT_CHARS)
     user: str = Field(max_length=MAX_PROMPT_CHARS)
+    plan: str = Field(max_length=MAX_PROMPT_CHARS)
+    extract: str = Field(max_length=MAX_PROMPT_CHARS)
+    rank: str = Field(max_length=MAX_PROMPT_CHARS)
 
 
 class RunIn(BaseModel):
@@ -85,6 +114,7 @@ class Job:
     id: str
     label: str  # what the progress screen calls the paper
     load: Callable[[], Paper]
+    arxiv_id: str | None = None
     stage: str = "fetch"
     status: Literal["running", "done", "error"] = "running"
     error: str | None = None
@@ -157,12 +187,19 @@ def create_app(
         prompts = Prompts(**request.prompts.model_dump())
         try:
             paper = job.load()
-            job.stage = "analyze"
-            save_job(job)
-            result = analyze_paper(paper, client_factory(), prompts=prompts, model=DEFAULT_MODEL, effort=request.effort)
+
+            def progress(stage: str) -> None:
+                job.stage = stage
+                save_job(job)
+
+            result, consideration, spend = run_pipeline(
+                paper, client_factory(), prompts, model=DEFAULT_MODEL, effort=request.effort,
+                arxiv_id=job.arxiv_id, progress=progress,
+            )
             job.stage = "write"
             job.report = save_run(
-                paper, result, prompts, storage=storage, requested_model=DEFAULT_MODEL, effort=request.effort
+                paper, result, prompts, storage=storage, requested_model=DEFAULT_MODEL, effort=request.effort,
+                consideration=consideration, spend=spend,
             )
             job.status = "done"
         except Exception as e:
@@ -266,6 +303,7 @@ def create_app(
     def start_run(request: RunIn) -> dict:
         if bool(request.paper) == bool(request.upload_id):
             raise HTTPException(400, "Give an arXiv ID or upload a PDF, not both.")
+        arxiv_id = None
         if request.upload_id:
             label, load = upload_loader(request.upload_id)
         else:
@@ -280,7 +318,7 @@ def create_app(
                 raise HTTPException(
                     429, f"The daily limit of {daily_run_limit} analyses has been reached. It resets at midnight UTC."
                 )
-            job = Job(id=f"{today}-{uuid.uuid4().hex[:12]}", label=label, load=load)
+            job = Job(id=f"{today}-{uuid.uuid4().hex[:12]}", label=label, load=load, arxiv_id=arxiv_id)
             jobs[job.id] = job
             save_job(job)
         threading.Thread(target=run_job, args=(job, request), daemon=True).start()

@@ -44,7 +44,7 @@ Each run writes two files to `reports/` (change it with `-o`):
 - `<paper>.md`: the readable report.
 - `<paper>.json`: the same analysis as structured data. Later phases build on its benchmark list.
 
-Options: `--model` (default `claude-haiku-5-5`, the cheapest; `claude-sonnet-5-5` and `claude-opus-5-5` read more carefully at roughly 20x and 40x the cost), `--effort` (`low` to `max`, default `high`), and `--max-tokens` (default 16000; raise it if a paper with many results tables hits the limit).
+Options: `--model` (default `claude-haiku-5-5`, the cheapest; `claude-sonnet-5-5` and `claude-opus-5-5` read more carefully at roughly 20x and 40x the cost), `--effort` (`low` to `max`, default `high`), and `--skip-consider` (R1 and R2 only, without the search for benchmarks to consider).
 
 ## How it works
 

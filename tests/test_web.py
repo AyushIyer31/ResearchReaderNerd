@@ -36,7 +36,7 @@ def test_index_and_config(app_client):
     client, _ = app_client
     assert "ResearchReaderNerd" in client.get("/").text
     config = client.get("/api/config").json()
-    assert [s["id"] for s in config["stages"]] == ["fetch", "analyze", "write"]
+    assert [s["id"] for s in config["stages"]] == ["fetch", "analyze", "plan", "related", "catalogs", "rank", "write"]
     keys = [p["key"] for s in config["stages"] for p in s["prompts"]]
     assert set(keys) == set(config["defaults"]) == set(Prompts().to_dict())
 
@@ -59,7 +59,9 @@ def test_full_run_uses_edited_prompts_and_saves_them(app_client, fake_api):
     assert listed[0]["name"] == "1706.03762" and listed[0]["custom_prompts"] is True
     report = client.get("/api/reports/1706.03762").json()
     assert "<h1>A Sample Paper</h1>" in report["html"]
-    assert report["run"]["input_tokens"] == 10
+    assert report["run"]["input_tokens"] == 40  # analyze, plan, extract, rank: 10 each from the fake API
+    assert [c["step"] for c in report["run"]["calls"]] == ["analyze", "plan", "extract", "rank"]
+    assert "Benchmarks to consider" in report["html"]
 
 
 def test_failed_run_reports_plain_error(app_client, fake_api):
