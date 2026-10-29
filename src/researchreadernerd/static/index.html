@@ -101,22 +101,28 @@ aside { width: var(--panel-w); flex: none; border-left: 1px solid var(--rule); b
 .panel-head { position: sticky; top: 0; z-index: 1; background: var(--raised); padding: 1rem 1.1rem .8rem; border-bottom: 1px solid var(--rule); display: grid; gap: .3rem; }
 .panel-head .row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
 .panel-body { padding: 1rem 1.1rem 2rem; display: grid; gap: 1.5rem; }
-.stage[open] { display: grid; gap: .7rem; }
-.stage-head { display: grid; grid-template-columns: 1.6rem 1fr auto; gap: .1rem .6rem; cursor: pointer; list-style: none; }
-.stage-head::-webkit-details-marker { display: none; }
-.stage-head::after { content: ""; grid-column: 3; grid-row: 1; align-self: center; width: .45rem; height: .45rem;
-  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
-.stage[open] > .stage-head::after { transform: rotate(45deg); }
-.stage-head:hover .title { color: var(--accent); }
-@media (prefers-reduced-motion: reduce) { .stage-head::after { transition: none; } }
-.stage-head .num { font: .85rem var(--data); color: var(--accent); grid-row: span 2; padding-top: .1rem; }
-.stage-head .title { font-weight: 600; }
+/* Fold-out toggle: a round accent button whose arrow turns down when open. */
+.twisty { flex: none; align-self: center; display: grid; place-items: center; width: 1.45rem; height: 1.45rem;
+  border-radius: 50%; border: 1.5px solid var(--accent); background: var(--accent-tint); transition: transform .15s; }
+.twisty::before { content: ""; width: .36rem; height: .36rem; margin-left: -.14rem;
+  border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
+details[open] > summary > .twisty { transform: rotate(90deg); }
+@media (prefers-reduced-motion: reduce) { .twisty { transition: none; } }
+.stage, .field { display: grid; gap: .7rem; }
+.stage > summary, .field > summary { list-style: none; cursor: pointer; border-radius: 6px; padding: .35rem .4rem; margin: -.35rem -.4rem; }
+.stage > summary::-webkit-details-marker, .field > summary::-webkit-details-marker { display: none; }
+.stage > summary:hover, .field > summary:hover { background: var(--accent-tint); }
+.stage-head { display: grid; grid-template-columns: 1.35rem 1.6rem 1fr; gap: .15rem .6rem; align-items: center; }
+.stage-head .num { font: .85rem var(--data); color: var(--accent); }
+.stage-head .title { font-weight: 600; display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
 .stage-head .detail { font-size: .85rem; color: var(--muted); grid-column: 2 / 4; }
-.field { display: grid; gap: .3rem; margin-left: 2.2rem; }
+.field { margin-left: 1.95rem; }
 .field-head { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
-.field-head label { font-weight: 600; font-size: .88rem; }
-.role { font: .7rem var(--data); color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 .3rem; }
+.field-head .name { font-weight: 600; font-size: .88rem; }
 .field-head .grow { flex: 1; }
+.preview { flex-basis: 100%; padding-left: 1.75rem; font: .76rem var(--data); color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+details[open] > summary .preview { display: none; }
 textarea { width: 100%; min-height: 6rem; resize: vertical; padding: .55rem .65rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); font: .8rem/1.5 var(--data); }
 textarea.is-edited { border-color: var(--edited); }
 details.schema { margin-left: 2.2rem; font-size: .85rem; }
@@ -239,24 +245,34 @@ function renderPanel() {
   const body = $("panel-body");
   body.replaceChildren();
   stages.forEach((stage, i) => {
-    const section = el("details", { class: "stage", open: stage.prompts.length > 0 },
+    const section = el("details", { class: "stage" },
       el("summary", { class: "stage-head" },
+        el("span", { class: "twisty", "aria-hidden": "true" }),
         el("span", { class: "num" }, String(i + 1).padStart(2, "0")),
-        el("span", { class: "title" }, stage.title),
+        el("span", { class: "title" }, stage.title,
+          el("span", { class: "chip edited", id: `stage-${stage.id}-edited`, hidden: true })),
         el("span", { class: "detail" }, stage.detail)));
     for (const p of stage.prompts) {
       const id = `prompt-${p.key}`;
-      const area = el("textarea", { id, spellcheck: "false", oninput: (e) => setPrompt(p.key, e.target.value) });
+      const area = el("textarea", { id, spellcheck: "false", "aria-label": p.label,
+        oninput: (e) => setPrompt(p.key, e.target.value) });
       area.value = state.prompts[p.key];
-      section.append(el("div", { class: "field" },
-        el("div", { class: "field-head" },
-          el("label", { for: id }, p.label),
+      const field = el("details", { class: "field", "data-stage": stage.id },
+        el("summary", { class: "field-head" },
+          el("span", { class: "twisty", "aria-hidden": "true" }),
+          el("span", { class: "name" }, p.label),
           el("span", { class: "role" }, p.role),
           el("span", { class: "grow" }),
           el("span", { class: "chip edited", id: `${id}-badge`, hidden: true }, "Edited"),
           el("button", { class: "btn small", type: "button", id: `${id}-reset`, hidden: true,
-            onclick: () => { setPrompt(p.key, defaults[p.key]); area.value = defaults[p.key]; fit(area); } }, "Reset")),
-        area));
+            onclick: (e) => {
+              e.preventDefault();  // a button inside <summary> would otherwise also fold the field
+              setPrompt(p.key, defaults[p.key]); area.value = defaults[p.key]; fit(area);
+            } }, "Reset"),
+          el("span", { class: "preview", id: `${id}-preview` })),
+        area);
+      field.addEventListener("toggle", () => { if (field.open) fit(area); });
+      section.append(field);
     }
     if (stage.id === "analyze") {
       section.append(el("details", { class: "schema" },
@@ -284,12 +300,21 @@ function setPrompt(key, value) {
 
 function refreshEdited() {
   let n = 0;
+  const perStage = {};
   for (const [key, def] of Object.entries(state.config.defaults)) {
     const edited = state.prompts[key] !== def;
     n += edited;
     $(`prompt-${key}-badge`).hidden = !edited;
     $(`prompt-${key}-reset`).hidden = !edited;
     $(`prompt-${key}`).classList.toggle("is-edited", edited);
+    $(`prompt-${key}-preview`).textContent = state.prompts[key].replace(/\s+/g, " ").trim() || "(empty)";
+    const stage = $(`prompt-${key}`).closest(".field").dataset.stage;
+    perStage[stage] = (perStage[stage] || 0) + edited;
+  }
+  for (const stage of state.config.stages) {
+    const chip = $(`stage-${stage.id}-edited`);
+    chip.hidden = !perStage[stage.id];
+    chip.textContent = `${perStage[stage.id]} edited`;
   }
   $("edited-count").hidden = n === 0;
   $("edited-count").textContent = `${n} edited`;
