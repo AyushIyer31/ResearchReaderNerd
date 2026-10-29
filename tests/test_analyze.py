@@ -48,7 +48,7 @@ def test_refusal_raises(fake_api):
 
 def test_truncation_raises(fake_api):
     fake_api.reply = fake_message('{"title": "cut off', stop_reason="max_tokens")
-    with pytest.raises(AnalysisError, match="--max-tokens"):
+    with pytest.raises(AnalysisError, match="token limit"):
         analyze_paper(PAPER, fake_api.client, max_tokens=100)
 
 

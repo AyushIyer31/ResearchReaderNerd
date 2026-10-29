@@ -82,6 +82,11 @@ tr.proposed td:first-child { font-weight: 600; box-shadow: inset 3px 0 var(--acc
 .sub-body dd { margin: 0; min-width: 0; max-width: 65ch; }
 .legend { font-size: .85rem; color: var(--muted); }
 .legend i { display: inline-block; width: .8rem; height: .8rem; vertical-align: -.1rem; margin-right: .3rem; background: var(--accent-tint); box-shadow: inset 3px 0 var(--accent); }
+ol.suggestions { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+ol.suggestions li { display: grid; gap: .3rem; padding-left: 1rem; border-left: 2px solid var(--accent); }
+.found { display: flex; flex-wrap: wrap; gap: .4rem; font: .78rem var(--data); }
+ul.evidence, ul.papers { margin: 0; padding-left: 1.1rem; font-size: .92rem; color: var(--muted); display: grid; gap: .2rem; }
+ul.papers { color: var(--ink); }
 ul.caveats { margin: 0; padding-left: 1.2rem; display: grid; gap: .5rem; max-width: 65ch; }
 footer { font-size: .88rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1.25rem; }
 @media (max-width: 560px) {
@@ -107,7 +112,13 @@ FONTS = (
 
 
 def render_html(
-    analysis: PaperAnalysis, *, source: str, model: str, today: date | None = None, standalone: bool = True
+    analysis: PaperAnalysis,
+    *,
+    source: str,
+    model: str,
+    today: date | None = None,
+    standalone: bool = True,
+    consideration=None,
 ) -> str:
     """Return the report as HTML. standalone=False omits the <!doctype>/<html> wrapper."""
     today = today or date.today()
@@ -140,6 +151,8 @@ def render_html(
         _assumptions_html(analysis.assumptions),
         _benchmarks_html(analysis.benchmarks, analysis.proposed_method),
     ]
+    if consideration is not None:
+        parts.append(_consider_html(consideration))
     if analysis.caveats:
         parts.append(
             _section(
@@ -265,3 +278,42 @@ def _benchmarks_html(benchmarks: list[Benchmark], proposed_method: str) -> str:
         methods = len({(r.method, r.location) for r in b.results})
         out.append(_sub(e(b.name), f"<dl>{dl}</dl>{table}", meta=f"{e(b.task)} · {_count(methods, 'row')}", open=False))
     return _section("Benchmarks", "".join(out), qid="R2", meta=_count(len(benchmarks), "benchmark"))
+
+
+def _consider_html(c) -> str:
+    e = escape
+    if c.suggestions:
+        items = []
+        for i, sug in enumerate(c.suggestions, 1):
+            chips = "".join(f'<span class="tag">{e(f)}</span>' for f in sug.found_by)
+            evidence = "".join(f"<li>{e(x)}</li>" for x in sug.evidence)
+            links = "".join(f'<li><a href="{e(l.url)}">{e(l.title)}</a></li>' for l in sug.links)
+            items.append(
+                f'<li><div class="statement"><span class="rank">{i}</span>{e(sug.name)}</div>'
+                f'<div class="found">{chips}</div><p class="why">{e(sug.why)}</p>'
+                f'<ul class="evidence">{evidence}{links}</ul></li>'
+            )
+        body = f'<p class="legend">Benchmarks this paper did not use that fit its task ({e(c.field)}), most useful first.</p>'
+        body += '<ol class="suggestions">' + "".join(items) + "</ol>"
+    else:
+        body = "<p>No suggestions this time.</p>"
+
+    users = []
+    for u in c.used_by:
+        if u.source is None:
+            users.append(_sub(e(u.benchmark), "<p>Source paper not found in OpenAlex.</p>", meta="not found", open=False))
+            continue
+        papers = "".join(f'<li><a href="{e(p.url)}">{e(p.title)}</a></li>' for p in u.papers)
+        inner = (f'<p>Cited to <a href="{e(u.source.url)}">{e(u.source.title)}</a>. Most-cited papers citing it:</p>'
+                 f'<ul class="papers">{papers}</ul>')
+        users.append(_sub(e(u.benchmark), inner, meta=f"{len(u.papers)} papers", open=False))
+    body += '<h3 style="margin-top:.5rem">Who else uses this paper\'s benchmarks</h3>' + "".join(users)
+
+    how = (f"<dl><dt>Themes</dt><dd>{e(', '.join(c.themes))}</dd>"
+           f"<dt>Catalog searches</dt><dd>{e(', '.join(c.catalog_queries))}</dd>"
+           f"<dt>Read</dt><dd>{c.stats.get('papers_read', 0)} related papers' titles and abstracts "
+           f"({c.stats.get('references', 0)} references), {c.stats.get('catalog_hits', 0)} catalog hits</dd></dl>")
+    if c.notes:
+        how += '<ul class="caveats">' + "".join(f"<li>{e(n)}</li>" for n in c.notes) + "</ul>"
+    body += _sub("How these were found", how, meta="sources and limits", open=False)
+    return _section("Benchmarks to consider", body, qid="R3", meta=_count(len(c.suggestions), "suggestion"))

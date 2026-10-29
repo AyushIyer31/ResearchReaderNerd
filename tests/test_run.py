@@ -1,6 +1,6 @@
 from pytest import approx
 
-from researchreadernerd.run import estimate_cost
+from researchreadernerd.pricing import estimate_cost
 
 
 def test_haiku_uses_higher_card_over_100k_input_tokens():

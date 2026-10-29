@@ -6,8 +6,8 @@ import base64
 from dataclasses import asdict, dataclass
 
 import anthropic
-from pydantic import ValidationError
 
+from .llm import FALLBACK_BETA, FALLBACK_MODELS, AnalysisError, ask, output_format
 from .paper import Paper
 from .schema import PaperAnalysis
 
@@ -17,13 +17,9 @@ DEFAULT_EFFORT = "high"
 # must be streamed, or the HTTP request can time out.
 DEFAULT_MAX_TOKENS = 32000
 
-OUTPUT_FORMAT = {"type": "json_schema", "schema": anthropic.transform_schema(PaperAnalysis.model_json_schema())}
+OUTPUT_FORMAT = output_format(PaperAnalysis)
 
-# On a safety-classifier decline, the API re-runs the request on Anthropic's
-# recommended fallback model instead of returning the refusal. Haiku has no
-# server-side fallback (the parameter must not be sent), so only these models get it.
-FALLBACK_BETA = "server-side-fallback-2026-07-01"
-FALLBACK_MODELS = {"claude-sonnet-5-5", "claude-opus-5-5"}
+__all__ = ["AnalysisError", "FALLBACK_BETA", "FALLBACK_MODELS"]  # re-exported for callers and tests
 
 INSTRUCTIONS_PROMPT = """\
 You are a careful reviewer reading a scientific paper for a researcher who wants to \
@@ -55,15 +51,55 @@ splits or baselines rerun by the authors instead of copied from the original pap
 
 USER_PROMPT = "Read the attached paper and extract its assumptions and benchmarks."
 
+PLAN_PROMPT = """\
+You are planning a search for benchmarks a computer-science paper could have used. From \
+the paper's title, summary and benchmarks below:
+- Name its computer-science subfield.
+- List up to 4 themes (tasks, data types, application areas).
+- Write 3 to 5 short keyword queries (2 to 4 words each) for searching dataset catalogs \
+(UCI, the UCR time series archive, TPC, Hugging Face, government open-data portals). \
+Describe the task and data, not the paper's own benchmarks: to find alternatives to \
+"WMT 2014 English-German", search "machine translation" or "parallel corpus".
+- For each benchmark, give the title of the paper it is cited to: from its bibliography \
+entry when there is one, otherwise the paper usually cited for it, if you know it. Each \
+title is checked against OpenAlex and dropped if no paper matches."""
+
+EXTRACT_PROMPT = """\
+For each numbered paper below (title and abstract), list the benchmarks, datasets or \
+evaluation suites it evaluates on, by their standard names (for example "ImageNet", \
+"TPC-H", "GLUE"). List only names that appear in the text. Do not list methods, models \
+or metrics. Return an empty list for a paper that names none."""
+
+RANK_PROMPT = """\
+You advise the authors of the paper below on benchmarks they should consider adding. \
+The numbered candidates were found in the paper's references, in papers that use the \
+same benchmarks, and in public dataset catalogs; each shows the evidence for it.
+- Choose 10 that would most strengthen this paper's evaluation, most useful first. \
+Put the best-supported first; when a pick rests on weaker evidence, say so in its \
+sentence. Return fewer than 10 only if fewer than 10 candidates are datasets or \
+benchmarks related to the paper's task.
+- Prefer established benchmarks that reviewers in this field would expect, and those \
+with stronger evidence (used by more related papers). Catalog hits are keyword matches: \
+prefer recognized benchmarks, and never pick an entry that is a paper title or a \
+collection unrelated to the task.
+- Skip benchmarks the paper already uses, near-duplicates of one already chosen, and \
+candidates that do not fit its task.
+- For each, write one sentence on why it fits this paper.
+- Choose only from the numbered candidates."""
+
 
 @dataclass(frozen=True)
 class Prompts:
-    """The editable prompt text for the analysis step. The system prompt joins the first three."""
+    """The editable prompts. system() joins the first three for the R1/R2 call; the others
+    drive the "benchmarks to consider" steps."""
 
     instructions: str = INSTRUCTIONS_PROMPT
     assumptions: str = ASSUMPTIONS_PROMPT
     benchmarks: str = BENCHMARKS_PROMPT
     user: str = USER_PROMPT
+    plan: str = PLAN_PROMPT
+    extract: str = EXTRACT_PROMPT
+    rank: str = RANK_PROMPT
 
     def system(self) -> str:
         return "\n\n".join(p.strip() for p in (self.instructions, self.assumptions, self.benchmarks) if p.strip())
@@ -80,10 +116,6 @@ class AnalysisResult:
     output_tokens: int
 
 
-class AnalysisError(Exception):
-    """Claude did not return a usable analysis."""
-
-
 def analyze_paper(
     paper: Paper,
     client: anthropic.Anthropic,
@@ -96,56 +128,15 @@ def analyze_paper(
     prompts = prompts or Prompts()
     if not prompts.user.strip():
         raise AnalysisError("The user message is empty. Add an instruction for Claude.")
-
-    # Streamed and read as plain text, not parse(): parse() validates the JSON before
-    # we can see the stop reason, so a refusal or truncated output would surface as a
-    # confusing validation error instead of the messages below.
-    fallback = {"betas": [FALLBACK_BETA], "fallbacks": "default"} if model in FALLBACK_MODELS else {}
-    with client.beta.messages.stream(
-        model=model,
-        max_tokens=max_tokens,
-        output_config={"effort": effort, "format": OUTPUT_FORMAT},
-        system=prompts.system(),
-        **fallback,
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "document",
-                        "source": {
-                            "type": "base64",
-                            "media_type": "application/pdf",
-                            "data": base64.standard_b64encode(paper.pdf).decode("ascii"),
-                        },
-                        "title": paper.name,
-                    },
-                    {"type": "text", "text": prompts.user},
-                ],
-            }
-        ],
-    ) as stream:
-        response = stream.get_final_message()
-
-    if response.stop_reason == "refusal":
-        category = response.stop_details.category if response.stop_details else None
-        raise AnalysisError(f"Claude declined to analyze this paper (category: {category}).")
-    if response.stop_reason == "max_tokens":
-        raise AnalysisError(
-            f"The analysis hit the {max_tokens}-token limit before finishing. Retry with a larger --max-tokens."
-        )
-
-    text = next((block.text for block in response.content if block.type == "text"), None)
-    if not text:
-        raise AnalysisError(f"Claude returned no analysis (stop reason: {response.stop_reason}).")
-    try:
-        analysis = PaperAnalysis.model_validate_json(text)
-    except ValidationError as e:
-        raise AnalysisError(f"Claude's analysis did not match the expected format: {e}") from e
-
-    return AnalysisResult(
-        analysis=analysis,
-        model=response.model,
-        input_tokens=response.usage.input_tokens,
-        output_tokens=response.usage.output_tokens,
+    document = {
+        "type": "document",
+        "source": {"type": "base64", "media_type": "application/pdf",
+                   "data": base64.standard_b64encode(paper.pdf).decode("ascii")},
+        "title": paper.name,
+    }
+    answer = ask(
+        client, model=model, effort=effort, system=prompts.system(),
+        content=[document, {"type": "text", "text": prompts.user}],
+        schema=PaperAnalysis, max_tokens=max_tokens,
     )
+    return AnalysisResult(answer.value, answer.model, answer.input_tokens, answer.output_tokens)

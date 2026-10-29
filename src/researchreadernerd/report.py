@@ -12,7 +12,9 @@ def _cell(text: str) -> str:
     return " ".join(text.split()).replace("|", "\\|")
 
 
-def render_report(analysis: PaperAnalysis, *, source: str, model: str, today: date | None = None) -> str:
+def render_report(
+    analysis: PaperAnalysis, *, source: str, model: str, today: date | None = None, consideration=None
+) -> str:
     today = today or date.today()
     lines = [
         f"# {analysis.title}",
@@ -30,6 +32,8 @@ def render_report(analysis: PaperAnalysis, *, source: str, model: str, today: da
     ]
     lines += _assumptions_section(analysis.assumptions)
     lines += _benchmarks_section(analysis.benchmarks, analysis.proposed_method)
+    if consideration is not None:
+        lines += _consider_section(consideration)
 
     if analysis.caveats:
         lines += ["## Caveats", ""]
@@ -98,4 +102,40 @@ def _benchmarks_section(benchmarks: list[Benchmark], proposed_method: str) -> li
             lines.append("")
         else:
             lines += ["No numbers reported on this benchmark.", ""]
+    return lines
+
+
+def _consider_section(c) -> list[str]:
+    lines = ["## R3: Benchmarks to consider", ""]
+    if c.suggestions:
+        lines += [f"Benchmarks this paper did not use that fit its task, most useful first ({c.field}).", ""]
+        for i, sug in enumerate(c.suggestions, 1):
+            lines.append(f"{i}. **{sug.name}** ({', '.join(sug.found_by)}): {sug.why}")
+            for e in sug.evidence:
+                lines.append(f"    - {e}")
+            for link in sug.links:
+                lines.append(f"    - [{link.title}]({link.url})")
+        lines.append("")
+    else:
+        lines += ["No suggestions this time.", ""]
+
+    lines += ["### Who else uses this paper's benchmarks", ""]
+    for u in c.used_by:
+        if u.source is None:
+            lines.append(f"- **{u.benchmark}**: source paper not found in OpenAlex.")
+            continue
+        lines.append(f"- **{u.benchmark}**, cited to [{u.source.title}]({u.source.url}). Most-cited papers citing it:")
+        lines += [f"    - [{p.title}]({p.url})" for p in u.papers[:10]]
+    lines.append("")
+
+    lines += [
+        "### How these were found",
+        "",
+        f"- Themes: {', '.join(c.themes)}",
+        f"- Catalog searches: {', '.join(c.catalog_queries)}",
+        f"- Read {c.stats.get('papers_read', 0)} related papers' titles and abstracts "
+        f"({c.stats.get('references', 0)} references); {c.stats.get('catalog_hits', 0)} catalog hits.",
+    ]
+    lines += [f"- Note: {n}" for n in c.notes]
+    lines.append("")
     return lines
