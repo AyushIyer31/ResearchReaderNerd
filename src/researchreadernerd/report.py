@@ -135,6 +135,8 @@ def _consider_section(c) -> list[str]:
         f"- Catalog searches: {', '.join(c.catalog_queries)}",
         f"- Read {c.stats.get('papers_read', 0)} related papers' titles and abstracts "
         f"({c.stats.get('references', 0)} references); {c.stats.get('catalog_hits', 0)} catalog hits.",
+        f"- Bibliographies: checked the {c.stats.get('cited_works_checked', 0)} papers the related papers cite most; "
+        f"{c.stats.get('dataset_papers', 0)} introduce a benchmark not used here.",
     ]
     lines += [f"- Note: {n}" for n in c.notes]
     lines.append("")

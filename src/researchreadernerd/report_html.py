@@ -318,7 +318,9 @@ def _consider_html(c) -> str:
     how = (f"<dl><dt>Themes</dt><dd>{e(', '.join(c.themes))}</dd>"
            f"<dt>Catalog searches</dt><dd>{e(', '.join(c.catalog_queries))}</dd>"
            f"<dt>Read</dt><dd>{c.stats.get('papers_read', 0)} related papers' titles and abstracts "
-           f"({c.stats.get('references', 0)} references), {c.stats.get('catalog_hits', 0)} catalog hits</dd></dl>")
+           f"({c.stats.get('references', 0)} references), {c.stats.get('catalog_hits', 0)} catalog hits</dd>"
+           f"<dt>Bibliographies</dt><dd>Checked the {c.stats.get('cited_works_checked', 0)} papers the related papers "
+           f"cite most; {c.stats.get('dataset_papers', 0)} introduce a benchmark not used here</dd></dl>")
     if c.notes:
         how += '<ul class="caveats">' + "".join(f"<li>{e(n)}</li>" for n in c.notes) + "</ul>"
     body += _sub("How these were found", how, meta="sources and limits", open=False)

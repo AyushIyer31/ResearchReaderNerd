@@ -31,7 +31,9 @@ button { cursor: pointer; }
 
 /* Top bar */
 .bar { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; padding: .7rem 1rem; border-bottom: 1px solid var(--rule); background: var(--raised); }
-.wordmark { font: 600 1.25rem var(--display); background: none; border: 0; padding: 0; }
+.wordmark { font: 600 1.25rem var(--display); background: none; border: 0; padding: 0; text-align: left; }
+.brand { display: grid; gap: .1rem; }
+.build { font: .7rem var(--data); color: var(--muted); white-space: nowrap; }
 .run-form { display: flex; flex-wrap: wrap; gap: .5rem; flex: 1; min-width: 0; align-items: center; }
 .run-form input { flex: 1 1 14rem; min-width: 0; padding: .45rem .7rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); font-family: var(--data); font-size: .9rem; }
 .run-form select { padding: .45rem .5rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); }
@@ -136,7 +138,10 @@ details.schema pre { max-height: 22rem; overflow: auto; padding: .6rem; backgrou
 </head>
 <body>
 <header class="bar">
-  <button class="wordmark" id="home-link" type="button">ResearchReaderNerd</button>
+  <div class="brand">
+    <button class="wordmark" id="home-link" type="button">ResearchReaderNerd</button>
+    <span class="build" id="build-info"></span>
+  </div>
   <form class="run-form" id="run-form">
     <input id="paper" name="paper" placeholder="arXiv ID or link, e.g. 1706.03762" autocomplete="off" aria-label="arXiv ID or link">
     <span class="file-chip" id="file-chip" hidden>
@@ -512,10 +517,21 @@ function setupDrop() {
   });
 }
 
+function showBuild(build) {
+  const when = (iso) => new Date(iso).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  const parts = [`build ${build.sha}`];
+  if (build.built_at) parts.push(`built ${when(build.built_at)}`);
+  parts.push(`${build.sha === "local" ? "started" : "deployed"} ${when(build.started_at)}`);
+  $("build-info").textContent = parts.join(" · ");
+  $("build-info").title = `Build ${build.sha}` + (build.built_at ? `, built ${build.built_at}` : "") +
+    `, server started ${build.started_at} (UTC)`;
+}
+
 /* ---------- Start ---------- */
 
 async function init() {
   state.config = await api("/api/config");
+  showBuild(state.config.build);
   $("effort").replaceChildren(...state.config.efforts.map((e) =>
     el("option", { value: e, selected: e === state.config.effort }, `${e} effort`)));
   state.prompts = { ...state.config.defaults, ...(recall(STORE_PROMPTS) || {}) };

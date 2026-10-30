@@ -59,8 +59,8 @@ def test_full_run_uses_edited_prompts_and_saves_them(app_client, fake_api):
     assert listed[0]["name"] == "1706.03762" and listed[0]["custom_prompts"] is True
     report = client.get("/api/reports/1706.03762").json()
     assert "<h1>A Sample Paper</h1>" in report["html"]
-    assert report["run"]["input_tokens"] == 40  # analyze, plan, extract, rank: 10 each from the fake API
-    assert [c["step"] for c in report["run"]["calls"]] == ["analyze", "plan", "extract", "rank"]
+    assert report["run"]["input_tokens"] == 50  # analyze, plan, extract, bibliographies, rank: 10 each
+    assert [c["step"] for c in report["run"]["calls"]] == ["analyze", "plan", "extract", "bibliographies", "rank"]
     assert "Benchmarks to consider" in report["html"]
 
 
@@ -195,3 +195,13 @@ def test_password_or_origin_secret_either_works(tmp_path, fake_api):
     assert client.get("/api/config", headers={"x-origin-secret": "s3cret"}).status_code == 200
     assert client.get("/api/config", headers=basic("pw")).status_code == 200
     assert client.get("/api/config").status_code == 401
+
+
+def test_build_and_deploy_times_reported(tmp_path, monkeypatch, fake_api):
+    monkeypatch.setenv("BUILD_SHA", "abc1234")
+    monkeypatch.setenv("BUILD_DATE", "2026-10-28T18:30:00Z")
+    client = make_client(tmp_path, fake_api)
+    build = client.get("/api/config").json()["build"]
+    assert build["sha"] == "abc1234" and build["built_at"] == "2026-10-28T18:30:00Z"
+    assert build["started_at"].endswith("+00:00")
+    assert client.get("/health").json()["build"]["started_at"] == build["started_at"]

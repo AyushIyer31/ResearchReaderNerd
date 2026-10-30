@@ -4,7 +4,9 @@
 2. Benchmarks in public catalogs that match the paper's themes.
 3. Benchmarks used by papers that also use the paper's benchmarks (co-usage).
 
-Claude reads titles and abstracts (not full texts) and ranks the candidates; every
+Two signals for steps 1 and 3: Claude reads the related papers' titles and abstracts, and
+we count the papers most often cited in their bibliographies; a benchmark's source paper
+("ImageNet: A large-scale ...") shows up there even when no abstract names it. Every
 suggestion keeps the evidence our code gathered for it, so none is taken on trust.
 """
 
@@ -30,6 +32,8 @@ MAX_BENCHMARKS_FOR_COUSAGE = 5
 CITING_PER_BENCHMARK = 15
 PAPERS_PER_EXTRACTION_CALL = 30
 MAX_LITERATURE_CANDIDATES = 40
+MIN_CITING_RELATED = 2  # a cited work counts only if at least this many related papers cite it
+MAX_CITED_TO_LABEL = 80
 SUGGESTIONS = 10
 
 
@@ -60,6 +64,15 @@ class Extraction(_Strict):
     papers: list[PaperBenchmarks]
 
 
+class DatasetPaper(_Strict):
+    item: int = Field(description="The paper's number in the list.")
+    benchmark: str = Field(description="The standard short name of the dataset or benchmark it introduces.")
+
+
+class DatasetPapers(_Strict):
+    dataset_papers: list[DatasetPaper]
+
+
 class Pick(_Strict):
     candidate: int = Field(description="The candidate's number.")
     why: str = Field(description="One sentence on why it fits this paper.")
@@ -79,7 +92,7 @@ class Link(_Strict):
 class Suggestion(_Strict):
     name: str
     why: str
-    found_by: list[str]  # "references", "co-usage", or a catalog name
+    found_by: list[str]  # "references", "co-usage", "bibliographies", or a catalog name
     evidence: list[str]  # plain-language facts our code gathered
     links: list[Link]
 
@@ -145,6 +158,7 @@ def consider_benchmarks(
     # Step 1 and 3: the paper's references, and papers that use its benchmarks.
     progress("related")
     references: list[scholar.Work] = []
+    found = None
     try:
         found = scholar.find_paper(analysis.title, arxiv_id)
         if found is None:
@@ -159,6 +173,7 @@ def consider_benchmarks(
 
     used_by: list[BenchmarkUsers] = []
     citing: dict[str, list[scholar.Work]] = {}
+    own_sources: set[str] = set()
     titles = {s.benchmark: s.title for s in plan.source_titles}
     for bench in analysis.benchmarks[:MAX_BENCHMARKS_FOR_COUSAGE]:
         title = titles.get(bench.name) or next((t for b, t in titles.items() if _key(b) == _key(bench.name)), None)
@@ -174,6 +189,8 @@ def consider_benchmarks(
         if source is None and not any(bench.name in n for n in notes):
             notes.append(f"No OpenAlex paper matches the source title given for {bench.name}, so its co-usage was not checked.")
         citing[bench.name] = papers
+        if source:
+            own_sources.add(source.id)
         used_by.append(BenchmarkUsers(
             benchmark=bench.name,
             source=Link(title=source.title, url=source.url) if source else None,
@@ -185,8 +202,26 @@ def consider_benchmarks(
     for works in citing.values():
         papers.update({w.id: w for w in works})
     paper_list = [w for w in papers.values() if w.title]
+
+    # The bibliographies: which works do the related papers cite most often?
+    this_paper = found[0].id if found else None
+    cited_count: Counter = Counter()
+    for w in paper_list:
+        cited_count.update(set(w.references))
+    for skip in own_sources | {this_paper} | set(papers):
+        cited_count.pop(skip, None)  # the paper's own benchmarks, the paper, and the related papers themselves
+    top_cited = [i for i, n in cited_count.most_common(MAX_CITED_TO_LABEL) if n >= MIN_CITING_RELATED]
+    cited_works: list[scholar.Work] = []
+    if top_cited:
+        try:
+            cited_works = [w for w in scholar.get_works(top_cited) if w.title]
+            cited_works.sort(key=lambda w: -cited_count[w.id])
+        except scholar.ScholarError as e:
+            notes.append(f"The related papers' bibliographies could not be checked: {e}")
+
     mentions: dict[str, list[str]] = {}
-    if paper_list and not over_budget("reading related papers"):
+    dataset_papers: list[tuple[str, scholar.Work]] = []  # (benchmark name, the paper introducing it)
+    if (paper_list or cited_works) and not over_budget("reading related papers"):
         chunks = [paper_list[i:i + PAPERS_PER_EXTRACTION_CALL] for i in range(0, len(paper_list), PAPERS_PER_EXTRACTION_CALL)]
 
         def extract(chunk: list[scholar.Work]):
@@ -194,12 +229,24 @@ def consider_benchmarks(
             return chunk, ask(client, model=model, effort="low", system=prompts.extract,
                               content=[{"type": "text", "text": text}], schema=Extraction, max_tokens=8000)
 
+        def label():
+            text = "\n".join(f"[{i}] {w.title}" + (f" ({w.year})" if w.year else "") for i, w in enumerate(cited_works))
+            return ask(client, model=model, effort="low", system=prompts.label,
+                       content=[{"type": "text", "text": text}], schema=DatasetPapers, max_tokens=8000)
+
         with ThreadPoolExecutor(max_workers=4) as pool:
+            labelled = pool.submit(label) if cited_works and prompts.label.strip() else None
             for chunk, answer in pool.map(extract, chunks):
                 spend.add("extract", answer.model, answer.input_tokens, answer.output_tokens)
                 for item in answer.value.papers:
                     if 0 <= item.paper < len(chunk):
                         mentions[chunk[item.paper].id] = item.benchmarks
+            if labelled:
+                answer = labelled.result()
+                spend.add("bibliographies", answer.model, answer.input_tokens, answer.output_tokens)
+                for d in answer.value.dataset_papers:
+                    if 0 <= d.item < len(cited_works) and d.benchmark.strip():
+                        dataset_papers.append((d.benchmark.strip(), cited_works[d.item]))
 
     # Count who uses what.
     display: dict[str, Counter] = defaultdict(Counter)
@@ -218,8 +265,18 @@ def consider_benchmarks(
                 if any(w.id == paper_id for w in works):
                     co_use[k][bench].add(paper_id)
 
+    # A dataset paper cited by many related papers: keep the most-cited one per benchmark.
+    in_bibs: dict[str, tuple[int, scholar.Work]] = {}
+    for name, w in dataset_papers:
+        k = _key(name)
+        if not k or _already_used(name, own):
+            continue
+        display[k][name] += 1
+        if cited_count[w.id] > in_bibs.get(k, (0, None))[0]:
+            in_bibs[k] = (cited_count[w.id], w)
+
     def strength(k: str) -> int:
-        return len(in_refs[k]) + sum(len(v) for v in co_use[k].values())
+        return len(in_refs[k]) + sum(len(v) for v in co_use[k].values()) + in_bibs.get(k, (0, None))[0]
 
     lit_keys = sorted(display, key=strength, reverse=True)[:MAX_LITERATURE_CANDIDATES]
 
@@ -233,6 +290,10 @@ def consider_benchmarks(
     candidates: list[dict] = []
     for k in lit_keys:
         evidence, links = [], []
+        if k in in_bibs:
+            n, w = in_bibs[k]
+            evidence.append(f"Its source paper, \u201c{w.title}\u201d, is cited by {n} of the {len(paper_list)} related papers")
+            links.append(Link(title=w.title, url=w.url))
         if in_refs[k]:
             evidence.append(f"Used by {len(in_refs[k])} of the paper's references")
         for bench, ids in co_use[k].items():
@@ -241,7 +302,8 @@ def consider_benchmarks(
             w = papers.get(pid)
             if w and len(links) < 3 and all(l.url != w.url for l in links):
                 links.append(Link(title=w.title, url=w.url))
-        found_by = (["references"] if in_refs[k] else []) + (["co-usage"] if co_use[k] else [])
+        found_by = ((["references"] if in_refs[k] else []) + (["co-usage"] if co_use[k] else [])
+                    + (["bibliographies"] if k in in_bibs else []))
         candidates.append({"name": display[k].most_common(1)[0][0], "found_by": found_by,
                            "evidence": evidence, "links": links})
     for hit in hits:
@@ -250,7 +312,8 @@ def consider_benchmarks(
                            "links": [Link(title=f"{hit.name} ({hit.catalog})", url=hit.url)]})
 
     stats = {"references": len(references), "related_papers": len(paper_list),
-             "papers_read": len(mentions), "candidates": len(candidates), "catalog_hits": len(hits)}
+             "papers_read": len(mentions), "cited_works_checked": len(cited_works),
+             "dataset_papers": len(in_bibs), "candidates": len(candidates), "catalog_hits": len(hits)}
     if not candidates:
         notes.append("No candidate benchmarks were found.")
         return Consideration(suggestions=[], used_by=used_by, field=plan.field, themes=plan.themes,

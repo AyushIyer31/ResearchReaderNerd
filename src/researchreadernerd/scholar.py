@@ -16,6 +16,7 @@ import httpx2
 
 API = "https://api.openalex.org"
 _FIELDS = "id,title,abstract_inverted_index,publication_year,doi,cited_by_count"
+_WITH_REFS = _FIELDS + ",referenced_works"
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,7 @@ class Work:
     year: int | None
     url: str  # DOI link when there is one, else the OpenAlex page
     cited_by: int = 0
+    references: tuple[str, ...] = ()  # short ids of the works it cites (its bibliography)
 
 
 class ScholarError(Exception):
@@ -75,6 +77,7 @@ def _work(raw: dict) -> Work:
         year=raw.get("publication_year"),
         url=raw.get("doi") or f"https://openalex.org/{short_id}",
         cited_by=raw.get("cited_by_count") or 0,
+        references=tuple(w.rsplit("/", 1)[-1] for w in raw.get("referenced_works") or []),
     )
 
 
@@ -93,22 +96,23 @@ def find_paper(title: str, arxiv_id: str | None = None) -> tuple[Work, list[str]
     raw = None
     if arxiv_id:
         bare = re.sub(r"v\d+$", "", arxiv_id)
-        raw = _get(f"/works/doi:10.48550/arXiv.{bare}", {"select": _FIELDS + ",referenced_works"}) or None
+        raw = _get(f"/works/doi:10.48550/arXiv.{bare}", {"select": _WITH_REFS}) or None
     if raw is None and title:
         found = _get("/works", {"filter": f"title.search:{_clean(title)}", "per-page": 3,
-                                "select": _FIELDS + ",referenced_works"}).get("results", [])
+                                "select": _WITH_REFS}).get("results", [])
         raw = next((w for w in found if titles_match(w.get("title") or "", title)), None)
     if raw is None:
         return None
-    refs = [w.rsplit("/", 1)[-1] for w in raw.get("referenced_works") or []]
-    return _work(raw), refs
+    work = _work(raw)
+    return work, list(work.references)
 
 
 def get_works(ids: list[str]) -> list[Work]:
+    """The works with these ids, each with its bibliography."""
     out: list[Work] = []
     for start in range(0, len(ids), 50):
         batch = "|".join(ids[start : start + 50])
-        data = _get("/works", {"filter": f"openalex_id:{batch}", "per-page": 50, "select": _FIELDS})
+        data = _get("/works", {"filter": f"openalex_id:{batch}", "per-page": 50, "select": _WITH_REFS})
         out += [_work(w) for w in data.get("results", [])]
     return out
 
@@ -122,9 +126,9 @@ def find_by_title(title: str) -> Work | None:
 
 
 def citing_works(work_id: str, limit: int = 20) -> list[Work]:
-    """The most-cited papers that cite `work_id`."""
+    """The most-cited papers that cite `work_id`, each with its bibliography."""
     data = _get("/works", {"filter": f"cites:{work_id}", "sort": "cited_by_count:desc",
-                           "per-page": limit, "select": _FIELDS})
+                           "per-page": limit, "select": _WITH_REFS})
     return [_work(w) for w in data.get("results", [])]
 
 
