@@ -54,6 +54,7 @@ SAMPLE_PLAN = {
     "source_titles": [{"benchmark": "ToyBench", "title": "ToyBench: a toy benchmark"}],
 }
 SAMPLE_EXTRACTION = {"papers": [{"paper": 0, "benchmarks": ["CIFAR-10"]}, {"paper": 1, "benchmarks": ["CIFAR-10", "ToyBench"]}]}
+SAMPLE_DATASET_PAPERS = {"dataset_papers": [{"item": 0, "benchmark": "CelebA"}, {"item": 7, "benchmark": "Not listed"}]}
 SAMPLE_RANKING = {"picks": [{"candidate": 0, "why": "The standard small image benchmark."},
                             {"candidate": 99, "why": "Not a real candidate."}]}
 
@@ -117,7 +118,8 @@ def fake_api():
 
         def _reply_for(self, body: dict) -> dict:
             props = body.get("output_config", {}).get("format", {}).get("schema", {}).get("properties", {})
-            for key, sample in (("catalog_queries", SAMPLE_PLAN), ("picks", SAMPLE_RANKING), ("papers", SAMPLE_EXTRACTION)):
+            for key, sample in (("catalog_queries", SAMPLE_PLAN), ("picks", SAMPLE_RANKING), ("papers", SAMPLE_EXTRACTION),
+                                ("dataset_papers", SAMPLE_DATASET_PAPERS)):
                 if key in props:
                     return fake_message(json.dumps(sample))
             return self.reply
@@ -131,13 +133,16 @@ def no_network(monkeypatch):
     from researchreadernerd import consider, scholar
     from researchreadernerd.catalogs import CatalogHit
 
-    def work(i, title):
+    def work(i, title, refs=()):
         return scholar.Work(id=f"W{i}", title=title, abstract=f"We evaluate on things ({title}).", year=2020,
-                            url=f"https://doi.org/10.0/{i}", cited_by=10)
+                            url=f"https://doi.org/10.0/{i}", cited_by=10, references=tuple(refs))
 
+    # Both related papers cite W9, a dataset paper, and W2, ToyBench's own source paper.
+    library = {"W1": work(1, "A referenced paper", ["W9", "W2", "W8"]),
+               "W9": work(9, "CelebA: a large-scale face attributes dataset")}
     monkeypatch.setattr(scholar, "find_paper", lambda title, arxiv_id=None: (work(0, title), ["W1"]))
-    monkeypatch.setattr(scholar, "get_works", lambda ids: [work(1, "A referenced paper")])
+    monkeypatch.setattr(scholar, "get_works", lambda ids: [library[i] for i in ids if i in library])
     monkeypatch.setattr(scholar, "find_by_title", lambda title: work(2, title))
-    monkeypatch.setattr(scholar, "citing_works", lambda work_id, limit=20: [work(3, "A paper using ToyBench")])
+    monkeypatch.setattr(scholar, "citing_works", lambda work_id, limit=20: [work(3, "A paper using ToyBench", ["W9", "W2"])])
     monkeypatch.setattr(consider, "search_all", lambda queries, per_query=4: (
         [CatalogHit("TPC", "TPC-H", "decision support", "https://www.tpc.org/tpch/")], []))

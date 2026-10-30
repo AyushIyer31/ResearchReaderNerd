@@ -12,7 +12,7 @@ from .paper import Paper
 from .schema import PaperAnalysis
 
 DEFAULT_MODEL = "claude-haiku-5-5"
-DEFAULT_EFFORT = "high"
+DEFAULT_EFFORT = "medium"
 # Room for the model's reasoning plus long results tables. Above ~16K the response
 # must be streamed, or the HTTP request can time out.
 DEFAULT_MAX_TOKENS = 32000
@@ -70,10 +70,20 @@ evaluation suites it evaluates on, by their standard names (for example "ImageNe
 "TPC-H", "GLUE"). List only names that appear in the text. Do not list methods, models \
 or metrics. Return an empty list for a paper that names none."""
 
+LABEL_PROMPT = """\
+The numbered papers below are the ones most often cited by papers related to a \
+computer-science paper. Pick out the papers that introduce a dataset, benchmark or \
+evaluation suite (for example "ImageNet: A large-scale hierarchical image database" \
+introduces ImageNet), and give each one's standard short name. Skip papers that \
+introduce a method, model, tool or survey, even when they also release some data as a \
+side product. Return an empty list if none do."""
+
 RANK_PROMPT = """\
 You advise the authors of the paper below on benchmarks they should consider adding. \
 The numbered candidates were found in the paper's references, in papers that use the \
-same benchmarks, and in public dataset catalogs; each shows the evidence for it.
+same benchmarks, in the bibliographies of those related papers (a benchmark's source \
+paper cited by many of them), and in public dataset catalogs; each shows the evidence \
+for it.
 - Choose 10 that would most strengthen this paper's evaluation, most useful first. \
 Put the best-supported first; when a pick rests on weaker evidence, say so in its \
 sentence. Return fewer than 10 only if fewer than 10 candidates are datasets or \
@@ -99,6 +109,7 @@ class Prompts:
     user: str = USER_PROMPT
     plan: str = PLAN_PROMPT
     extract: str = EXTRACT_PROMPT
+    label: str = LABEL_PROMPT
     rank: str = RANK_PROMPT
 
     def system(self) -> str:

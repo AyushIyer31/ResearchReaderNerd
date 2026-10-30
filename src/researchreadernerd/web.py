@@ -67,8 +67,11 @@ STAGES = [
         "id": "related",
         "title": "Read related papers",
         "detail": "OpenAlex: the paper's references, and the most-cited papers that use each of its benchmarks. "
-                  "Claude reads their titles and abstracts and lists the benchmarks each one uses.",
-        "prompts": [{"key": "extract", "label": "Benchmark extraction", "role": "system"}],
+                  "Claude reads their titles and abstracts and lists the benchmarks each one uses. "
+                  "We also count the papers most often cited in their bibliographies, and Claude picks out "
+                  "the ones that introduce a dataset or benchmark.",
+        "prompts": [{"key": "extract", "label": "Benchmark extraction", "role": "system"},
+                    {"key": "label", "label": "Dataset papers in the bibliographies", "role": "system"}],
     },
     {
         "id": "catalogs",
@@ -99,6 +102,7 @@ class PromptsIn(BaseModel):
     user: str = Field(max_length=MAX_PROMPT_CHARS)
     plan: str = Field(max_length=MAX_PROMPT_CHARS)
     extract: str = Field(max_length=MAX_PROMPT_CHARS)
+    label: str = Field(max_length=MAX_PROMPT_CHARS)
     rank: str = Field(max_length=MAX_PROMPT_CHARS)
 
 
@@ -155,6 +159,12 @@ def create_app(
 ) -> FastAPI:
     storage = storage or LocalStorage(Path("reports"))
     app = FastAPI(title="ResearchReaderNerd", docs_url=None, redoc_url=None)
+    # When this server process started. On AWS a deploy starts a new task, so this is the deploy time.
+    build = {
+        "sha": os.environ.get("BUILD_SHA") or "local",
+        "built_at": os.environ.get("BUILD_DATE") or None,
+        "started_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
     jobs: dict[str, Job] = {}  # runs started by this server process
     lock = threading.Lock()
 
@@ -218,7 +228,7 @@ def create_app(
     def health() -> dict:
         return {
             "status": "ok",
-            "build": {"sha": os.environ.get("BUILD_SHA") or "unknown", "date": os.environ.get("BUILD_DATE") or "unknown"},
+            "build": {"sha": build["sha"], "date": build["built_at"] or "unknown", "started_at": build["started_at"]},
             "storage": type(storage).__name__,
             "model": DEFAULT_MODEL,
         }
@@ -235,6 +245,7 @@ def create_app(
             "effort": DEFAULT_EFFORT,
             "efforts": ["low", "medium", "high", "xhigh", "max"],
             "model": DEFAULT_MODEL,
+            "build": build,
             "output_schema": OUTPUT_FORMAT["schema"],
         }
 

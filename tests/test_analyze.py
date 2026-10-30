@@ -15,7 +15,7 @@ def test_request_shape(fake_api):
     body = fake_api.requests[0]
 
     assert body["model"] == "claude-haiku-5-5"
-    assert body["output_config"]["effort"] == "high"
+    assert body["output_config"]["effort"] == "medium"
     assert "fallbacks" not in body  # Haiku has no server-side fallback; sending it is an error
     assert FALLBACK_BETA not in fake_api.headers[0].get("anthropic-beta", "")
 
