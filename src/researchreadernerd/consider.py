@@ -34,6 +34,7 @@ PAPERS_PER_EXTRACTION_CALL = 30
 MAX_LITERATURE_CANDIDATES = 40
 MIN_CITING_RELATED = 2  # a cited work counts only if at least this many related papers cite it
 MAX_CITED_TO_LABEL = 80
+WAVE_SIZE = 4  # related-paper extraction calls run in parallel waves of this size
 SUGGESTIONS = 10
 
 
@@ -234,19 +235,29 @@ def consider_benchmarks(
             return ask(client, model=model, effort="low", system=prompts.label,
                        content=[{"type": "text", "text": text}], schema=DatasetPapers, max_tokens=8000)
 
-        with ThreadPoolExecutor(max_workers=4) as pool:
-            labelled = pool.submit(label) if cited_works and prompts.label.strip() else None
-            for chunk, answer in pool.map(extract, chunks):
-                spend.add("extract", answer.model, answer.input_tokens, answer.output_tokens)
-                for item in answer.value.papers:
-                    if 0 <= item.paper < len(chunk):
-                        mentions[chunk[item.paper].id] = item.benchmarks
-            if labelled:
-                answer = labelled.result()
-                spend.add("bibliographies", answer.model, answer.input_tokens, answer.output_tokens)
-                for d in answer.value.dataset_papers:
-                    if 0 <= d.item < len(cited_works) and d.benchmark.strip():
-                        dataset_papers.append((d.benchmark.strip(), cited_works[d.item]))
+        # The budget gate above runs before this section; the wave loop below re-checks it
+        # between waves, so a run that crosses the budget mid-extraction stops instead of
+        # firing every remaining paid call. One wave (up to WAVE_SIZE calls) can still be
+        # in flight when the crossing is noticed.
+        if cited_works and prompts.label.strip():
+            answer = label()
+            spend.add("bibliographies", answer.model, answer.input_tokens, answer.output_tokens)
+            for d in answer.value.dataset_papers:
+                if 0 <= d.item < len(cited_works) and d.benchmark.strip():
+                    dataset_papers.append((d.benchmark.strip(), cited_works[d.item]))
+        for start in range(0, len(chunks), WAVE_SIZE):
+            if spend.cost >= budget_usd:
+                notes.append(
+                    f"Stopped reading related papers at the ${budget_usd:.2f} budget; "
+                    f"{len(chunks) - start} of {len(chunks)} batches were not read."
+                )
+                break
+            with ThreadPoolExecutor(max_workers=WAVE_SIZE) as pool:
+                for chunk, answer in pool.map(extract, chunks[start : start + WAVE_SIZE]):
+                    spend.add("extract", answer.model, answer.input_tokens, answer.output_tokens)
+                    for item in answer.value.papers:
+                        if 0 <= item.paper < len(chunk):
+                            mentions[chunk[item.paper].id] = item.benchmarks
 
     # Count who uses what.
     display: dict[str, Counter] = defaultdict(Counter)

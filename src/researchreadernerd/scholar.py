@@ -133,5 +133,7 @@ def citing_works(work_id: str, limit: int = 20) -> list[Work]:
 
 
 def _clean(title: str) -> str:
+    # Unquote first: a percent-encoded comma, colon or pipe would otherwise survive
+    # the cleanup and land inside the filter value, where OpenAlex reads it as syntax.
     # Commas, colons and pipes have meaning in OpenAlex filter values.
-    return urllib.parse.unquote(re.sub(r"[,:|]+", " ", title)).strip()
+    return " ".join(re.sub(r"[,:|]+", " ", urllib.parse.unquote(title)).split())

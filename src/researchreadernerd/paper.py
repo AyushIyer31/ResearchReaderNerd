@@ -86,7 +86,9 @@ def _download(url: str) -> bytes:
 
 
 def _check_pdf(data: bytes, source: str) -> bytes:
-    if not data.startswith(b"%PDF"):
+    # Viewers accept the %PDF magic anywhere in the first 1024 bytes: the spec wants
+    # it at byte 0, but many producers (scans, office exports) prepend junk bytes.
+    if b"%PDF" not in data[:1024]:
         raise PaperError(f"{source} is not a PDF.")
     if len(data) > MAX_PDF_BYTES:
         raise PaperError(f"{source} is larger than {MAX_PDF_BYTES // (1024 * 1024)} MB.")

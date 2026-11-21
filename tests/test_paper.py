@@ -70,3 +70,15 @@ def test_paper_from_bytes():
     assert (paper.name, paper.source) == ("draft", "Uploaded file: draft.pdf")
     with pytest.raises(PaperError, match="not a PDF"):
         paper_from_bytes(b"text", "draft.pdf")
+
+
+def test_pdf_header_allowed_within_first_kb():
+    # Scans and office exports often prepend junk; viewers accept %PDF in the first 1024 bytes.
+    padded = b"\x00\xef\xbb\xbf junk header\n" + MINIMAL_PDF
+    paper = paper_from_bytes(padded, "scan.pdf")
+    assert paper.pdf == padded
+
+
+def test_pdf_header_beyond_first_kb_rejected():
+    with pytest.raises(PaperError, match="not a PDF"):
+        paper_from_bytes(b" " * 1024 + MINIMAL_PDF, "odd.pdf")
