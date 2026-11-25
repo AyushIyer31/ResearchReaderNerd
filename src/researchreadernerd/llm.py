@@ -80,7 +80,10 @@ def make_client(model: str):
         return OllamaClient()
     # Streams occasionally stall on a dead connection; give up after 3 minutes without a chunk
     # so the SDK's retries kick in, instead of its 10-minute default.
-    return anthropic.Anthropic(timeout=httpx2.Timeout(600.0, connect=10.0, read=180.0))
+    # Under a launch spend cap every attempt is reserved before it is sent, so the SDK's own retries are off: a failed
+    # call is retried by the runner's next pass, with a new reservation.
+    retries = {"max_retries": 0} if os.environ.get("RRN_SPEND_CAP_USD") else {}
+    return anthropic.Anthropic(timeout=httpx2.Timeout(600.0, connect=10.0, read=180.0), **retries)
 
 
 def output_format(schema: type[BaseModel]) -> dict:
@@ -204,6 +207,7 @@ def _ask_claude(client: anthropic.Anthropic, *, model: str, effort: str, system:
     # Streamed (a long answer over a plain request can time out) and read as plain text rather
     # than with parse(): parse() validates the JSON before we can see the stop reason, so a
     # refusal or a cut-off answer would surface as a confusing validation error.
+    rid = _reserve(client, model=model, system=system, content=content, schema=schema, max_tokens=max_tokens)
     with client.beta.messages.stream(
         model=model,
         max_tokens=max_tokens,
@@ -214,7 +218,7 @@ def _ask_claude(client: anthropic.Anthropic, *, model: str, effort: str, system:
     ) as stream:
         response = stream.get_final_message()
     # Ledger first: a refused, cut-off or malformed answer is billed too, so it is counted before any check raises.
-    _ledger(model, response.model, response.usage.input_tokens, response.usage.output_tokens)
+    _ledger(model, response.model, response.usage.input_tokens, response.usage.output_tokens, settles=rid)
 
     if response.stop_reason == "refusal":
         category = response.stop_details.category if response.stop_details else None
@@ -233,9 +237,100 @@ def _ask_claude(client: anthropic.Anthropic, *, model: str, effort: str, system:
     return Answer(value, response.model, response.usage.input_tokens, response.usage.output_tokens)
 
 
-def _ledger(requested: str, answered: str, input_tokens: int, output_tokens: int) -> None:
+class SpendCapError(AnalysisError):
+    """A launch call refused before it was sent: its worst-case cost would take the stage past its cap."""
+
+
+def _lock(path: str):
+    import fcntl
+
+    class _L:
+        def __enter__(self):
+            self.f = open(path + ".lock", "a")
+            fcntl.flock(self.f, fcntl.LOCK_EX)
+
+        def __exit__(self, *a):
+            fcntl.flock(self.f, fcntl.LOCK_UN)
+            self.f.close()
+    return _L()
+
+
+def ledger_spend(path: str) -> float:
+    """Spend in a launch ledger: every response that arrived, at its price, plus every reservation that no response has
+    settled, at its worst case (a call in flight, or one whose response was lost, counts in full). A response line
+    without a price (a model missing from the table) is charged at the dearest price in the table."""
+    from .pricing import PRICES
+    rows = []
+    if os.path.exists(path):
+        for x in open(path).read().splitlines():
+            try:
+                rows.append(json.loads(x))
+            except json.JSONDecodeError:
+                continue  # a line still being written
+    settled = {r.get("settles") for r in rows if r.get("settles")}
+    dear_in = max(c["small"][0] for c in PRICES.values()); dear_out = max(c["small"][1] for c in PRICES.values())
+    total = 0.0
+    for r in rows:
+        if r.get("kind") == "reserve":
+            total += 0.0 if r["id"] in settled else r["usd"]
+        else:
+            total += r["usd"] if r.get("usd") is not None else (dear_in * r.get("input_tokens", 0) + dear_out * r.get("output_tokens", 0)) / 1e6
+    return total
+
+
+def worst_case_usd(model: str, input_tokens: int, max_tokens: int) -> float:
+    """The most a call can cost: its counted input plus a full max_tokens of output, at the model's card (the dearest
+    card in the table for a model not in it)."""
+    from .pricing import PRICES, estimate_cost
+    cost = estimate_cost(model, input_tokens, max_tokens)
+    if cost is None:
+        dear_in = max(max(c["small"][0], c.get("large", c["small"])[0]) for c in PRICES.values())
+        dear_out = max(max(c["small"][1], c.get("large", c["small"])[1]) for c in PRICES.values())
+        cost = (dear_in * input_tokens + dear_out * max_tokens) / 1e6
+    return cost
+
+
+def _count_input(client, *, model: str, system: str, content: list[dict], schema) -> int:
+    """Input tokens of a call, counted by the API (free), plus an allowance for the output schema, which the count does
+    not include: twice the schema's characters' worth of tokens plus 1,000, and 10% on top."""
+    last = None
+    for _ in range(3):
+        try:
+            n = client.messages.count_tokens(model=model, system=system, messages=[{"role": "user", "content": content}]).input_tokens
+            break
+        except anthropic.APIError as e:  # noqa: PERF203
+            last = e
+    else:
+        raise SpendCapError(f"Could not count the input tokens before a capped call ({last}); not sent.")
+    schema_chars = len(json.dumps(output_format(schema)))
+    return int((n + schema_chars // 2 + 1000) * 1.1)
+
+
+def _reserve(client, *, model: str, system: str, content: list[dict], schema, max_tokens: int) -> str | None:
+    """RRN_SPEND_CAP_USD with RRN_SPEND_LEDGER (launch runner): before a call is sent, reserve its worst-case cost in the
+    ledger, and refuse it when the ledger's spend plus that reserve would pass the cap. Spend therefore never exceeds
+    the cap, whatever happens to calls in flight. Unset, nothing is reserved."""
+    cap, path = os.environ.get("RRN_SPEND_CAP_USD"), os.environ.get("RRN_SPEND_LEDGER")
+    if not cap or not path:
+        return None
+    import uuid
+    from datetime import datetime, timezone
+    worst = worst_case_usd(model, _count_input(client, model=model, system=system, content=content, schema=schema), max_tokens)
+    with _lock(path):
+        spent = ledger_spend(path)
+        if spent + worst > float(cap):
+            raise SpendCapError(f"Spend cap: ${spent:.2f} spent or reserved, this call could cost ${worst:.2f}, cap ${float(cap):.2f}; not sent.")
+        rid = uuid.uuid4().hex
+        with open(path, "a") as f:
+            f.write(json.dumps({"t": datetime.now(timezone.utc).isoformat(timespec="seconds"), "kind": "reserve", "id": rid,
+                                "model": model, "usd": round(worst, 6)}) + "\n")
+    return rid
+
+
+def _ledger(requested: str, answered: str, input_tokens: int, output_tokens: int, settles: str | None = None) -> None:
     """RRN_SPEND_LEDGER=<file> (launch runner): one JSON line per Claude response that arrives (refused, cut-off and
-    malformed answers included), the judge's too, so a stage stops at its cap. Unset, nothing is written."""
+    malformed answers included), the judge's too, so a stage stops at its cap; under a spend cap the line settles the
+    call's reservation. Unset, nothing is written."""
     path = os.environ.get("RRN_SPEND_LEDGER")
     if not path:
         return
@@ -243,6 +338,7 @@ def _ledger(requested: str, answered: str, input_tokens: int, output_tokens: int
     from .pricing import estimate_cost
     line = json.dumps({"t": datetime.now(timezone.utc).isoformat(timespec="seconds"), "requested": requested, "model": answered,
                        "input_tokens": input_tokens, "output_tokens": output_tokens,
-                       "usd": estimate_cost(answered, input_tokens, output_tokens)})
-    with open(path, "a") as f:
-        f.write(line + "\n")
+                       "usd": estimate_cost(answered, input_tokens, output_tokens)} | ({"settles": settles} if settles else {}))
+    with _lock(path):
+        with open(path, "a") as f:
+            f.write(line + "\n")

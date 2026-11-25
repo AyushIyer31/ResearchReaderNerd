@@ -4,6 +4,7 @@ from researchreadernerd import scholar
 REAL_FIND_BY_TITLE = scholar.find_by_title  # captured at import, before the no_network fixture fakes them
 REAL_TOPIC_WORKS = scholar.topic_works
 REAL_FIND_PAPER = scholar.find_paper
+REAL_S2_GET = scholar._s2_get
 
 
 def oa_record(i, title, year=2024, refs=()):
@@ -97,3 +98,18 @@ def test_a_mislinked_id_is_passed_over(monkeypatch):
                "/works/doi:10.48550/arXiv.2110.14168": oa_record(6, "Training Verifiers to Solve Math Word Problems")}
     monkeypatch.setattr(scholar, "_get", lambda path, params=None, **kw: records.get(path, {}))
     assert REAL_FIND_BY_TITLE("Training Verifiers to Solve Math Word Problems").id == "W6"
+
+
+def test_s2_retries_a_refusal_after_a_short_wait(monkeypatch):
+    import types
+    statuses = iter([429, 429, 200])
+    waits = []
+
+    def fake_get(url, params=None, headers=None, timeout=None):
+        return types.SimpleNamespace(status_code=next(statuses), headers={}, json=lambda: {"data": [1]})
+
+    monkeypatch.setattr(scholar.httpx2, "get", fake_get)
+    monkeypatch.setattr(scholar.time, "sleep", lambda s: waits.append(s))
+    monkeypatch.setattr(scholar, "S2_GAP", 0.0)
+    assert REAL_S2_GET("/paper/search/match", {"query": "x"}) == {"data": [1]}
+    assert len([w for w in waits if w >= 2.0]) == 2 and max(waits) <= 4.0, "two short waits of 2-4 s, no long backoff"

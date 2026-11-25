@@ -1,0 +1,13 @@
+stage,step,model_usd,s2_calls,openalex_list,openalex_id_lookups_free,openalex_fallback_searches,openalex_usd
+A,A1 date undated candidates (one call per run),0.2394,0,0,0,0,0.0
+A,"A2 confirm source titles in OpenAlex (<= 60 lookups per run, cached per title)",0.0,20520,0,20520,2052,2.052
+A,"A3 rank with Sonnet, year-aware prompt (one call per run)",7.8451,0,0,0,0,0.0
+A,A4 score against the saved judge matches,0.0,0,0,0,0,0.0
+B,"B1 user-1 runs: plan, read related abstracts, label bibliographies, propose (Haiku)",0.5269,0,0,0,0,0.0
+B,B2 leave-one-out runs: same pipeline on the scrubbed paper (Haiku),1.6117,0,0,0,0,0.0
+B,B3 dating call per run (Haiku),0.3192,0,0,0,0,0.0
+B,"B4 ranking call per run (Sonnet, year-aware)",10.4602,0,0,0,0,0.0
+B,B5 OpenAlex per run: ~30 as before + <= 40 bibliography lookups + <= 60 dating lookups,0.0,55857,3746,55534,5540,5.9147
+B,"B6 judge re-matching where the pool changed (Haiku, one call per run)",0.2052,0,0,0,0,0.0
+B,B7 arXiv HTML bibliography fetch (one per paper),0.0,0,0,0,0,0.0
+B,"B8 Haiku-alone baselines, probes, Haiku-alone leave-one-out",0.0,0,0,0,0,0.0

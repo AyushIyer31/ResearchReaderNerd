@@ -27,3 +27,12 @@ experiments/out_*/*
 !experiments/out_old_v2/truth/
 experiments/__pycache__/
 .coverage
+!experiments/out/report_2026-11-08/protocol_2026-11-24.md
+!experiments/out/report_2026-11-08/launch_cost_worksheet_2026-11-24.md
+!experiments/out/report_2026-11-08/launch_cost_worksheet_2026-11-24.csv
+!experiments/out/report_2026-11-08/launch_cost_summary_2026-11-24.json
+!experiments/out/report_2026-11-08/launch_cost_worksheet_2026-11-14.csv
+!experiments/out/report_2026-11-08/sonnet_rerank_manifest.json
+*.swp
+.env*
+!.env.example

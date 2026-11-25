@@ -124,7 +124,8 @@ candidates that do not fit its task.
 RECENCY_RULE = ("Each candidate also shows the year it was first seen where that is known; a benchmark introduced in "
                 "the last year or two has had little time to be used, so do not hold thin evidence against it: judge a "
                 "recent benchmark by its fit to the task and its source, and include the recent ones that fit.")
-RANK_PROMPT = RANK_PROMPT + " " + RECENCY_RULE
+BASE_RANK_PROMPT = RANK_PROMPT  # the as-run prompt (sha256 c6d4434f..., sonnet_rerank_manifest.json): dating off, and stage A's baseline
+RANK_PROMPT = BASE_RANK_PROMPT + " " + RECENCY_RULE  # dating on
 
 
 @dataclass(frozen=True)

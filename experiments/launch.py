@@ -35,9 +35,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 PY = sys.executable
-LAUNCH = HERE / "out" / "launch_2026-11-14"
+LAUNCH = HERE / "out" / "launch_2026-11-24"
 REPORT = HERE / "out" / "report_2026-11-08"
-MANIFEST = REPORT / "launch_manifest_2026-11-14.json"
+MANIFEST = REPORT / "launch_manifest_2026-11-24.json"
 RECIPE = HERE / "heldout_recipe_2026-11-14.json"
 DECISION = LAUNCH / "decision.json"
 TRUTH_CHECKED = LAUNCH / "heldout_truth_checked.json"  # protocol section 3 truth check, every sampled paper
@@ -51,7 +51,12 @@ CAPS = {"A": 21.0, "B": 43.0, "C": 15.0}  # approved 13 Nov 2026 (run_plan_2026-
 TOTAL_CAP = 79.0
 PROJECT_AFTER = 0.10  # projection check starts once this share of a stage's runs is done
 STOP_MARGIN = 0.50  # stop this far below a cap: spend is read every 30 s, and a few calls can land between reads
-MIN_OPENALEX_FUNDS = 0.50  # a step starts only with at least this much OpenAlex money left (daily budget + prepaid)
+FREE_OPENALEX_ONLY = True  # version 2 (24 Nov 2026): OpenAlex's free daily budget only; prepaid credit is never counted as funds
+FREE_PAUSE_BELOW = 0.05  # a running step is paused (terminated, then rerun after the daily reset) below this much free budget
+MIN_OPENALEX_FUNDS = 0.10 if FREE_OPENALEX_ONLY else 0.50  # a step starts only with at least this much OpenAlex money left
+PACKAGE_STAGES = ("A", "B")  # stages this manifest approves; stage C needs its own freeze (protocol section 6, amendment 5a)
+WAIT_S = int(os.environ.get("RRN_LAUNCH_WAIT", "900"))  # seconds between funds checks while waiting (the dry run shortens it)
+POLL_S = int(os.environ.get("RRN_LAUNCH_POLL", "30"))  # seconds between spend reads during a step
 
 AS_RUN = {"post_cutoff_a": ("out_2026", "papers_2026.json"), "post_cutoff_b": ("out_2026b", "papers_2026b.json"), "old": ("out_old_v2", "papers.json")}
 V2 = {"post_cutoff_a": ("out_v2_2026", "papers_2026.json"), "post_cutoff_b": ("out_v2_2026b", "papers_2026b.json"), "old": ("out_v2_old", "papers.json")}
@@ -66,10 +71,12 @@ SEED_FILES = ["memory_probe.md", "memory_probe_forced.json"]
 TOOL_FILES = sorted(p.name for p in (ROOT / "src" / "researchreadernerd").glob("*.py"))
 SCRIPTS = ["launch.py", "benchmark_eval.py", "leave_one_out.py", "loo_llm.py", "ablation.py", "memory_probe.py", "memory_probe_forced.py",
            "leak_check.py", "age_split.py", "v2_offline.py", "sonnet_rerank.py", "compare_sets.py", "quota.py", "sample_2026.py",
-           "match_sensitivity.py", "run_plan.py", "launch_worksheet.py", "heldout_truth_check.py", "openalex_rate_limit_2026-11-13.json", "match_overrides.json", "years_manual.json", "heldout_recipe_2026-11-14.json"]
+           "match_sensitivity.py", "run_plan.py", "launch_worksheet.py", "launch_worksheet_v2.py", "free_source_test.py", "heldout_truth_check.py", "openalex_rate_limit_2026-11-13.json", "match_overrides.json", "years_manual.json", "heldout_recipe_2026-11-14.json"]
 INPUT_FILES = ["papers.json", "papers_2026.json", "papers_2026b.json", "papers_2026_swaps.json"]
-DOCS = ["protocol_2026-11-11.md", "run_plan_2026-11-12.md", "run_request_2026-11-12.md", "launch_cost_worksheet_2026-11-14.md",
-        "launch_cost_worksheet_2026-11-14.csv", "launch_cost_summary_2026-11-14.json", "heldout_recipe_2026-11-14.md", "years_haiku.json"]  # years_haiku.json: age_split's seed year cache
+DOCS = ["protocol_2026-11-24.md", "protocol_2026-11-11.md", "protocol_amendment_stageC_2026-11-16.md", "free_source_test.md", "free_source_test.json",
+        "run_plan_2026-11-12.md", "run_request_2026-11-12.md", "launch_cost_worksheet_2026-11-24.md", "launch_cost_worksheet_2026-11-24.csv",
+        "launch_cost_summary_2026-11-24.json", "launch_cost_worksheet_2026-11-14.csv", "heldout_recipe_2026-11-14.md", "years_haiku.json",
+        "sonnet_rerank_manifest.json"]  # sonnet_rerank_manifest.json: the cached baseline's prompt hash, checked by v2_offline.py  # years_haiku.json: age_split's seed year cache
 
 # The rule of protocol section 8, as applied to stage A (fixed 13 Nov 2026 before stage A runs). Rows: the pooled
 # post-cutoff sets (a + b), leave-one-out (user 1'), final 10. 'v2' = Sonnet ranking on dated candidates with the
@@ -86,6 +93,8 @@ def env_for(part: str, out: str | None = None, papers: str | None = None, date_c
     laid over the shell environment, which supplies only PATH and the like (the API keys come from .env)."""
     e = {"RRN_RANK_MODEL": SONNET, "RRN_SERVER_FALLBACK": "0", "RRN_LAUNCH_REPORT": str(LAUNCH / "report"),
          "RRN_SPEND_LEDGER": str(LAUNCH / f"spend_{part}.jsonl"), "RRN_OPENALEX_LEDGER": str(LAUNCH / f"openalex_{part}.jsonl")}
+    if FREE_OPENALEX_ONLY:
+        e["RRN_OPENALEX_FREE_ONLY"] = "1"  # scholar.py refuses a priced request the free budget cannot cover
     if part[0] in ("B", "C"):
         e["RRN_USER1_ARXIV_BIB"] = "1"
         e["RRN_SKIP_REPLAY"] = "1"
@@ -212,7 +221,7 @@ def _has(p: str) -> bool:
 
 def cmd_freeze(replace: bool = False) -> None:
     """Write the manifest. An existing manifest is never overwritten silently: with --replace it is first archived under
-    out/launch_2026-11-14/replaced_manifests/ with its sha256, and every later status, log and decision records the new hash."""
+    out/launch_2026-11-24/replaced_manifests/ with its sha256, and every later status, log and decision records the new hash."""
     if MANIFEST.exists():
         if not replace:
             sys.exit(f"{MANIFEST.name} exists (sha256 {sha(MANIFEST)}); it is not overwritten. 'launch.py freeze --replace' archives it first.")
@@ -222,10 +231,10 @@ def cmd_freeze(replace: bool = False) -> None:
     from researchreadernerd import consider, pricing
     git = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout  # noqa: E731
     man = {
-        "name": "launch manifest, approved plan (A cached replay, B live version-2 development run, C held-out sample)",
+        "name": "launch manifest, version 2 (hybrid sources): stages A (cached replay) and B (live version-2 development run); stage C is frozen separately",
         "frozen": datetime.now().isoformat(timespec="seconds"),
         "approval": {"by": "Harsh", "date": "2026-11-13", "total_ceiling_usd": TOTAL_CAP, "including_retries": True},
-        "git": {"commit": git("rev-parse", "HEAD").strip(), "working_tree_uncommitted": True,
+        "git": {"commit": git("rev-parse", "HEAD").strip(), "working_tree_uncommitted": bool(git("status", "--porcelain").strip()),
                 "diff_vs_commit_sha256": hashlib.sha256(git("diff", "HEAD").encode()).hexdigest()},
         "versions": versions(),
         "models": {"every call except ranking": HAIKU, "ranking call (one per run)": SONNET, "judge": HAIKU, "server_side_fallback": "off (RRN_SERVER_FALLBACK=0): every answer is from the model named; a decline is an error, not another model's answer",
@@ -246,12 +255,12 @@ def cmd_freeze(replace: bool = False) -> None:
         "stages": {s: {"cap_usd": CAPS[s[0]], "steps": [{"cmd": " ".join(["python", *st["cmd"]]), "env": st["env"]} for st in steps_for(s, True)]}
                    for s in ("A", "B", "C1", "C2")},
         "stage_notes": {"B and C": "RRN_DATE_CANDIDATES is written by 'launch.py decide' from the stage A rows (shown here as 1)",
-                        "C1": "the draw starts only after decide, once stage B is complete (or the group's decision to go on after a B that stopped early is recorded in out/launch_2026-11-14/stage_b_partial_accepted.json) and once out/launch_2026-11-14/predictions_v2.json records the version-2 predictions (its sha256 goes into heldout_draw.json); the draw runs once and C1 then pauses; C1 resumes only when out/launch_2026-11-14/heldout_pdfs_checked.json marks every sampled paper's PDF checked (swaps by the recipe's rule in papers_heldout_swaps.json), and then records the sample's hashes in heldout_sample.json; the pre-check scoring (results, summary, the judge's matches and its terminal output) and the tool's runs and Haiku-alone answers (blind, abl, replay) go to out_heldout/sealed_pre_check/, which is never overwritten, so the truth-check reviewer sees none of them; a complete C1 is never run again. The truth check follows by hand (protocol section 3, as for the development sets): heldout_truth_check.py packet writes each paper's prompt and list for Gemini in its chat window with the PDF, and review and apply turn the reviewed answers into the checked lists; no API call",
-                        "C2": "starts only when C1 is complete, the sample still matches heldout_sample.json, and out/launch_2026-11-14/heldout_truth_checked.json (written by 'heldout_truth_check.py apply' after the reviewer's decisions) marks every sampled paper checked and still matches the truth lists' hash; it restores the sealed runs, the judge matches again on the checked lists, and a complete C2 is never run again"},
+                        "C1": "the draw starts only after decide, once stage B is complete (or the group's decision to go on after a B that stopped early is recorded in out/launch_2026-11-24/stage_b_partial_accepted.json) and once out/launch_2026-11-24/predictions_v2.json records the version-2 predictions (its sha256 goes into heldout_draw.json); the draw runs once and C1 then pauses; C1 resumes only when out/launch_2026-11-24/heldout_pdfs_checked.json marks every sampled paper's PDF checked (swaps by the recipe's rule in papers_heldout_swaps.json), and then records the sample's hashes in heldout_sample.json; the pre-check scoring (results, summary, the judge's matches and its terminal output) and the tool's runs and Haiku-alone answers (blind, abl, replay) go to out_heldout/sealed_pre_check/, which is never overwritten, so the truth-check reviewer sees none of them; a complete C1 is never run again. The truth check follows by hand (protocol section 3, as for the development sets): heldout_truth_check.py packet writes each paper's prompt and list for Gemini in its chat window with the PDF, and review and apply turn the reviewed answers into the checked lists; no API call",
+                        "C2": "starts only when C1 is complete, the sample still matches heldout_sample.json, and out/launch_2026-11-24/heldout_truth_checked.json (written by 'heldout_truth_check.py apply' after the reviewer's decisions) marks every sampled paper checked and still matches the truth lists' hash; it restores the sealed runs, the judge matches again on the checked lists, and a complete C2 is never run again"},
         "caps_usd": CAPS | {"total": TOTAL_CAP}, "stop_rules": ["stage spend >= stage cap - $0.50", "all stages >= $79 - $0.50", f"projected stage spend > cap once {PROJECT_AFTER:.0%} of its runs are done", "checked before and after every step and every 30 s during it"],
         "spend_measurement": {"anthropic": "sum of per-call estimates in the spend ledger (pricing.py prices); every Claude response that arrives, including refused, cut-off and malformed answers; a response lost to a network failure or to the runner stopping a step is not counted, which the $0.50 stop margin covers", "openalex": "rate-limit endpoint: daily_used_usd per day plus decreases of prepaid_remaining_usd; endpoint classes in the OpenAlex ledger"},
         "prices_usd_per_M_tokens": {m: pricing.PRICES[m] for m in (HAIKU, SONNET)},
-        "outputs": {"stage A": "dating/, v2_rerank/, v2_offline_rows.json, v2_offline.md inside each as-run folder (new names only); out/launch_2026-11-14/report/",
+        "outputs": {"stage A": "dating/, v2_rerank/, v2_offline_rows.json, v2_offline.md inside each as-run folder (new names only); out/launch_2026-11-24/report/",
                     "stage B": [v[0] for v in V2.values()], "stage C": HELDOUT[0], "ledgers, logs, status": str(LAUNCH.relative_to(HERE))},
         "heldout_recipe": json.loads(RECIPE.read_text()),
         "prompts": prompts(),
@@ -266,7 +275,7 @@ def write_manifest_md(man: dict) -> None:
     """The readable companion of the manifest; the JSON is the binding record."""
     f = man["files"]
     L = ["# Launch manifest and configuration (14 November 2026)", "",
-         f"Binding record: launch_manifest_2026-11-14.json, written by 'launch.py freeze' on {man['frozen']}. launch.py refuses to start a stage if any file below differs from it ('launch.py check' shows the comparison). "
+         f"Binding record: launch_manifest_2026-11-24.json, written by 'launch.py freeze' on {man['frozen']}. launch.py refuses to start a stage if any file below differs from it ('launch.py check' shows the comparison). "
          "This page summarizes it.", "",
          "## Approval and code state", "",
          f"- **Approval.** {man['approval']['by']}, {man['approval']['date']}: total ceiling ${man['approval']['total_ceiling_usd']:.0f} including retries.",
@@ -283,7 +292,7 @@ def write_manifest_md(man: dict) -> None:
     L += ["## Decision rule after stage A (fixed before stage A)", "",
           f"On the pooled post-cutoff sets ({', '.join(r['sets'])}), {r['test']}, {r['measure']}: compare '{r['v2']}' with '{r['base']}'. "
           f"Adopt the recency rule if the gain on benchmarks introduced in {' or '.join(map(str, r['recent_bins']))} is at least {r['recent_min_gain_points']:.0f} points and the change on those introduced {r['older_bin']} is no worse than -{r['older_max_loss_points']:.0f} points; "
-          "otherwise version 2 is Sonnet ranking plus the arXiv bibliography, without dating or the rule. 'launch.py decide' computes this from stage A's rows and writes out/launch_2026-11-14/decision.json, bound to this manifest's hash; stages B and C refuse to start without it.", "",
+          "otherwise version 2 is Sonnet ranking plus the arXiv bibliography, without dating or the rule. 'launch.py decide' computes this from stage A's rows and writes out/launch_2026-11-24/decision.json, bound to this manifest's hash; stages B and C refuse to start without it.", "",
           "## Stages, caps and stop rules", "",
           "| Stage | Cap | Steps |", "| --- | --- | --- |"]
     for s, v in man["stages"].items():
@@ -303,7 +312,7 @@ def write_manifest_md(man: dict) -> None:
                 L.append(f"| {d} | {k} | {v['files'] if isinstance(v, dict) else 1} | {v['sha256'] if isinstance(v, dict) else v} |")
     L += ["", "## Prompts (sha256 of the exact text)", "", "| Prompt | Chars | In use | sha256 |", "| --- | --- | --- | --- |"]
     L += [f"| {k} | {v['chars']} | {'yes' if v['in_use'] else 'no (empty, off)'} | {v['sha256']} |" for k, v in man["prompts"].items()]
-    (REPORT / "launch_manifest_2026-11-14.md").write_text("\n".join(L) + "\n")
+    (REPORT / "launch_manifest_2026-11-24.md").write_text("\n".join(L) + "\n")
 
 
 def mismatches() -> list[str]:
@@ -362,17 +371,24 @@ class Meter:
             if self.s["last_prepaid"] is not None and p < self.s["last_prepaid"]:
                 self.s["prepaid_spent"] += self.s["last_prepaid"] - p
             self.s["last_prepaid"] = p
-            self.s["funds_left"] = r["daily_remaining_usd"] + p
+            self.s["daily_left"] = r["daily_remaining_usd"]
+            self.s["resets_at"] = r.get("resets_at")
+            self.s["funds_left"] = r["daily_remaining_usd"] + (0.0 if FREE_OPENALEX_ONLY else p)
             self.f.write_text(json.dumps(self.s, indent=1))
 
     def openalex(self) -> float:
-        return sum(d["last"] - d["first"] for d in self.s["days"].values()) + self.s["prepaid_spent"]
+        """OpenAlex money counted against the caps. With FREE_OPENALEX_ONLY only prepaid credit is money (and any charge
+        stops the stage); the free daily budget used is reported by openalex_free() instead."""
+        return self.s["prepaid_spent"] + (0.0 if FREE_OPENALEX_ONLY else self.openalex_free())
+
+    def openalex_free(self) -> float:
+        return sum(d["last"] - d["first"] for d in self.s["days"].values())
 
     def claude(self) -> float:
-        f = LAUNCH / f"spend_{self.stage}.jsonl"
-        # a model missing from the price table is charged at Sonnet's price, the highest in use
-        return sum(x["usd"] if x.get("usd") is not None else (2.0 * x.get("input_tokens", 0) + 10.0 * x.get("output_tokens", 0)) / 1e6
-                   for x in read_jsonl(f))
+        """Responses at their price plus open reservations at their worst case (llm.ledger_spend)."""
+        sys.path.insert(0, str(ROOT / "src"))
+        from researchreadernerd.llm import ledger_spend
+        return ledger_spend(str(LAUNCH / f"spend_{self.stage}.jsonl"))
 
     def total(self) -> float:
         return self.claude() + self.openalex()
@@ -461,6 +477,19 @@ def over_cap(meter, part: str, steps: list[dict]) -> str | None:
             else None)
 
 
+def ledger_cap(part: str) -> float:
+    """The most this part's Claude ledger may hold, so that neither the stage cap nor the total cap (each less the stop
+    margin) can be passed: llm.py refuses a call whose worst case would take the ledger past it."""
+    others_in_stage = sum(part_spend(p) for p in PARTS[part[0]] if p != part)
+    other_stages = all_stages_spend() - sum(part_spend(p) for p in PARTS[part[0]])
+    oa = Meter(part).openalex()  # money only (0 with the free-only key)
+    return round(min(CAPS[part[0]] - STOP_MARGIN - others_in_stage, TOTAL_CAP - STOP_MARGIN - other_stages - others_in_stage) - oa, 4)
+
+
+def prepaid_charged(meter, start: float) -> bool:
+    return FREE_OPENALEX_ONLY and meter.s.get("prepaid_spent", 0.0) > start + 1e-9
+
+
 def run_stage(stage: str) -> int:
     meter_key = stage  # the part: A, B, C1 or C2
     LAUNCH.mkdir(parents=True, exist_ok=True)
@@ -512,6 +541,11 @@ def run_stage(stage: str) -> int:
                 shutil.copytree(sealed / d, HERE / HELDOUT[0] / d)
     if stage == "B":
         seed_stage_b()
+    if FREE_OPENALEX_ONLY:  # checked before the meter records anything, so a refused key leaves no trace in the meter
+        r = openalex_state()
+        if r and (r.get("prepaid_remaining_usd") or 0) > 0:
+            print(f"REFUSED: the OpenAlex key holds ${r['prepaid_remaining_usd']:.2f} of prepaid credit; the launch runs only with a key that holds "
+                  "none, so that OpenAlex cannot bill beyond its free daily budget"); return 2
     meter = Meter(meter_key)
     try:
         meter.poll()
@@ -519,7 +553,10 @@ def run_stage(stage: str) -> int:
         print(f"REFUSED: {e}"); return 2
     steps = steps_for(stage, dc)
     log(stage, f"stage {stage} start; manifest sha256 {sha(MANIFEST)}; cap ${CAPS[stage[0]]:.0f}; spent so far in this part ${meter.total():.2f}, all stages ${all_stages_spend():.2f}")
-    for i, st in enumerate(steps, 1):
+    prepaid_at_start = meter.s.get("prepaid_spent", 0.0)
+    i = 0
+    while i < len(steps):
+        st = steps[i]; i += 1
         if st.get("once") and (HERE / st["once"]).exists():
             continue
         try:
@@ -527,14 +564,14 @@ def run_stage(stage: str) -> int:
                 meter.poll()
                 if meter.s.get("funds_left", 0) >= MIN_OPENALEX_FUNDS:
                     break
-                log(stage, f"OpenAlex funds ${meter.s.get('funds_left', 0):.2f}, waiting 15 min"); time.sleep(900)
+                log(stage, f"OpenAlex funds ${meter.s.get('funds_left', 0):.2f}, waiting {WAIT_S // 60} min"); time.sleep(WAIT_S)
         except RuntimeError as e:
             log(stage, f"STOPPED before step {i}: {e}. Partial results kept; stage {stage} is reported as partial.")
             write_status(stage, meter, f"stopped: {e}"); return 3
         if why := over_cap(meter, meter_key, steps):
             log(stage, f"STOPPED before step {i}: {why}. Partial results kept; stage {stage} is reported as partial.")
             write_status(stage, meter, "stopped: " + why); return 3
-        env = os.environ.copy() | st["env"]
+        env = os.environ.copy() | st["env"] | {"RRN_SPEND_CAP_USD": str(ledger_cap(meter_key))}
         log(stage, f"step {i}/{len(steps)}: python {' '.join(st['cmd'])}  [{', '.join(f'{k}={v}' for k, v in st['env'].items() if not k.endswith('LEDGER'))}]")
         out = None
         if st.get("seal"):  # pre-check scores are written to the sealed folder, never to the terminal
@@ -545,16 +582,20 @@ def run_stage(stage: str) -> int:
             sealed.mkdir(parents=True, exist_ok=True)
             out = open(sealed / f"score_stdout_step{i}.txt", "w")
         proc = subprocess.Popen([PY, *st["cmd"]], cwd=HERE, env=env, stdout=out, stderr=subprocess.STDOUT if out else None)
-        reason = []
+        reason, pause = [], []
 
         def watch():
             while proc.poll() is None:
-                time.sleep(30)
+                time.sleep(POLL_S)
                 if proc.poll() is not None:
                     return
                 try:
                     meter.poll()
                     why = over_cap(meter, meter_key, steps)
+                    if not why and FREE_OPENALEX_ONLY and meter.s.get("prepaid_spent", 0) > prepaid_at_start + 1e-9:
+                        why = "OpenAlex prepaid credit was charged while the run is limited to the free daily budget"
+                    if not why and FREE_OPENALEX_ONLY and meter.s.get("daily_left", 1.0) < FREE_PAUSE_BELOW:
+                        pause.append(True); proc.terminate(); return
                 except Exception as e:  # noqa: BLE001  fail closed: a step is never left running unmetered
                     why = f"spend could not be read ({type(e).__name__}: {e})"
                 if why:
@@ -567,9 +608,16 @@ def run_stage(stage: str) -> int:
             reason.append(str(e))
         if out:
             out.close()
+        if prepaid_charged(meter, prepaid_at_start) and not any("prepaid" in r for r in reason):
+            reason.insert(0, "OpenAlex prepaid credit was charged while the run is limited to the free daily budget")
+        if pause and not reason:  # free daily budget spent: wait for the reset (the funds check above), then rerun this step
+            log(stage, f"  PAUSED step {i}: OpenAlex free daily budget below ${FREE_PAUSE_BELOW:.2f} (resets {meter.s.get('resets_at')}); "
+                       f"the step reruns after the reset, finished runs being cached")
+            i -= 1
+            continue
         if not reason and (why := over_cap(meter, meter_key, steps)):
             reason.append(why)
-        log(stage, f"  exit {rc}; stage spend ${meter.total():.2f} (Claude ${meter.claude():.2f}, OpenAlex ${meter.openalex():.2f})")
+        log(stage, f"  exit {rc}; stage spend ${meter.total():.2f} (Claude ${meter.claude():.2f}, OpenAlex ${meter.openalex():.2f}; free OpenAlex budget used ${meter.openalex_free():.2f})")
         if st.get("once"):
             resp = HERE / HELDOUT[1].replace("papers", "draw_response")
             if resp.exists():
@@ -590,6 +638,12 @@ def run_stage(stage: str) -> int:
             write_status(stage, meter, "stopped: " + reason[0]); return 3
         if rc not in st.get("ok_codes", (0,)):
             log(stage, f"STOPPED: step exited {rc}"); write_status(stage, meter, f"step {i} exited {rc}"); return rc
+    try:
+        meter.poll()
+    except RuntimeError as e:
+        log(stage, f"STOPPED at the end: {e}"); write_status(stage, meter, f"stopped: {e}"); return 3
+    if prepaid_charged(meter, prepaid_at_start):  # the final check: a stage that touched prepaid credit is never complete
+        log(stage, "STOPPED at the end: OpenAlex prepaid credit was charged"); write_status(stage, meter, "stopped: OpenAlex prepaid credit was charged"); return 3
     write_status(stage, meter, "complete")
     log(stage, f"stage {stage} complete; spend ${meter.total():.2f}")
     return 0
@@ -599,7 +653,7 @@ def write_status(stage: str, meter: Meter, state: str) -> None:
     oa = Counter_from(LAUNCH / f"openalex_{stage}.jsonl", "class")
     cl = Counter_from(LAUNCH / f"spend_{stage}.jsonl", "model")
     (LAUNCH / f"status_{stage}.json").write_text(json.dumps({"stage": stage, "state": state, "claude_usd": round(meter.claude(), 4),
-                                                              "openalex_usd": round(meter.openalex(), 4), "cap_usd": CAPS[stage[0]], "stage_spend_usd": round(sum(part_spend(p) for p in PARTS[stage[0]]), 4),
+                                                              "openalex_usd": round(meter.openalex(), 4), "openalex_free_budget_used_usd": round(meter.openalex_free(), 4), "cap_usd": CAPS[stage[0]], "stage_spend_usd": round(sum(part_spend(p) for p in PARTS[stage[0]]), 4),
                                                               "claude_calls_by_model": cl, "openalex_calls_by_class": oa,
                                                               "manifest_sha256": sha(MANIFEST)}, indent=1))
 
@@ -675,6 +729,8 @@ def main() -> int:
     if a[0] == "decide":
         return cmd_decide()
     if a[0] == "run" and len(a) > 1 and a[1] in ("A", "B", "C1", "C2"):
+        if a[1][0] not in PACKAGE_STAGES:
+            print(f"REFUSED: this manifest approves stages {', '.join(PACKAGE_STAGES)} only; stage C needs its own freeze"); return 2
         return run_stage(a[1])
     print(__doc__); return 2
 

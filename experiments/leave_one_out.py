@@ -76,6 +76,25 @@ def _cached_get(path: str, params: dict | None = None, *, retries: int = 6) -> d
 
 scholar._get = _cached_get
 
+S2_CACHE = OUT / "s2_cache"  # version 2: Semantic Scholar responses, cached the same way (a paper is read once per benchmark)
+_real_s2_get = scholar._s2_get
+
+
+def _cached_s2_get(path: str, params: dict | None = None, *, retries: int = 6) -> dict:
+    key = hashlib.sha1(json.dumps([path, params or {}], sort_keys=True, default=str).encode()).hexdigest()
+    f = S2_CACHE / f"{key}.json"
+    if f.exists():
+        STATS["s2_cache_hits"] += 1
+        return json.loads(f.read_text())
+    data = _real_s2_get(path, params, retries=retries)
+    STATS["s2_calls"] += 1
+    S2_CACHE.mkdir(parents=True, exist_ok=True)
+    write_atomic(f, json.dumps(data))
+    return data
+
+
+scholar._s2_get = _cached_s2_get
+
 
 # ---------- withholding the benchmark's dataset paper from the reference list ----------
 

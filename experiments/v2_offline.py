@@ -13,6 +13,7 @@ and Haiku + Sonnet tokens. Run only through launch.py (stage A), under the appro
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -23,7 +24,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "src")); sys.path.insert(0, str(HERE))
 from researchreadernerd import scholar  # noqa: E402
-from researchreadernerd.analyze import DATE_PROMPT, RANK_PROMPT  # noqa: E402
+from researchreadernerd.analyze import BASE_RANK_PROMPT, DATE_PROMPT, RANK_PROMPT  # noqa: E402
 from researchreadernerd.cli import load_dotenv  # noqa: E402
 from researchreadernerd.consider import MAX_DATE_LOOKUPS, SUGGESTIONS, DatedNames, Ranking  # noqa: E402
 from researchreadernerd.llm import ask, make_client  # noqa: E402
@@ -96,17 +97,46 @@ def date_run(c: dict, haiku, cache_dir: Path, title_cache: dict) -> dict[str, in
     return {n: v["year"] for n, v in done.items() if v.get("year")}
 
 
-def rank(text: str, client, cache: Path, c: dict) -> list[str]:
+def sha(text: str) -> str:
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+# Prompt provenance (Harsh's review, 24 Nov 2026). The baseline ('Sonnet, no years') is the as-run prompt without the
+# recency sentence; the v2 rerank is that prompt with it. Every rerank written here records its prompt's sha256, and a
+# cached rerank is used only if its recorded prompt is the one its design requires. The baseline's 342 cached reranks
+# were written by sonnet_rerank.py, whose manifest records the prompt it used: they are accepted only if that is the
+# baseline prompt, byte for byte.
+PROMPT_FOR = {"plain": BASE_RANK_PROMPT, "v2": RANK_PROMPT}
+SONNET_RERANK_MANIFEST = HERE / "out" / "report_2026-11-08" / "sonnet_rerank_manifest.json"
+
+
+def check_baseline_provenance() -> None:
+    m = json.loads(SONNET_RERANK_MANIFEST.read_text())
+    if m.get("prompt_sha256") != sha(BASE_RANK_PROMPT) or m.get("ranker") != RANKER:
+        sys.exit(f"the cached baseline reranks were made with prompt {m.get('prompt_sha256', '?')[:12]} by {m.get('ranker')}; the baseline "
+                 f"prompt is {sha(BASE_RANK_PROMPT)[:12]} with {RANKER}: refusing to compare")
+
+
+def rank(text: str, client, cache: Path, c: dict, design: str) -> list[str]:
+    system = PROMPT_FOR[design]
     if cache.exists():
-        return json.loads(cache.read_text())["picks"]
-    a = ask(client, model=RANKER, effort="medium", system=RANK_PROMPT, content=[{"type": "text", "text": text}], schema=Ranking, max_tokens=8000)
+        d = json.loads(cache.read_text())
+        recorded = d.get("prompt_sha256")
+        if recorded is None and design == "plain":
+            return d["picks"]  # written by sonnet_rerank.py; its prompt was checked by check_baseline_provenance()
+        if recorded != sha(system):
+            raise RuntimeError(f"{cache} was ranked with prompt {str(recorded)[:12]}, not the {design} prompt {sha(system)[:12]}")
+        return d["picks"]
+    a = ask(client, model=RANKER, effort="medium", system=system, content=[{"type": "text", "text": text}], schema=Ranking, max_tokens=8000)
     names, seen = [], set()
     for pick in a.value.picks:
         if 0 <= pick.candidate < len(c["candidates"]) and pick.candidate not in seen:
             seen.add(pick.candidate); names.append(c["candidates"][pick.candidate])
         if len(names) == SUGGESTIONS:
             break
-    cache.parent.mkdir(parents=True, exist_ok=True); cache.write_text(json.dumps({"picks": names, "in": a.input_tokens, "out": a.output_tokens}))
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps({"picks": names, "in": a.input_tokens, "out": a.output_tokens, "model": a.model, "design": design,
+                                 "prompt_sha256": sha(system)}))
     return names
 
 
@@ -153,12 +183,13 @@ def main():
     tf = OUT / "dating" / "title_years.json"; title_cache = json.loads(tf.read_text()) if tf.exists() else {}
     uniq = {j[5]: j[4] for j in jobs}
     print(f"{len(jobs)} rows, {len(uniq)} runs", flush=True)
+    check_baseline_provenance()
     picks, failed = {}, []
     for name, c in uniq.items():
         try:  # a failed call (a refusal, an API or OpenAlex error) skips this run; the runner's next pass retries it, the rest cached
             years = date_run(c, haiku, OUT / "dating" / name.replace(".json", ""), title_cache)
-            plain = rank(c["rank_input"], sonnet, OUT / f"rerank_{RANKER}" / name, c)  # the earlier Sonnet re-rank, cached
-            v2 = rank(dated_input(c, years), sonnet, OUT / "v2_rerank" / name, c)
+            plain = rank(c["rank_input"], sonnet, OUT / f"rerank_{RANKER}" / name, c, "plain")  # the earlier Sonnet re-rank, cached
+            v2 = rank(dated_input(c, years), sonnet, OUT / "v2_rerank" / name, c, "v2")
         except Exception as e:  # noqa: BLE001
             failed.append(name); print(f"failed {name}: {type(e).__name__}: {e}", flush=True)
             continue

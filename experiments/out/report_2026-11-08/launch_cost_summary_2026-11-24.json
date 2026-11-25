@@ -1,0 +1,17 @@
+{
+ "fallback_rate": 0.1,
+ "fallback_rate_measured": true,
+ "claude_with_retries": {
+  "A": 9.3,
+  "B": 15.09
+ },
+ "openalex_free_budget_with_retries": {
+  "A": 2.36,
+  "B": 6.8
+ },
+ "s2_calls_with_retries": {
+  "A": 23598,
+  "B": 64236
+ },
+ "paid_total_with_retries": 24.39
+}

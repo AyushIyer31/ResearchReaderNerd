@@ -32,7 +32,7 @@ from typing import Callable
 from pydantic import BaseModel, ConfigDict, Field
 
 from . import scholar
-from .analyze import RECENCY_RULE
+from .analyze import BASE_RANK_PROMPT, RANK_PROMPT, RECENCY_RULE
 from .catalogs import CatalogHit, search_all
 from .llm import ask, is_local_model
 from .pricing import Spend
@@ -651,7 +651,8 @@ def consider_benchmarks(
         rank_system = prompts.rank
     else:
         listing = "\n".join(f"[{i}] {c['name']} | {'; '.join(c['evidence'])}" for i, c in enumerate(candidates))
-        rank_system = prompts.rank.removesuffix(" " + RECENCY_RULE)
+        # the as-run prompt: the recency sentence removed (an edited prompt keeps its own text, minus that sentence)
+        rank_system = BASE_RANK_PROMPT if prompts.rank == RANK_PROMPT else prompts.rank.removesuffix(" " + RECENCY_RULE)
     rank_input = (f"{plan_input}\nField: {plan.field}\nThemes: {', '.join(plan.themes)}\n\n"
                   f"Candidates:\n{listing}")
     answer = ask(client, model=rank_model, effort=effort, system=rank_system,

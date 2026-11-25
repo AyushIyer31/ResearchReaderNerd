@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import os
+import random
 import re
 import threading
 import time
@@ -45,8 +46,54 @@ class ScholarError(Exception):
     """OpenAlex could not be reached or kept refusing requests."""
 
 
+FREE_GUARD_MARGIN = 0.02  # free budget kept in reserve by the request guard
+_FREE = {"read_at": 0.0, "remaining": None, "since": 0.0}
+_FREE_LOCK = threading.Lock()
+
+
+def _price(path: str, params: dict) -> float:
+    """OpenAlex's price for a request (rate-limit card of 13 Nov 2026): a work by id is free, a filter list $0.0001, a
+    search (the search parameter or a .search filter) $0.001."""
+    if "search" in params or ".search:" in str(params.get("filter", "")):
+        return 0.001
+    return 0.0 if path.startswith("/works/") else 0.0001
+
+
+class FreeBudgetSpent(Exception):
+    """RRN_OPENALEX_FREE_ONLY: the free daily budget cannot cover this request; it was not sent."""
+
+
+def _free_guard(path: str, params: dict) -> None:
+    """RRN_OPENALEX_FREE_ONLY=1 (launch runner): before each priced request, refuse it unless OpenAlex's free daily budget,
+    as last read from the rate-limit endpoint less what this process has spent since, covers it with a margin; refuse
+    everything if the key holds prepaid credit (the launch key holds none, so OpenAlex itself cannot bill beyond the free
+    budget). The budget is re-read every 20 s and whenever 2 cents have been spent since the last read."""
+    if os.environ.get("RRN_OPENALEX_FREE_ONLY") != "1":
+        return
+    price = _price(path, params)
+    if price == 0.0:
+        return
+    with _FREE_LOCK:
+        if _FREE["remaining"] is None or time.time() - _FREE["read_at"] > 20 or _FREE["since"] >= 0.02:
+            try:
+                r = httpx2.get(f"{API}/rate-limit", params={"api_key": os.environ.get("OPENALEX_API_KEY", "")}, timeout=20).json()["rate_limit"]
+            except Exception as e:  # noqa: BLE001  fail closed
+                raise FreeBudgetSpent(f"OpenAlex free budget could not be read ({type(e).__name__}); request not sent") from e
+            if (r.get("prepaid_remaining_usd") or 0) > 0:
+                raise FreeBudgetSpent("the OpenAlex key holds prepaid credit; the launch runs only with a key that holds none")
+            _FREE.update(read_at=time.time(), remaining=float(r["daily_remaining_usd"]), since=0.0)
+        if _FREE["remaining"] - _FREE["since"] < price + FREE_GUARD_MARGIN:
+            raise FreeBudgetSpent(f"OpenAlex free daily budget spent (${_FREE['remaining'] - _FREE['since']:.3f} left); request not sent")
+        _FREE["since"] += price
+
+
 def _get(path: str, params: dict | None = None, *, retries: int = 6) -> dict:
     params = dict(params or {})
+    try:
+        _free_guard(path, params)
+    except FreeBudgetSpent as e:
+        _ledger(path, params, kind="free_guard_refused", detail=str(e)[:120])
+        raise ScholarError(f"OpenAlex: {e}.") from e
     if os.environ.get("OPENALEX_API_KEY"):
         params["api_key"] = os.environ["OPENALEX_API_KEY"]
     if os.environ.get("OPENALEX_MAILTO"):
@@ -79,12 +126,14 @@ def _get(path: str, params: dict | None = None, *, retries: int = 6) -> dict:
     raise ScholarError(f"OpenAlex request failed ({error}).")
 
 
-def _s2_get(path: str, params: dict | None = None, *, retries: int = 6) -> dict:
+def _s2_get(path: str, params: dict | None = None, *, retries: int = 20) -> dict:
     """A Semantic Scholar Graph API response ({} when it has no such paper). Calls are spaced S2_GAP seconds apart
-    across threads; 429 and 5xx back off (honouring Retry-After). Raises ScholarError when it keeps refusing."""
+    across threads. A 429 (Semantic Scholar refuses part of the calls even below the keyed rate) is retried after a
+    short wait of 2-4 s, or Retry-After when given; a 5xx or network error backs off exponentially up to 30 s. Raises
+    ScholarError after `retries` refusals in a row."""
     params = dict(params or {})
     headers = {"x-api-key": os.environ["S2_API_KEY"]} if os.environ.get("S2_API_KEY") else {}
-    delay = 2.0
+    backoff = 2.0
     error = "no response"
     for attempt in range(retries + 1):
         with _S2_LOCK:
@@ -106,12 +155,14 @@ def _s2_get(path: str, params: dict | None = None, *, retries: int = 6) -> dict:
             error = f"HTTP {response.status_code}"
             if response.status_code not in (429, 500, 502, 503, 504):
                 break
-            retry_after = response.headers.get("Retry-After")
-            if retry_after and retry_after.isdigit():
-                delay = max(delay, float(retry_after))
-        if attempt < retries:
-            time.sleep(min(delay, 60))
-            delay *= 2
+        if attempt == retries:
+            break
+        retry_after = response.headers.get("Retry-After") if response is not None else None
+        if response is not None and response.status_code == 429:
+            pause = float(retry_after) if retry_after and retry_after.isdigit() else 2.0 + random.random() * 2.0
+        else:
+            pause, backoff = backoff, min(backoff * 2, 30.0)
+        time.sleep(min(pause, 60))
     raise ScholarError(f"Semantic Scholar request failed ({error}).")
 
 
