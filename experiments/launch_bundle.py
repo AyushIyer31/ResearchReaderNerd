@@ -101,7 +101,7 @@ Nothing has run. Every stage runs only through experiments/launch.py, and only a
 ## Changes after Harsh's review (24 Nov)
 
 1. **OpenAlex cannot be billed beyond its free budget.** The launch key holds no prepaid credit, so OpenAlex refuses rather than charges once the free $1 a day is spent; the runner refuses to start with a key that holds any. Each priced request is guarded in scholar.py (RRN_OPENALEX_FREE_ONLY): it is sent only if the free budget, re-read every 20 s or after 2 cents, less this process's spend since, covers it with a 2-cent margin. After every step and at the end of a stage the runner checks the prepaid balance; a stage that saw any prepaid charge is stopped, never complete. Tests: tests/test_launch_guards.py and the dry run.
-2. **The Claude cap is enforced before calls.** Before each call, llm.py counts its input tokens (Anthropic's free counting endpoint, plus an allowance for the output schema and 10%) and reserves its worst case, that input plus a full max_tokens of output at the model's card, in the stage's ledger; it refuses the call if spend plus open reservations plus this reserve would pass the cap the runner passes to the step (the stage cap and the $79 total, each less $0.50). A reservation counts in full until its response arrives, so a call in flight or a lost response is counted at its worst case; the SDK's own retries are off, so every attempt is reserved. Bound: spend at most equals the cap, since every billed call was reserved at an amount no lower than its cost before it was sent. If the input cannot be counted, the call is not sent.
+2. **The Claude cap is enforced before calls.** Before each call, llm.py counts its input tokens with Anthropic's free counting endpoint, the output schema included (counted with the same output format the call sends), adds 2% and 50 tokens since Anthropic calls the count an estimate, and reserves its worst case, that input plus a full max_tokens of output at the model's card (rounded up), in the stage's ledger; it refuses the call if spend plus open reservations plus this reserve would pass the cap the runner passes to the step (the stage cap and the $79 total, each less $0.50). A reservation counts in full until its response arrives, so a call in flight or a lost response is counted at its worst case; the SDK's own retries are off, so every attempt is reserved. Bound: spend at most equals the cap, since every billed call was reserved at an amount no lower than its cost before it was sent. If the input cannot be counted, the call is not sent.
 3. **The bundle is complete and verifiable** (above), with the tests, and the repository commit identifies it.
 4. **Stage A's two rankings use separate prompts with recorded provenance.** The baseline ('Sonnet, no years') uses BASE_RANK_PROMPT, the as-run prompt without the recency sentence (sha256 c6d4434f...); the v2 rerank uses it with the sentence. The 342 cached baseline reranks were made by sonnet_rerank.py, whose manifest records that exact prompt; stage A refuses to run if it differs. Every new rerank records its prompt's sha256, and a cached rerank from the other prompt is refused.
 5. **Funding:** Claude calls are covered by the existing Anthropic account; no other funding is needed for stages A and B.
@@ -133,7 +133,13 @@ Settled on 14 Nov by the 12 Nov availability rule (decisions/truth_decisions_202
     sums = [f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(DEST)}" for p in sorted(DEST.rglob("*")) if p.is_file()]
     (DEST / "SHA256SUMS").write_text("\n".join(sums) + "\n")
     z = shutil.make_archive(str(DEST), "zip", root_dir=REPORT, base_dir=DEST.name)
-    zc = shutil.make_archive(str(CACHE_DEST), "zip", root_dir=REPORT, base_dir=CACHE_DEST.name)
+    # the caches unpack into the same launch_2026-11-24/ResearchReaderNerd/ tree as the main archive
+    stage = REPORT / "_cache_stage"
+    if stage.exists():
+        shutil.rmtree(stage)
+    shutil.copytree(CACHE_DEST, stage / DEST.name)
+    zc = shutil.make_archive(str(CACHE_DEST), "zip", root_dir=stage, base_dir=DEST.name)
+    shutil.rmtree(stage)
     print(z, f"{Path(z).stat().st_size / 1e6:.1f} MB", f"{len(sums)} files")
     print(zc, f"{Path(zc).stat().st_size / 1e6:.1f} MB")
 

@@ -87,7 +87,12 @@ def test_the_guard_is_off_outside_the_launch(monkeypatch):
 
 class FakeClaude:
     def __init__(self, tokens=1000):
-        self.messages = types.SimpleNamespace(count_tokens=lambda **kw: types.SimpleNamespace(input_tokens=tokens))
+        self.seen = []
+
+        def count(**kw):
+            self.seen.append(kw)
+            return types.SimpleNamespace(input_tokens=tokens)
+        self.beta = types.SimpleNamespace(messages=types.SimpleNamespace(count_tokens=count))
 
 
 class Schema(llm.BaseModel):
@@ -130,7 +135,7 @@ def test_uncountable_input_means_the_call_is_not_sent(tmp_path, monkeypatch):
     monkeypatch.setenv("RRN_SPEND_CAP_USD", "5")
 
     class Broken:
-        messages = types.SimpleNamespace(count_tokens=lambda **kw: (_ for _ in ()).throw(llm.anthropic.APIConnectionError(request=None)))
+        beta = types.SimpleNamespace(messages=types.SimpleNamespace(count_tokens=lambda **kw: (_ for _ in ()).throw(llm.anthropic.APIConnectionError(request=None))))
     with pytest.raises(llm.SpendCapError, match="Could not count"):
         llm._reserve(Broken(), model="claude-haiku-5-5", system="s", content=[{"type": "text", "text": "t"}], schema=Schema, max_tokens=100)
 
@@ -184,3 +189,14 @@ def test_a_cached_rerank_from_the_other_prompt_is_refused(v2, tmp_path):
     with pytest.raises(RuntimeError):
         v2.rank("t", None, f, {"candidates": ["A"]}, "v2")
     assert v2.rank("t", None, f, {"candidates": ["A"]}, "plain") == ["A"]
+
+
+def test_the_count_includes_the_output_schema_exactly(tmp_path, monkeypatch):
+    monkeypatch.setenv("RRN_SPEND_LEDGER", str(tmp_path / "spend.jsonl"))
+    monkeypatch.setenv("RRN_SPEND_CAP_USD", "5")
+    fake = FakeClaude(436)
+    llm._reserve(fake, model="claude-haiku-5-5", system="s", content=[{"type": "text", "text": "t"}], schema=Schema, max_tokens=100)
+    assert fake.seen[0]["output_config"] == {"format": llm.output_format(Schema)}, "counted with the same format the call sends"
+    reserved = json.loads((tmp_path / "spend.jsonl").read_text().splitlines()[0])["usd"]
+    worst = llm.worst_case_usd("claude-haiku-5-5", int(436 * 1.02) + 50, 100)
+    assert worst <= reserved < worst + 1e-6, "reserved at the worst case, rounded up"

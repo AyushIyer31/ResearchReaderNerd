@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import base64
 import json
+import math
 import os
 from dataclasses import dataclass, field
 from typing import Generic, TypeVar
@@ -290,20 +291,23 @@ def worst_case_usd(model: str, input_tokens: int, max_tokens: int) -> float:
     return cost
 
 
+COUNT_MARGIN = (1.02, 50)  # the count is the API's own; 2% and 50 tokens on top, since Anthropic calls the count an estimate
+
+
 def _count_input(client, *, model: str, system: str, content: list[dict], schema) -> int:
-    """Input tokens of a call, counted by the API (free), plus an allowance for the output schema, which the count does
-    not include: twice the schema's characters' worth of tokens plus 1,000, and 10% on top."""
+    """Input tokens of a call as the API counts them (its free counting endpoint), the structured-output schema included
+    (counted with the same output_config format the call sends), plus COUNT_MARGIN."""
     last = None
     for _ in range(3):
         try:
-            n = client.messages.count_tokens(model=model, system=system, messages=[{"role": "user", "content": content}]).input_tokens
+            n = client.beta.messages.count_tokens(model=model, system=system, messages=[{"role": "user", "content": content}],
+                                                  output_config={"format": output_format(schema)}).input_tokens
             break
         except anthropic.APIError as e:  # noqa: PERF203
             last = e
     else:
         raise SpendCapError(f"Could not count the input tokens before a capped call ({last}); not sent.")
-    schema_chars = len(json.dumps(output_format(schema)))
-    return int((n + schema_chars // 2 + 1000) * 1.1)
+    return int(n * COUNT_MARGIN[0]) + COUNT_MARGIN[1]
 
 
 def _reserve(client, *, model: str, system: str, content: list[dict], schema, max_tokens: int) -> str | None:
@@ -323,7 +327,7 @@ def _reserve(client, *, model: str, system: str, content: list[dict], schema, ma
         rid = uuid.uuid4().hex
         with open(path, "a") as f:
             f.write(json.dumps({"t": datetime.now(timezone.utc).isoformat(timespec="seconds"), "kind": "reserve", "id": rid,
-                                "model": model, "usd": round(worst, 6)}) + "\n")
+                                "model": model, "usd": math.ceil(worst * 1e6) / 1e6}) + "\n")  # rounded up, never down
     return rid
 
 
