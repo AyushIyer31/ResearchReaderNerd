@@ -1,0 +1,114 @@
+{
+ "benchmarks": [
+  {
+   "name": "Not explicitly detailed",
+   "aliases": [
+    "Not explicitly detailed"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "SceneNN",
+   "aliases": [
+    "SceneNN"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "to generate a mesh model for the scene. Figure 4 shows a reconstruction produced by this pipeline for a scene from the SceneNN dataset [10]. The visualiza- tion was also done via Open3D. 4. Optimization Open3D was engineered for high performance."
+  },
+  {
+   "name": "Tanks and Temples",
+   "aliases": [
+    "Tanks and Temples",
+    "Tanks and Temples evaluation server"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "used in a number of published research projects [22, 13, 15, 12]. It has been deployed and is currently running in the Tanks and Temples evaluation server [13]. Open3D is released open-source under the permissive MIT license and is available at http://www."
+  },
+  {
+   "name": "ICP runtime comparison with PCL",
+   "aliases": [
+    "ICP runtime comparison with PCL"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "Reconstruction runtime comparison with Choi et al.",
+   "aliases": [
+    "Reconstruction pipeline runtime comparison with Choi et al.",
+    "Reconstruction runtime comparison with Choi et al."
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "OpenMP parallelization speedup",
+   "aliases": [
+    "OpenMP parallelization speedup"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Not explicitly detailed",
+   "task": ""
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SceneNN",
+   "task": "Qualitative indoor scene reconstruction shown as an example output of the Open3D reconstruction pipeline"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Tanks and Temples evaluation server",
+   "task": "Large-scale scene reconstruction evaluation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ICP runtime comparison with PCL",
+   "task": "Runtime comparison of ICP registration against the Point Cloud Library"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Reconstruction pipeline runtime comparison with Choi et al.",
+   "task": "Runtime of the scene reconstruction pipeline"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OpenMP parallelization speedup",
+   "task": "Runtime of parallelized Open3D backend functions"
+  }
+ ],
+ "checked_by_author": true
+}

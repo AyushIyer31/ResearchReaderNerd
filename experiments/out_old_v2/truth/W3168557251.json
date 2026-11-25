@@ -1,0 +1,96 @@
+{
+ "benchmarks": [
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "posed to mitigate this problem, training SNN from scratch still lacks the scalability to obtain an effective SNN on the ImageNet dataset. Another notable problem is the tremen- dous resources required to complete the training process. The binary ac"
+  },
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10",
+    "CIFAR10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "for energy-efﬁcient object detection. arXiv preprint arXiv:1903.06530, 2019. Krizhevsky, A., Nair, V ., and Hinton, G. Cifar-10 (canadian institute for advanced research). URL http://www. cs.toronto.edu/˜kriz/cifar.html. LI, S.-L. and LI, J.-P. Re"
+  },
+  {
+   "name": "CIFAR-100",
+   "aliases": [
+    "CIFAR-100",
+    "CIFAR100"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "wise calibration. In all ablation experiments, we test VGG-16 and ResNet-20 (Sengupta et al., 2018; Han et al., 2020)on CIFAR100. We also conduct variance studies by running 5 times with different random seeds and report the mean and standard devia"
+  },
+  {
+   "name": "ImageNet AvgPool conversion ablation",
+   "aliases": [
+    "ImageNet AvgPool conversion ablation",
+    "ImageNet ablation: AvgPool conversion (Appendix B)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "ImageNet",
+   "task": "Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": "Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-100",
+   "task": "Classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR10",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR100",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet ablation: AvgPool conversion (Appendix B)",
+   "task": "image classification ablation"
+  }
+ ],
+ "checked_by_author": true
+}

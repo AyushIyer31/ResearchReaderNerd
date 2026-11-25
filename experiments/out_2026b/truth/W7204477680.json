@@ -1,0 +1,160 @@
+{
+ "benchmarks": [
+  {
+   "name": "BloodMNIST",
+   "aliases": [
+    "Acevedo (PBC) via BloodMNIST@224",
+    "BloodMNIST",
+    "BloodMNIST@224 (MedMNIST v2)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "to one pseudo-class we fall back to the source standard deviation. 4 Experimental setup Source: Acevedo (PBC) [14] via BloodMNIST@224 [24] (CellaVision DM96), 10,298 WBC images. Targets (zero-shot): MLL23/Metafer [17], Matek- LMU/M8 [16], Raabin [15",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 4, \\\"Source: Acevedo (PBC) [14] via BloodMNIST@224 [24]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MLL23",
+   "aliases": [
+    "MLL23",
+    "MLL23 / Metafer"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "1 drops 34–72% and rankings re-order: DinoBloom-L, the in-domain best, falls to 10th of 15 on the most- shifted target (MLL23) at the benchmark’s shared 224-px input, while RedDino and several general and pathology encoders outrank it. Rank tran",
+   "year": 2023,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 4, \\\"Targets (zero-shot): MLL23/Metafer [17]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Matek",
+   "aliases": [
+    "Matek",
+    "Matek / MatekLMU (M8)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "vedo (PBC) [14] via BloodMNIST@224 [24] (CellaVision DM96), 10,298 WBC images. Targets (zero-shot): MLL23/Metafer [17], Matek- LMU/M8 [16], Raabin [15] (smartphone+Olympus).Encoders(15 frozen; families and full names in Table 1): DinoBloom [1],",
+   "year": 2019,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2019,
+    "where": "Section 4, \\\"Matek-LMU/M8 [16]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Raabin",
+   "aliases": [
+    "Raabin"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "BloodMNIST@224 [24] (CellaVision DM96), 10,298 WBC images. Targets (zero-shot): MLL23/Metafer [17], Matek- LMU/M8 [16], Raabin [15] (smartphone+Olympus).Encoders(15 frozen; families and full names in Table 1): DinoBloom [1], RedDino [2], Phikon [",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 4, \\\"Raabin [15]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MLL23 diagnostic ablations",
+   "aliases": [
+    "MLL23 diagnostic ablations",
+    "Scanner-subspace and per-class MLL23 analyses (ablations)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 5, \\\"Scanner-subspace and per-class MLL23 analyses\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Acevedo (PBC) via BloodMNIST@224",
+   "task": "Five-class white-blood-cell classification (source domain, in-domain evaluation)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MLL23 / Metafer",
+   "task": "Five-class white-blood-cell classification (zero-shot cross-dataset target; described as most-shifted target)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Matek / MatekLMU (M8)",
+   "task": "Five-class white-blood-cell classification (zero-shot cross-dataset target, smaller shift)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Raabin",
+   "task": "Five-class white-blood-cell classification (zero-shot cross-dataset target, smartphone+Olympus acquisition, mid shift)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BloodMNIST@224 (MedMNIST v2)",
+   "task": "Data access / preprocessing source for the Acevedo source domain"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Scanner-subspace and per-class MLL23 analyses (ablations)",
+   "task": "Mechanism and diagnostic ablations on the MLL23 target (scanner decodability, scanner-direction projection, per-class confusion)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

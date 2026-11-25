@@ -1,0 +1,246 @@
+{
+ "benchmarks": [
+  {
+   "name": "WildChat",
+   "aliases": [
+    "WildChat",
+    "WildChat-1M (WC-1M)",
+    "WildChat-4.8M (WC-4.8M)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "antresponse] 1 2 3 4 5 6 7 9 8 Figure 1:Can you identify the source dataset?Nine example conversations, three each from WildChat-1M (Zhao et al., 2024), LMSYS-Chat-1M (Zheng et al., 2024), and HH-RLHF (Bai et al., 2022). On this three-way task, a n",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 2.1, \\\"WildChat-1M (Zhao et al., 2024)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LMSYS-Chat-1M",
+   "aliases": [
+    "LMSYS-Chat-1M",
+    "LMSYS-Chat-1M (LMSYS)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "gure 1:Can you identify the source dataset?Nine example conversations, three each from WildChat-1M (Zhao et al., 2024), LMSYS-Chat-1M (Zheng et al., 2024), and HH-RLHF (Bai et al., 2022). On this three-way task, a neural classifier identifies the source",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 2.1, \\\"LMSYS-Chat-1M (Zheng et al., 2024)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Arena Human Preference 140K",
+   "aliases": [
+    "Arena Human Preference 140K",
+    "Arena Human Preference 140K (Arena)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "d corpus contains conversation logs, without the human preference labels available in a separate Chatbot Arena dataset. Arena Human Preference 140Kextends the collection setting of LMSYS-Chat-1M by pairing user–model interactions with explicit human preference judgme",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 2.1, \\\"Arena Human Preference 140K extends the collection setting of LMSYS-Chat-1M\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ShareChat",
+   "aliases": [
+    "ShareChat"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "), participation in the model comparison platform Chatbot Arena (Zheng et al., 2024), public sharing of chat history in ShareChat (Yan et al., 2025), and paid interaction under task instructions (Bai et al., 2022) capture data through different proc",
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 2.1, \\\"public sharing of chat history in ShareChat (Yan et al., 2025)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ShareGPT",
+   "aliases": [
+    "ShareGPT",
+    "ShareGPT (ShareGPT_Vicuna_unfiltered snapshot)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "(Yan et al., 2025) Publicly shared conversations retrieved from chatbot platforms. <REDACTED>,<URL>, <DATE_TIME>(50.2%) ShareGPT User-shared ChatGPT history from ShareGPT.com. We use ShareGPT_Vicuna_unfiltered snapshot. - HH-RLHF (Bai et al., 2022)",
+   "year": 2023,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 2.1, \\\"User-shared ChatGPT history from ShareGPT.com.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "HH-RLHF",
+   "aliases": [
+    "HH-RLHF"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "et?Nine example conversations, three each from WildChat-1M (Zhao et al., 2024), LMSYS-Chat-1M (Zheng et al., 2024), and HH-RLHF (Bai et al., 2022). On this three-way task, a neural classifier identifies the source with 83% overall accuracy and ass",
+   "year": 2022,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 2.1, \\\"HH-RLHF (Bai et al., 2022)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "GSM8K",
+   "aliases": [
+    "GSM8K"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "t may depend on which dataset trained its simulated users. Tasks with verifiable answers.We take 100 math problems from GSM8K (Cobbe et al., 2021) and 100 programming problems from HumanEval (Chen et al., 2021). Each user model receives a proble",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 3, \\\"GSM8K (Cobbe et al., 2021)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "HumanEval",
+   "aliases": [
+    "HumanEval"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "sks with verifiable answers.We take 100 math problems from GSM8K (Cobbe et al., 2021) and 100 programming problems from HumanEval (Chen et al., 2021). Each user model receives a problem as its conversation intent and simulates five conversations per",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 3, \\\"HumanEval (Chen et al., 2021)\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "WildChat-1M (WC-1M)",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "WildChat-4.8M (WC-4.8M)",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LMSYS-Chat-1M (LMSYS)",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Arena Human Preference 140K (Arena)",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ShareChat",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ShareGPT (ShareGPT_Vicuna_unfiltered snapshot)",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HH-RLHF",
+   "task": "Dataset source classification; user-model evaluation by per-token perplexity on the test split"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GSM8K",
+   "task": "Task success of LLM assistants in simulated conversations with user models"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HumanEval",
+   "task": "Task success of LLM assistants in simulated conversations with user models (code generation)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

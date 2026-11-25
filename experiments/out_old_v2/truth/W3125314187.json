@@ -1,0 +1,158 @@
+{
+ "benchmarks": [
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10",
+    "CIFAR-10 as in-distribution, OOD detection"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "en better than supervised training based detection methods. We validate our observation across four different datasets: CIFAR-10, CIFAR-100, STL-10, and ImageNet. Extensions of SSD. We provide two extensions of SSD to further improve its performanc"
+  },
+  {
+   "name": "CIFAR-100",
+   "aliases": [
+    "CIFAR-100",
+    "CIFAR-100 as in-distribution, OOD detection"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "than supervised training based detection methods. We validate our observation across four different datasets: CIFAR-10, CIFAR-100, STL-10, and ImageNet. Extensions of SSD. We provide two extensions of SSD to further improve its performance. First, w"
+  },
+  {
+   "name": "STL-10",
+   "aliases": [
+    "STL-10",
+    "STL-10 as in-distribution, OOD detection"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ised training based detection methods. We validate our observation across four different datasets: CIFAR-10, CIFAR-100, STL-10, and ImageNet. Extensions of SSD. We provide two extensions of SSD to further improve its performance. First, we formul"
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet",
+    "ImageNet as in-distribution, OOD detection"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "g based detection methods. We validate our observation across four different datasets: CIFAR-10, CIFAR-100, STL-10, and ImageNet. Extensions of SSD. We provide two extensions of SSD to further improve its performance. First, we formulate few-shot O"
+  },
+  {
+   "name": "CIFAR-10 one-class anomaly detection",
+   "aliases": [
+    "CIFAR-10 one-class anomaly detection"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "SVHN",
+   "aliases": [
+    "SVHN"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "SD with different outlier detectors using only unlabeled training data. In-distribution (Out-of-distribution) CIFAR-10 (SVHN) CIFAR-10 (CIFAR-100) CIFAR-100 (SVHN) CIFAR-100 (CIFAR-10) Average Autoencoder (Hawkins et al., 2002) 2.5 51.3 3.0 51.",
+   "added_by_author": true
+  },
+  {
+   "name": "Describable Textures Dataset",
+   "aliases": [
+    "Describable Textures Dataset",
+    "Describable Textures Dataset (DTD)"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "beled images. Unlike the previous three datasets, the size of its images is 96×96 pixels. • DTD (Cimpoi et al., 2014) . Describable Textures Dataset (DTD) is a collection of textural images in the wild. It includes a total of 5,640 images, split equally between 47 cat",
+   "added_by_author": true
+  },
+  {
+   "name": "Places365",
+   "aliases": [
+    "Places365"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "8 75.5 85.7 84.5 Blobs 98.8 99.9 99.7 100.0 Blobs 96.4 88.6 96.5 99.9 LSUN 96.5 93.8 97.6 97.8 LSUN 88.8 66.8 94.1 94.5 Places365 95.2 92.7 96.7 97.3 Places365 88.3 64.9 95.4 95.6 CIFAR-100 CIFAR-10 69.6 55.3 74.8 78.3 ImageNet SVHN 99.1 99.4 99.7 1",
+   "added_by_author": true
+  },
+  {
+   "name": "LSUN",
+   "aliases": [
+    "LSUN"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "98.7 99.4 Texture 97.6 97.8 98.9 99.4 Texture 85.8 75.5 85.7 84.5 Blobs 98.8 99.9 99.7 100.0 Blobs 96.4 88.6 96.5 99.9 LSUN 96.5 93.8 97.6 97.8 LSUN 88.8 66.8 94.1 94.5 Places365 95.2 92.7 96.7 97.3 Places365 88.3 64.9 95.4 95.6 CIFAR-100 CIFA",
+   "added_by_author": true
+  },
+  {
+   "name": "ImageNet-O",
+   "aliases": [
+    "ImageNet-O"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "Blobs 99.5 98.4 100.0 100.0 Blobs 98.1 57.3 98.1 100.0 Gaussian Noise 100.0 100.0 100.0 100.0 LSUN 79.5 69.4 92.3 93.4 ImageNet-O 45.2 75.5 89.4 93.3 Places365 79.6 62.6 90.7 92.7 Table 3: Comparison of SSD with other detectors for anomaly detection",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": "OOD Detection"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10 as in-distribution, OOD detection",
+   "task": "Out-of-distribution detection with CIFAR-10 as in-distribution data"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-100 as in-distribution, OOD detection",
+   "task": "Out-of-distribution detection with CIFAR-100 as in-distribution data"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "STL-10 as in-distribution, OOD detection",
+   "task": "Out-of-distribution detection with STL-10 as in-distribution data"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet as in-distribution, OOD detection",
+   "task": "Out-of-distribution detection with ImageNet as in-distribution data"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10 one-class anomaly detection",
+   "task": "Anomaly detection with one CIFAR-10 class as inliers and the other classes as anomalies"
+  }
+ ],
+ "checked_by_author": true
+}

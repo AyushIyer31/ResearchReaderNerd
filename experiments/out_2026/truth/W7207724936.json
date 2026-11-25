@@ -1,0 +1,72 @@
+{
+ "benchmarks": [
+  {
+   "name": "Paper2CodeBench",
+   "aliases": [
+    "Paper2CodeBench",
+    "Paper2CodeExtra (P2C-Ex)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "aining flexibility over local engineering choices not fixed by the paper. PaperCompiler outperforms strong baselines on Paper2CodeBench, achieving a 13.8% relative improvement in reference-based fi- delity (3.64→4.15) and reducing high-severity evaluator",
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Abstract / Section 1, \\\"PaperCompiler outperforms strong baselines on Paper2CodeBench\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Nine-paper ablation subset",
+   "aliases": [
+    "Nine-paper ablation subset"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4, nine-paper subset used for ablation study",
+    "gemini_note": "Ablation study subset, not a standalone benchmark dataset."
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Paper2CodeBench",
+   "task": "Paper-to-code repository generation, evaluated against the source paper alone (reference-free), against the author repository (reference-based), and under the P2C-Ex protocol"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Paper2CodeExtra (P2C-Ex)",
+   "task": "Finer-grained reference-free evaluation of generated paper-to-code repositories"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Nine-paper ablation subset",
+   "task": "Ablation of PaperCompiler components (Reconciliation, Context Slicing, Contracting) on end-to-end regenerated repositories"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

@@ -1,0 +1,126 @@
+{
+ "benchmarks": [
+  {
+   "name": "CocoGlide",
+   "aliases": [
+    "CocoGlide"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ddingE=E(I) and prompt embeddingsH i =H(Q i) [page 7] SegWave: Wavelet-Driven Segmentation of Tampered Regions 7 Model CocoGlide Columbia RealT amper Prior CAT-Net v2 [26] 0.43 / 0.60 0.86 / 0.92 0.14 / 0.24 TruFor [15] 0.52 / 0.72 0.86 / 0.91 0.43",
+   "year": 2022,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 4 / Table 1, \\\"We evaluate on four benchmarks held out from training: RealisticTampering [24] (220 images), CocoGlide [15, 29, 31] (512 images)...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Columbia",
+   "aliases": [
+    "Columbia"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ") and prompt embeddingsH i =H(Q i) [page 7] SegWave: Wavelet-Driven Segmentation of Tampered Regions 7 Model CocoGlide Columbia RealT amper Prior CAT-Net v2 [26] 0.43 / 0.60 0.86 / 0.92 0.14 / 0.24 TruFor [15] 0.52 / 0.72 0.86 / 0.91 0.43 / 0.53 S",
+   "year": 2006,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2006,
+    "where": "Section 4 / Table 1, \\\"Columbia [19] (180 images)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "RealisticTampering",
+   "aliases": [
+    "RealisticTampering"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "13] and FantasticRe- ality [23], contributing 2,000 images each. We evaluate on four benchmarks held out from training: RealisticTampering [24] (220 images), CocoGlide [15, 29, 31] (512 images), Columbia [19] (180 images), and SafireMS-Expert [25] (238 im- a",
+   "year": 2016,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2016,
+    "where": "Section 4 / Table 1, \\\"RealisticTampering [24] (220 images)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "SafireMS-Expert",
+   "aliases": [
+    "SafireMS-Expert",
+    "SafireMS"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "421 0.568 SegWaveDCT 0.393 0.513 SegWave w/o ASA 0.419 0.587 SegW ave 0.422 0.577 T able 2.Multi-source partitioning on SafireMS-Expert [25] with 2, 3, and 4 source regions. p mIoU (Permuted mean IoU) and p ARI (Adjusted Rand Index), perKwon et al.[25]. G",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rekind",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 4 / Table 1 & Table 2, \\\"and SafireMS-Expert [25] (238 images)\\\"",
+    "gemini_note": "Public benchmark introduced in prior work (Kwon et al. [25])."
+   },
+   "year": 2024,
+   "year_source": "arxiv",
+   "kind_note": "2026-11-11: Table 2 reports on SafireMS-Expert [25] from Kwon et al., SAFIRE arXiv 2412.08197 (Dec 2024); was kind own"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CocoGlide",
+   "task": "Binary-source tampering localization"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Columbia",
+   "task": "Binary-source tampering localization"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RealisticTampering",
+   "task": "Binary-source tampering localization"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SafireMS-Expert",
+   "task": "Multi-source partitioning (2, 3 and 4 source regions)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

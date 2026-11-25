@@ -1,0 +1,66 @@
+{
+ "benchmarks": [
+  {
+   "name": "S3DIS",
+   "aliases": [
+    "S3DIS",
+    "Stanford Large-Scale 3D Indoor Spaces (S3DIS)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "work. Experimental results show that our architecture based on PointSIFT module outperforms state-of-the-art methods on S3DIS[1] (relative 12% improvement) and ScanNet[6] dataset(relative 8.4% mean IoU improvement). 2. Related Work Deep learning"
+  },
+  {
+   "name": "ScanNet",
+   "aliases": [
+    "ScanNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "architecture based on PointSIFT module outperforms state-of-the-art methods on S3DIS[1] (relative 12% improvement) and ScanNet[6] dataset(relative 8.4% mean IoU improvement). 2. Related Work Deep learning on 3D data is a growing ﬁeld of research."
+  },
+  {
+   "name": "ShapeNet-part",
+   "aliases": [
+    "ShapeNet-part"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": false,
+   "snippet": null,
+   "added_by_author": true,
+   "note": "added in the hand check but the name does not occur in the paper's text; held back pending confirmation"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "S3DIS",
+   "task": "Semantic Segmentation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ScanNet",
+   "task": "Semantic Segmentation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ScanNet",
+   "task": "3D scene point cloud semantic segmentation (per-voxel labeling)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Stanford Large-Scale 3D Indoor Spaces (S3DIS)",
+   "task": "3D indoor scene point cloud semantic segmentation (13 categories)"
+  }
+ ],
+ "checked_by_author": true
+}

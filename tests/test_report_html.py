@@ -43,16 +43,9 @@ def test_same_method_from_two_locations_gets_two_rows():
     assert html.count('<tr class="proposed"><td>SampleNet</td>') == 2
 
 
-def test_assumptions_ranked_with_inferred_tag():
-    html = render()
-    assert "top 2, most important first · 1 stated, 1 inferred" in html
-    assert html.index('<span class="rank">1</span>Training and test data') < html.index('<span class="rank">2</span>Noise is Gaussian')
-    assert 'class="tag inferred">Inferred' in html
-
-
 def test_sections_collapsible_with_benchmarks_closed():
     html = render()
-    assert html.count('<details class="sec">') == 4  # summary, R1, R2, caveats: all collapsed until clicked
+    assert html.count('<details class="sec">') == 3  # summary, R2, caveats: all collapsed until clicked
     assert '<details class="sec" open>' not in html
     assert '<details class="sub"><summary><span class="twisty" aria-hidden="true"></span><h3>ToyBench</h3><span class="sum-meta">classification · 2 rows' in html
     assert 'data-open="0">Collapse all' in html

@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date
 from html import escape
 
-from .schema import Assumption, Benchmark, PaperAnalysis
+from .schema import Benchmark, PaperAnalysis
 
 STYLE = """
 /* Layout: one reading column; results tables scroll sideways inside their own box. */
@@ -61,9 +61,6 @@ details > summary:hover h2, details > summary:hover h3 { color: var(--accent); }
 .lede { font-size: 1.1rem; }
 .method { color: var(--muted); }
 .method strong { color: var(--ink); }
-ol.assumptions { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
-ol.assumptions li { display: grid; gap: .35rem; padding-left: 1rem; border-left: 2px solid var(--rule); }
-ol.assumptions li.implicit { border-left-color: var(--inferred); }
 .statement { font-weight: 600; }
 .rank { font: 500 .85rem var(--data); color: var(--accent); margin-right: .6rem; }
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; font: .78rem var(--data); }
@@ -126,8 +123,6 @@ def render_html(
 ) -> str:
     """Return the report as HTML. standalone=False omits the <!doctype>/<html> wrapper."""
     today = today or date.today()
-    stated = [a for a in analysis.assumptions if a.kind == "explicit"]
-    inferred = [a for a in analysis.assumptions if a.kind == "implicit"]
     e = escape
 
     parts = [
@@ -141,8 +136,7 @@ def render_html(
         f"<h1>{e(analysis.title)}</h1>",
         f'<p class="authors">{e(", ".join(analysis.authors) or "Authors not listed")}</p>',
         f'<div class="meta">{_link(source)} · generated {today.isoformat()} with {e(model)}</div>',
-        f'<div class="counts">{len(analysis.assumptions)} assumptions ({len(stated)} stated, '
-        f"{len(inferred)} inferred) · {len(analysis.benchmarks)} benchmarks · {len(analysis.caveats)} caveats</div>",
+        f'<div class="counts">{len(analysis.benchmarks)} benchmarks · {len(analysis.caveats)} caveats</div>',
         '<div class="toggles"><button type="button" data-open="1">Expand all</button>'
         '<button type="button" data-open="0">Collapse all</button></div>',
         "</header>",
@@ -152,7 +146,6 @@ def render_html(
             f'<p class="method">Proposed method: <strong>{e(analysis.proposed_method)}</strong></p>',
             meta=e(analysis.proposed_method),
         ),
-        _assumptions_html(analysis.assumptions),
         _benchmarks_html(analysis.benchmarks, analysis.proposed_method),
     ]
     if consideration is not None:
@@ -166,8 +159,8 @@ def render_html(
             )
         )
     parts += [
-        "<footer>Everything in this report was extracted from the paper alone. Inferred assumptions are the "
-        "model's reading of the paper; check each quote against its location before relying on it.</footer>",
+        "<footer>Everything in this report was extracted from the paper alone. Check each number against "
+        "the table it is attributed to before relying on it.</footer>",
         "</main>",
         f"<script>{SCRIPT}</script>",
     ]
@@ -202,21 +195,6 @@ def _link(source: str) -> str:
     return escape(source)
 
 
-def _assumption_li(a: Assumption, rank: int) -> str:
-    e = escape
-    tags = [f'<span class="tag">{e(a.location)}</span>', f'<span class="tag">{e(a.category.replace("_", " "))}</span>']
-    if a.kind == "implicit":
-        tags.insert(0, '<span class="tag inferred">Inferred</span>')
-    return (
-        f'<li class="{a.kind}">'
-        f'<div class="statement"><span class="rank">{rank}</span>{e(a.statement)}</div>'
-        f'<div class="tags">{"".join(tags)}</div>'
-        f"<blockquote>“{e(a.evidence)}”</blockquote>"
-        f'<p class="why"><b>Why it matters:</b> {e(a.why_it_matters)}</p>'
-        "</li>"
-    )
-
-
 def _sub(title: str, body: str, *, meta: str = "", open: bool = False) -> str:
     """A collapsible group inside a section."""
     return (
@@ -225,15 +203,6 @@ def _sub(title: str, body: str, *, meta: str = "", open: bool = False) -> str:
         f'<span class="sum-meta">{meta}</span></summary>'
         f'<div class="sub-body">{body}</div></details>'
     )
-
-
-def _assumptions_html(assumptions: list[Assumption]) -> str:
-    if not assumptions:
-        return _section("Assumptions", "<p>No assumptions were identified.</p>", qid="R1", meta="none found")
-    inferred = sum(a.kind == "implicit" for a in assumptions)
-    items = '<ol class="assumptions">' + "".join(_assumption_li(a, i) for i, a in enumerate(assumptions, 1)) + "</ol>"
-    meta = f"top {len(assumptions)}, most important first · {len(assumptions) - inferred} stated, {inferred} inferred"
-    return _section("Assumptions", items, qid="R1", meta=meta)
 
 
 def _results_table(b: Benchmark) -> str:
@@ -287,7 +256,9 @@ def _benchmarks_html(benchmarks: list[Benchmark], proposed_method: str) -> str:
 
 
 def _consider_html(c) -> str:
+    from .consider import SETTINGS
     e = escape
+    setting = f'<p class="legend"><strong>Setting.</strong> {e(SETTINGS[c.mode])}</p>' if c.mode in SETTINGS else ""
     if c.suggestions:
         items = []
         for i, sug in enumerate(c.suggestions, 1):
@@ -299,10 +270,10 @@ def _consider_html(c) -> str:
                 f'<div class="found">{chips}</div><p class="why">{e(sug.why)}</p>'
                 f'<ul class="evidence">{evidence}{links}</ul></li>'
             )
-        body = f'<p class="legend">Benchmarks this paper did not use that fit its task ({e(c.field)}), most useful first.</p>'
+        body = setting + f'<p class="legend">Benchmarks this paper did not use that fit its task ({e(c.field)}), most useful first.</p>'
         body += '<ol class="suggestions">' + "".join(items) + "</ol>"
     else:
-        body = "<p>No suggestions this time.</p>"
+        body = setting + "<p>No suggestions this time.</p>"
 
     users = []
     for u in c.used_by:
@@ -318,7 +289,8 @@ def _consider_html(c) -> str:
     how = (f"<dl><dt>Themes</dt><dd>{e(', '.join(c.themes))}</dd>"
            f"<dt>Catalog searches</dt><dd>{e(', '.join(c.catalog_queries))}</dd>"
            f"<dt>Read</dt><dd>{c.stats.get('papers_read', 0)} related papers' titles and abstracts "
-           f"({c.stats.get('references', 0)} references), {c.stats.get('catalog_hits', 0)} catalog hits</dd>"
+           f"({c.stats.get('references', 0)} references, {c.stats.get('citing_papers', 0)} citing papers, "
+           f"{c.stats.get('topic_papers', 0)} topic papers), {c.stats.get('catalog_hits', 0)} catalog hits</dd>"
            f"<dt>Bibliographies</dt><dd>Checked the {c.stats.get('cited_works_checked', 0)} papers the related papers "
            f"cite most; {c.stats.get('dataset_papers', 0)} introduce a benchmark not used here</dd></dl>")
     if c.notes:

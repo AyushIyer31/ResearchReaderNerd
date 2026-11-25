@@ -1,0 +1,131 @@
+{
+ "benchmarks": [
+  {
+   "name": "Terminal-Bench",
+   "aliases": [
+    "Terminal-Bench",
+    "Terminal-Bench 2.1",
+    "TerminalBench-Lite"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "042.52 +2.04 /61.22 +1.02 – TerminalBench-Lite Nemotron3.5 Lightning Terminus-2 41.16 / 55.1043.20 +2.04 /58.16 +3.06 – Terminal-Bench 2.1 TMAX-9B Vanillux2 21.72 / 25.8427.34 +5.62 /35.96 +10.12 26.59 +4.87 /35.96 +10.12 Terminal-Bench 2.1 Nemotron3 Ult",
+   "year": 2026,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 4 / Table 2, \\\"The main evaluation uses TerminalBench Lite [...] Terminal-Bench 2.1\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "SWE-bench Verified Mini",
+   "aliases": [
+    "SWE-bench Verified Mini"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "executable tests. We evaluate all 89 tasks in version 2.1, a revision of Terminal-Bench 2.0 that corrects task issues. SWE-bench Verified Mini.SWE-bench [ 4] evaluates repository-level code changes that resolve real GitHub issues. We use the 50-task Mini subset",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Table 2, \\\"SWE-bench-Verified uses its Mini subset (50 tasks)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "FeatureBench-Mini",
+   "aliases": [
+    "FeatureBench-Mini"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "models, and harnesses.Pass@1 / Pass@3 over three runs per task. SWE-bench-Verified uses its Mini subset (50 tasks), and FeatureBench-Mini uses 23 CPU tasks. Both Mid-Harness variants use pairwise verification with 𝑁= 8. Green subscripts+Δshow differences ag",
+   "year": 2026,
+   "year_source": "arxiv",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Table 2, \\\"FeatureBench-Mini uses 23 CPU tasks\\\"",
+    "gemini_note": "Correction: FeatureBench was introduced in 2026 (arXiv:2602.10975)."
+   },
+   "year_note": "2026-11-11: FeatureBench arXiv 2602.10975, 11 Feb 2026; Haiku year 2025 was wrong"
+  },
+  {
+   "name": "TMAX-15K held-out verifier-agreement benchmark",
+   "aliases": [
+    "Held-out TMAX-15K offline verifier-agreement benchmark",
+    "TMAX-15K held-out verifier-agreement benchmark"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 5 / Table 1, \\\"15K held-out pairwise verifier-agreement benchmark\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "TerminalBench-Lite",
+   "task": "Terminal task completion (agentic command-line tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Terminal-Bench 2.1",
+   "task": "Terminal task completion (realistic terminal tasks with executable tests)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SWE-bench Verified Mini",
+   "task": "Repository-level code change resolution (GitHub issues)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "FeatureBench-Mini",
+   "task": "End-to-end feature development in software repositories"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Held-out TMAX-15K offline verifier-agreement benchmark",
+   "task": "Offline pairwise verifier agreement with GPT-5.6 Sol teacher on stored TMAX-9B trajectories"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

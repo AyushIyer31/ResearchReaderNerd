@@ -1,0 +1,83 @@
+{
+ "benchmarks": [
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "-2 models [17] using standard and adversarial training while varying the number of samples in CIFAR -10 . We sub-sample CIFAR-10 by factors of {1,2,5,8,10,20,40}. For sub-sample factors 1 to 20, we report results averaged from 2 trials each for sta"
+  },
+  {
+   "name": "MNIST",
+   "aliases": [
+    "MNIST"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "rcase,m = 0 102 103 104 Number of labeled samples 6 4 2 0 Test Error(Rob) - Test Error(Std) (%) = 0.3 (b) Small CNN on MNIST Figure 3. Difference between test errors (robust - standard) as a function of the # of training samples n. For each n,"
+  },
+  {
+   "name": "Staircase problem",
+   "aliases": [
+    "Staircase (synthetic 1-D convex regression problem)",
+    "Staircase problem",
+    "Staircase problem (m = 1)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "few labels to generate psuedo-labels for unlabeled data as described above. See Appendix C for details on RST. For the staircase problem (m = 1), RST mostly eliminates the tradeoff and achieves similar test error to standard training (while also being robu"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": "Image classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "MNIST",
+   "task": "Digit classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Staircase problem (m = 1)",
+   "task": "Regression"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Staircase problem (m = 1)",
+   "task": "Regression"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10",
+   "task": "image classification (standard and adversarial/robust accuracy under l-infinity perturbations)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MNIST",
+   "task": "digit classification (standard and adversarial accuracy under l-infinity perturbations with epsilon 0.3)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Staircase (synthetic 1-D convex regression problem)",
+   "task": "regression (standard and robust test MSE) on a synthetic convex problem"
+  }
+ ],
+ "checked_by_author": true
+}

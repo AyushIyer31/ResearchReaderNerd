@@ -1,0 +1,90 @@
+{
+ "benchmarks": [
+  {
+   "name": "SST-2",
+   "aliases": [
+    "SST-2",
+    "SST-2 (Stanford Sentiment Treebank 2)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ions in time and computational resources, we choose the most widely used dataset from each category, as detailed below. SST-2. Stanford Sentiment Treebank 2 (SST-2; Socher et al., 2013) comprises single sentences ex- tracted from movie reviews f"
+  },
+  {
+   "name": "MNLI",
+   "aliases": [
+    "MNLI",
+    "MNLI (Multi-Genre Natural Language Inference), matched and mismatched"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": ", we consider sentence-level sentiment only, ignoring the sentiment labels of phrases provided by the original dataset. MNLI. The Multi-genre Natural Language In- ference (MNLI; Williams et al., 2017) corpus is a large-scale, crowdsourced entai"
+  },
+  {
+   "name": "QQP",
+   "aliases": [
+    "QQP",
+    "QQP (Quora Question Pairs)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "genres from the training set, while MNLI-mm represents development and test sets from the remaining, mismatched genres. QQP. Quora Question Pairs (QQP; Shankar Iyer and Csernai, 2017) consists of pairs of poten- tially duplicate questions coll"
+  },
+  {
+   "name": "GLUE",
+   "aliases": [
+    "GLUE"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "istillation objective works best. 4.1 Datasets We conduct experiments on the General Language Understanding Evaluation (GLUE; Wang et al., 2018) benchmark, a collection of six natural lan- guage understanding tasks that are classiﬁed into three",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "SST-2",
+   "task": "Binary sentiment classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "MNLI",
+   "task": "Natural language inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "QQP",
+   "task": "Question pair classification (binary)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SST-2 (Stanford Sentiment Treebank 2)",
+   "task": "Binary sentiment classification of single sentences; also used to measure parameter count and inference time"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "QQP (Quora Question Pairs)",
+   "task": "Binary paraphrase/duplicate question detection on sentence pairs"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MNLI (Multi-Genre Natural Language Inference), matched and mismatched",
+   "task": "Three-way natural language inference (entailment, neutral, contradiction) on sentence pairs"
+  }
+ ],
+ "checked_by_author": true
+}

@@ -1,0 +1,286 @@
+{
+ "benchmarks": [
+  {
+   "name": "BBBP",
+   "aliases": [
+    "BBBP"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "kets are the standard deviation. The methods in green are pre-trained methods. Classiﬁcation (Higher is better) Dataset BBBP SIDER ClinTox BACE Tox21 ToxCast # Molecules 2039 1427 1478 1513 7831 8575 TF_Robust [40] 0.860(0.087) 0.607(0.033) 0.7"
+  },
+  {
+   "name": "SIDER",
+   "aliases": [
+    "SIDER"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "d predicts this contextual property from node embeddings. In this way, GROVER can alleviate the ambiguity problem by considering both the target node/edge and its context being masked. For the graph-level tasks, by incorporating the domain knowl"
+  },
+  {
+   "name": "ClinTox",
+   "aliases": [
+    "ClinTox"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "e standard deviation. The methods in green are pre-trained methods. Classiﬁcation (Higher is better) Dataset BBBP SIDER ClinTox BACE Tox21 ToxCast # Molecules 2039 1427 1478 1513 7831 8575 TF_Robust [40] 0.860(0.087) 0.607(0.033) 0.765(0.085) 0.82"
+  },
+  {
+   "name": "BACE",
+   "aliases": [
+    "BACE"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "rd deviation. The methods in green are pre-trained methods. Classiﬁcation (Higher is better) Dataset BBBP SIDER ClinTox BACE Tox21 ToxCast # Molecules 2039 1427 1478 1513 7831 8575 TF_Robust [40] 0.860(0.087) 0.607(0.033) 0.765(0.085) 0.824(0.0"
+  },
+  {
+   "name": "Tox21",
+   "aliases": [
+    "Tox21"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "viation. The methods in green are pre-trained methods. Classiﬁcation (Higher is better) Dataset BBBP SIDER ClinTox BACE Tox21 ToxCast # Molecules 2039 1427 1478 1513 7831 8575 TF_Robust [40] 0.860(0.087) 0.607(0.033) 0.765(0.085) 0.824(0.022) 0."
+  },
+  {
+   "name": "ToxCast",
+   "aliases": [
+    "ToxCast"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "n. The methods in green are pre-trained methods. Classiﬁcation (Higher is better) Dataset BBBP SIDER ClinTox BACE Tox21 ToxCast # Molecules 2039 1427 1478 1513 7831 8575 TF_Robust [40] 0.860(0.087) 0.607(0.033) 0.765(0.085) 0.824(0.022) 0.698(0.01"
+  },
+  {
+   "name": "FreeSolv",
+   "aliases": [
+    "FreeSolv"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "arge 0.940(0.019) 0.658(0.023) 0.944(0.021) 0.894(0.028) 0.831(0.025) 0.737(0.010) Regression (Lower is better) Dataset FreeSolv ESOL Lipo QM7 QM8 # Molecules 642 1128 4200 6830 21786 TF_Robust [40] 4.122(0.085) 1.722(0.038) 0.909(0.060) 120.6(9.6)"
+  },
+  {
+   "name": "ESOL",
+   "aliases": [
+    "ESOL"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "e 0.940(0.019) 0.658(0.023) 0.944(0.021) 0.894(0.028) 0.831(0.025) 0.737(0.010) Regression (Lower is better) Dataset FreeSolv ESOL Lipo QM7 QM8 # Molecules 642 1128 4200 6830 21786 TF_Robust [40] 4.122(0.085) 1.722(0.038) 0.909(0.060) 120.6(9.6"
+  },
+  {
+   "name": "Lipophilicity",
+   "aliases": [
+    "Lipo",
+    "Lipophilicity",
+    "Lipophilicity (Lipo)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "19) 0.658(0.023) 0.944(0.021) 0.894(0.028) 0.831(0.025) 0.737(0.010) Regression (Lower is better) Dataset FreeSolv ESOL Lipo QM7 QM8 # Molecules 642 1128 4200 6830 21786 TF_Robust [40] 4.122(0.085) 1.722(0.038) 0.909(0.060) 120.6(9.6) 0.024(0.0"
+  },
+  {
+   "name": "QM7",
+   "aliases": [
+    "QM7"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": ".658(0.023) 0.944(0.021) 0.894(0.028) 0.831(0.025) 0.737(0.010) Regression (Lower is better) Dataset FreeSolv ESOL Lipo QM7 QM8 # Molecules 642 1128 4200 6830 21786 TF_Robust [40] 4.122(0.085) 1.722(0.038) 0.909(0.060) 120.6(9.6) 0.024(0.001)"
+  },
+  {
+   "name": "QM8",
+   "aliases": [
+    "QM8"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "(0.023) 0.944(0.021) 0.894(0.028) 0.831(0.025) 0.737(0.010) Regression (Lower is better) Dataset FreeSolv ESOL Lipo QM7 QM8 # Molecules 642 1128 4200 6830 21786 TF_Robust [40] 4.122(0.085) 1.722(0.038) 0.909(0.060) 120.6(9.6) 0.024(0.001) Grap"
+  },
+  {
+   "name": "ZINC15",
+   "aliases": [
+    "ZINC15"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "rty prediction. 5 Experiments Pre-training Data Collection. We collect 11 million (M) unlabelled molecules sampled from ZINC15 [48] and Chembl [11] datasets to pre-train GROVER. We randomly split 10% of unlabelled molecules as the validation sets",
+   "added_by_author": true,
+   "note": "mentioned, or used for pretraining, but not an evaluation benchmark of this paper (hand check)"
+  },
+  {
+   "name": "ChEMBL",
+   "aliases": [
+    "ChEMBL"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "5 Experiments Pre-training Data Collection. We collect 11 million (M) unlabelled molecules sampled from ZINC15 [48] and Chembl [11] datasets to pre-train GROVER. We randomly split 10% of unlabelled molecules as the validation sets for model selec",
+   "added_by_author": true,
+   "note": "mentioned, or used for pretraining, but not an evaluation benchmark of this paper (hand check)"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "BBBP",
+   "task": "classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "SIDER",
+   "task": "classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ClinTox",
+   "task": "classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "BACE",
+   "task": "classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Tox21",
+   "task": "classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ToxCast",
+   "task": "classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "FreeSolv",
+   "task": "regression"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ESOL",
+   "task": "regression"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Lipo",
+   "task": "regression"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "QM7",
+   "task": "regression"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "QM8",
+   "task": "regression"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BBBP",
+   "task": "molecular property classification (blood-brain barrier permeability)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SIDER",
+   "task": "molecular property classification (adverse drug reactions, 27 tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ClinTox",
+   "task": "molecular property classification (clinical trial toxicity, 2 tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BACE",
+   "task": "molecular property classification (BACE-1 inhibition)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Tox21",
+   "task": "molecular property classification (toxicity, 12 tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ToxCast",
+   "task": "molecular property classification (toxicity, 617 tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "FreeSolv",
+   "task": "molecular property regression (hydration free energy)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ESOL",
+   "task": "molecular property regression (aqueous solubility)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Lipophilicity (Lipo)",
+   "task": "molecular property regression (octanol/water distribution coefficient)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "QM7",
+   "task": "molecular property regression (atomization energy)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "QM8",
+   "task": "molecular property regression (electronic spectra and excited state energies, 12 tasks)"
+  }
+ ],
+ "checked_by_author": true
+}

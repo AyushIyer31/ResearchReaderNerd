@@ -1,0 +1,156 @@
+{
+ "benchmarks": [
+  {
+   "name": "MuJoCo HalfCheetahVel",
+   "aliases": [
+    "MuJoCo HalfCheetahVel"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "L VariBAD 1 2 3 4 5 Episode Number 120 100 80 60 40 20 Return HalfCheetahVel-v4 METTA ECET PEARL RL2 TrMRL VariBAD (a) MuJoCo HalfCheetahVel. 0.2 0.4 0.6 0.8 1.0 1.2 1.4 Meta-Learning Timestep 1e6 0.0 0.2 0.4 0.6 0.8 1.0Success PointMaze Train METTA ECET TrMRL",
+   "year": 2012,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2012,
+    "where": "Figure 3(a), \\\"HalfCheetahVel-v4\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Meta-World ML1",
+   "aliases": [
+    "Meta-World ML1",
+    "Meta-World ML1 (Push-v3 in ablations)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ability, enabling effective adaptation to unseen held-out tasks and task families at meta-test time. On unseen held-out Meta-World ML10/45 test en- vironments, METTAachieves a success rate over50%while maintaining a low training budget and short wall-clo",
+   "year": 2019,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2019,
+    "where": "Section 4.1, \\\"Meta-World ML1\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Meta-World ML10",
+   "aliases": [
+    "Meta-World ML10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ability, enabling effective adaptation to unseen held-out tasks and task families at meta-test time. On unseen held-out Meta-World ML10/45 test en- vironments, METTAachieves a success rate over50%while maintaining a low training budget and short wall-cloc",
+   "year": 2019,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2019,
+    "where": "Section 1, \\\"On unseen held-out Meta-World ML10/45 test environments\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Meta-World ML45",
+   "aliases": [
+    "Meta-World ML45"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2019,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2019,
+    "where": "Section 1, \\\"On unseen held-out Meta-World ML10/45 test environments\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Sparse-reward PointMaze",
+   "aliases": [
+    "Sparse-reward PointMaze",
+    "PointMaze",
+    "D4RL PointMaze"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "int METTA (ours) ECET TrMRL Episode 1 Episode 2 Episode 5 Episode 10 Start End Goal Figure 1: Exploration behavior on a sparse-reward PointMaze task (Fu et al., 2020) across adapta- tion episodes. Trajectories are shown for Episodes1,2,5, and10of the same task. A",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "rekind",
+    "gemini_kind": "public",
+    "gemini_year": 2020,
+    "where": "Figure 1, \\\"sparse-reward PointMaze task (Fu et al., 2020)\\\"",
+    "gemini_note": "PointMaze is a public benchmark from D4RL (Fu et al., 2020)."
+   },
+   "year": 2020,
+   "year_source": "citation",
+   "kind_note": "2026-11-11: public D4RL task, Fig. 1 cites Fu et al. 2020; was kind own"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MuJoCo HalfCheetahVel",
+   "task": "continuous-control adaptation to a target velocity"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Meta-World ML1 (Push-v3 in ablations)",
+   "task": "few-shot robotic manipulation adaptation within a single task family"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Meta-World ML10",
+   "task": "multi-task robotic manipulation meta-RL with held-out task families at meta-test"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Meta-World ML45",
+   "task": "multi-task robotic manipulation meta-RL with held-out task families at meta-test"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Sparse-reward PointMaze",
+   "task": "long-context sparse-reward navigation and exploration"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

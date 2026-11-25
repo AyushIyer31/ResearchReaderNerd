@@ -1,0 +1,121 @@
+{
+ "benchmarks": [
+  {
+   "name": "AudioSet",
+   "aliases": [
+    "AudioSet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "gh ablation studies, and achieve state-of-the-art results on multiple audio-visual classi- ﬁcation benchmarks including Audioset, Epic-Kitchens and VGGSound. All code and models will be released. 1 Introduction Simultaneous multimodal sensations ar"
+  },
+  {
+   "name": "Epic-Kitchens-100",
+   "aliases": [
+    "Epic-Kitchens-100"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "5 [page 6] 4.1 Datasets and evaluation protocol We experiment with three video classiﬁcation datasets – AudioSet [24], Epic-Kitchens-100 [14] and VGGSound [12], described in more detail below. Results on two additional datasets Moments in Time [47] and Kin"
+  },
+  {
+   "name": "VGGSound",
+   "aliases": [
+    "VGGSound"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ieve state-of-the-art results on multiple audio-visual classi- ﬁcation benchmarks including Audioset, Epic-Kitchens and VGGSound. All code and models will be released. 1 Introduction Simultaneous multimodal sensations are a crucial enabler of human"
+  },
+  {
+   "name": "Moments in Time",
+   "aliases": [
+    "Moments in Time"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ei Zhou, Kandan Ramakrishnan, Sarah Adel Bargal, Tom Yan, Lisa Brown, Quanfu Fan, Dan Gutfreund, Carl V ondrick, et al. Moments in time dataset: one million videos for event understanding. IEEE transactions on pattern analysis and machine intelligence, 42"
+  },
+  {
+   "name": "Kinetics-400 and Kinetics-Sound",
+   "aliases": [
+    "Kinetics-400 and Kinetics-Sound"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "ImageNet-21K",
+   "aliases": [
+    "ImageNet-21K"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "llows that of ViT [18] identically, speciﬁcally we use ViT-Base (ViT-B, L = 12 , NH = 12 , d = 3072 )1 initialised from ImageNet-21K [ 16], however we note that our method is agnostic to transformer backbone. Unless otherwise specialised, we use B = 4",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "AudioSet",
+   "task": "Video classification with audio-visual inputs"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Epic-Kitchens-100",
+   "task": "Action recognition with audio-visual inputs"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "VGGSound",
+   "task": "Video classification with audio-visual inputs"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AudioSet",
+   "task": "Audio-visual multi-label video classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Epic-Kitchens-100",
+   "task": "Egocentric action recognition (verb, noun, and action)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VGGSound",
+   "task": "Audio-visual video classification (sound source classes)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Moments in Time",
+   "task": "Video action/event classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Kinetics-400 and Kinetics-Sound",
+   "task": "Video action classification (Kinetics-400) and audio-visual subset classification (Kinetics-Sound)"
+  }
+ ],
+ "checked_by_author": true
+}

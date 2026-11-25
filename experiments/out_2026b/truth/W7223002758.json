@@ -1,0 +1,25 @@
+{
+ "benchmarks": [
+  {
+   "name": "Custom dual-task MR user study environment",
+   "aliases": [
+    "Custom dual-task MR user study environment",
+    "Custom dual-task mixed reality user study environment (Key Task, Visual Task, Control Task on Meta Quest 3)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Custom dual-task mixed reality user study environment (Key Task, Visual Task, Control Task on Meta Quest 3)",
+   "task": "Evaluating user preference, usability, and customization behavior for controlling MR UI adaptations via DM, ConverseMR, and Combined"
+  }
+ ],
+ "checked_by_author": false
+}

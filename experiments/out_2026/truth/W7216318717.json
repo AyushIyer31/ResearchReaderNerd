@@ -1,0 +1,103 @@
+{
+ "benchmarks": [
+  {
+   "name": "Cityscapes",
+   "aliases": [
+    "Cityscapes",
+    "Cityscapes low-resolution ablation (224x448) and VFMF comparison"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "D ψ, and predictorP θ. 4 EXPERIMENTS 4.1 EXPERIMENTALSETUP Data.We evaluate our approach on two urban driving datasets, Cityscapes (Cordts et al., 2016) and nuScenes (Caesar et al., 2020), as well as Kubric (Greff et al., 2022), a synthetic multi-obj",
+   "year": 2016,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2016,
+    "where": "Section 4.1, \\\"We evaluate our approach on two urban driving datasets, Cityscapes (Cordts et al., 2016)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "nuScenes",
+   "aliases": [
+    "nuScenes"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "4.1 EXPERIMENTALSETUP Data.We evaluate our approach on two urban driving datasets, Cityscapes (Cordts et al., 2016) and nuScenes (Caesar et al., 2020), as well as Kubric (Greff et al., 2022), a synthetic multi-object dynam- ics benchmark, following",
+   "year": 2020,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2020,
+    "where": "Section 4.1, \\\"and nuScenes (Caesar et al., 2020)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Kubric MOVi-A",
+   "aliases": [
+    "Kubric (MOVi-A)",
+    "Kubric MOVi-A"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2022,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 4.1, \\\"as well as Kubric (Greff et al., 2022), a synthetic multi-object dynamics benchmark\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Cityscapes",
+   "task": "future VFM feature forecasting evaluated via semantic segmentation, depth estimation, and surface normal prediction"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "nuScenes",
+   "task": "future VFM feature forecasting evaluated via depth estimation and cosine similarity of predicted features, including zero-shot transfer from Cityscapes"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Kubric (MOVi-A)",
+   "task": "multi-object future prediction evaluated via foreground and overall segmentation IoU following VFMF protocol"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Cityscapes low-resolution ablation (224x448) and VFMF comparison",
+   "task": "reconstruction and future feature prediction ablations, with segmentation mIoU at short and mid horizons"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

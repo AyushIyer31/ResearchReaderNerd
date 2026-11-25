@@ -1,0 +1,97 @@
+{
+ "benchmarks": [
+  {
+   "name": "Edge 4-5 two-qubit tomography certificate",
+   "aliases": [
+    "Edge 4-5 two-qubit tomography certificate",
+    "Red component B, primary instance b08 (good edge 4-5 entanglement certificate)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Edge 4-5 randomized-measurement p3-PPT witness",
+   "aliases": [
+    "Edge 4-5 randomized-measurement p3-PPT witness",
+    "Red randomized-measurement p3-PPT moment witness (good edge 4-5)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "CZ-amplitude manipulation dose-response",
+   "aliases": [
+    "CZ-amplitude manipulation dose-response",
+    "Causal CZ-amplitude manipulation experiment on a fixed Bell preparation (couplers 4-5, 5-7, 6-8)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Depth-3 QAOA 16-instance ensemble",
+   "aliases": [
+    "Depth-3 QAOA 16-instance ensemble",
+    "Red depth-three 16-instance ensemble (optimum mass and approximation ratio)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Euro-Q-Exa 53-qubit randomized-measurement run",
+   "aliases": [
+    "Euro-Q-Exa 53-qubit cross-architecture randomized-measurement run (single session)",
+    "Euro-Q-Exa 53-qubit randomized-measurement run"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Red component B, primary instance b08 (good edge 4-5 entanglement certificate)",
+   "task": "Two-qubit entanglement certification of the reduced state on edge 4-5 for a corrected QAOA cost layer (depth 1), via full two-qubit tomography"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Red randomized-measurement p3-PPT moment witness (good edge 4-5)",
+   "task": "Independent entanglement cross-check via partial-transpose moment witness from local random Clifford measurements"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Causal CZ-amplitude manipulation experiment on a fixed Bell preparation (couplers 4-5, 5-7, 6-8)",
+   "task": "Dose-response of certified two-qubit negativity to the manipulated CZ pulse amplitude factor on a fixed Bell preparation (not the QAOA cost layer)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Red depth-three 16-instance ensemble (optimum mass and approximation ratio)",
+   "task": "Optimisation performance of QAOA cost layer at depth p=3 on 16 random frustrated 2-local Ising instances on tree edges of component B"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Euro-Q-Exa 53-qubit cross-architecture randomized-measurement run (single session)",
+   "task": "Cross-architecture corroboration of the randomized-measurement entanglement witness on a larger-magnitude state"
+  }
+ ],
+ "checked_by_author": false
+}

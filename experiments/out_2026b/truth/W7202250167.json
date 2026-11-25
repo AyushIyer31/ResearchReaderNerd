@@ -1,0 +1,71 @@
+{
+ "benchmarks": [
+  {
+   "name": "MedMNIST v2",
+   "aliases": [
+    "MedMNIST v2",
+    "MedMNIST v2 (Breast, Pneumonia, Derma, Blood, OrganC, OrganS, OrganA, OCT as targets)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ing (e.g., 1, 2, 2, 4). [page 6] 6 N. Claßen et al. 3.2 Data To evaluate the robustness of existing TE metrics, we use MedMNIST v2 [33], a large-scale dataset collection of standardized twelve 2D and six 3D biomedical image datasets for classificatio",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 3.2, \\\"To evaluate the robustness of existing TE metrics, we use MedMNIST v2 [33]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet",
+    "ImageNet (as source)"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ask, especially in medical imaging where one has to decide between models pre-trained on off-the-shelf options, such as ImageNet, and domain specific datasets. Transferability estimation (TE) metrics address this problem by aiming to predict the be",
+   "year": 2009,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2009,
+    "where": "Section 1, \\\"models pre-trained on off-the-shelf options, such as ImageNet\\\"",
+    "gemini_note": "Used only as a pretraining source dataset, not an evaluation target benchmark."
+   },
+   "kind_note": "2026-11-11: source pre-training dataset for transferability estimation; evaluation targets are MedMNIST v2"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MedMNIST v2 (Breast, Pneumonia, Derma, Blood, OrganC, OrganS, OrganA, OCT as targets)",
+   "task": "Medical image classification (transferability estimation and reference fine-tuning)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet (as source)",
+   "task": "Natural image classification used as a source pre-training dataset for transfer evaluation"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

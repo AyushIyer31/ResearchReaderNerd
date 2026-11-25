@@ -1,0 +1,163 @@
+{
+ "benchmarks": [
+  {
+   "name": "E-DAIC",
+   "aliases": [
+    "E-DAIC",
+    "E-DAIC MDD-specific LLM baseline: DepressionAgent (text-branch adaptation)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "s available at https://github.com/DiscoAILab/MERID.git 0.0 0.2 0.4 0.6 0.8 Macro-F1 0.0 0.2 0.4 0.6 0.8Accuracy (a) E-DAIC 0.0 0.2 0.4 0.6 0.8 Elder track score 0.0 0.2 0.4 0.6 0.8Young track score (b) MPDD-2025 0.0 0.2 0.4 0.6 0.8 Ma",
+   "year": 2019,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2019,
+    "where": "Section 4, \\\"On E-DAIC binary depression classification, MERID...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MPDD-2025",
+   "aliases": [
+    "MPDD-2025",
+    "MPDD-2025 (Elder and Young tracks)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "0 0.2 0.4 0.6 0.8Accuracy (a) E-DAIC 0.0 0.2 0.4 0.6 0.8 Elder track score 0.0 0.2 0.4 0.6 0.8Young track score (b) MPDD-2025 0.0 0.2 0.4 0.6 0.8 Macro-F1 0.0 0.2 0.4 0.6 0.8Accuracy (c) MPDD-2026 Young 0.0 0.2 0.4 0.6 0.8 Macro-F1 0.0 0",
+   "year": 2025,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 4, \\\"MERID's MPDD-2025 Young track score...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MPDD-2026",
+   "aliases": [
+    "MPDD-AVG 2026",
+    "MPDD-AVG 2026 (Elder and Young cohorts)",
+    "MPDD-2026 Young",
+    "MPDD-2026 Elder"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2026,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rename",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 4, \\\"MPDD-2026 Young and MPDD-2026 Elder tracks...\\\"",
+    "gemini_note": "",
+    "new_name": "MPDD-2026"
+   },
+   "rename_note": "2026-11-11: paper's figure labels read MPDD-2026 Young / Elder"
+  },
+  {
+   "name": "Mental Health Multimodal (tabular)",
+   "aliases": [
+    "Mental Health Multimodal (tabular)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-14",
+    "checker": "Ayush, availability rule of protocol section 3 (12 Nov); evidence gathered from dated public releases, approved by Ayush 14 Nov",
+    "verdict": "keep",
+    "decision": "public",
+    "where": "Sec. 4.1 p.7; Table 1 p.8 column 'Mental Health, Status F1'; Appendix F.1 p.42 '4,000 rows and four classes ... 21 numeric variables ... questionnaire (5), behavioral (4), visual (4), audio (4), and physiological (4)'",
+    "availability": "Kaggle zara2099/multimodal-mental-health-assessment-dataset, version 1 2026-02-06 (archived 2026-04-02 and 2026-06-05), file mental_health_multimodal.csv: 4,000 rows, Mental_Health_Status Healthy/Mild/Moderate/Severe Stress, 21 numeric columns grouped 5/4/4/4/4; before MERID v1 (28 Sep 2026). The paper cites no source; identity from the exact structural match.",
+    "previous": "2026-11-12 Ayush: keep, no source cited"
+   }
+  },
+  {
+   "name": "Kaggle Multimodal depression dataset",
+   "aliases": [
+    "Kaggle Multimodal dataset for depression analysis (TESS/RAVDESS acted-emotion proxy tasks)",
+    "Kaggle Multimodal depression dataset"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-12",
+    "checker": "Ayush, pinned MERID PDF (sha256 3c478eb4ea4de209, 64 pages)",
+    "verdict": "keep",
+    "where": "Sec. 4 p.7 (as above); Table 1 p.8 column 'Kaggle, A-V F1'; Appendix F.1 p.41 'Kaggle_public denotes the media subsets obtained from the Kaggle collection Multimodal dataset for depression analysis'; Table 22 p.40 Kaggle raw-video",
+    "gemini_note": "Gemini's location-free 'remove' rejected"
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "E-DAIC",
+   "task": "Binary depression classification and PHQ-8 severity regression"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MPDD-2025 (Elder and Young tracks)",
+   "task": "Multimodal personality-aware depression detection challenge, binary/ternary/quinary classification by track"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MPDD-AVG 2026 (Elder and Young cohorts)",
+   "task": "Multimodal personality-aware depression detection, binary/ternary classification and PHQ-9 estimation by cohort"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Mental Health Multimodal (tabular)",
+   "task": "Four-class stress status classification (Healthy, Mild, Moderate, Severe Stress)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Kaggle Multimodal dataset for depression analysis (TESS/RAVDESS acted-emotion proxy tasks)",
+   "task": "Audio-visual emotion proxy classification (Kaggle A-V) and video-only emotion classification (Kaggle Video)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "E-DAIC MDD-specific LLM baseline: DepressionAgent (text-branch adaptation)",
+   "task": "Binary depression classification on E-DAIC test participants"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-14",
+  "checker": "Ayush, availability rule of protocol section 3 (12 Nov); evidence gathered from dated public releases, approved by Ayush 14 Nov",
+  "status": "complete"
+ }
+}

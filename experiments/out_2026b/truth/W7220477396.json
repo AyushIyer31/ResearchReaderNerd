@@ -1,0 +1,160 @@
+{
+ "benchmarks": [
+  {
+   "name": "PhyGround",
+   "aliases": [
+    "PhyGround"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "are directly reusable. WorldBench [20] disentangles individual physical concepts to support per-concept diagnosis, and PhyGround [16] covers thirteen physical laws spanning solid-body mechanics, fluid dynamics and optics. Both, as published, evalua",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 2, \\\"WorldBench [20] disentangles individual physical concepts to support per-concept diagnosis, and PhyGround [16] covers thirteen physical laws\\\"",
+    "gemini_note": "Mentioned as an existing probe in related work, not evaluated on in this paper."
+   },
+   "kind_note": "2026-11-11: related work only (Sec. 2); Gemini + Ayush hand-check"
+  },
+  {
+   "name": "WorldBench",
+   "aliases": [
+    "WorldBench"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "annot show which update damaged an invariant. Concept-isolated physical probes already exist and are directly reusable. WorldBench [20] disentangles individual physical concepts to support per-concept diagnosis, and PhyGround [16] covers thirteen phy",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 2, \\\"WorldBench [20] disentangles individual physical concepts to support per-concept diagnosis\\\"",
+    "gemini_note": "Mentioned as an existing probe in related work, not evaluated on in this paper."
+   },
+   "kind_note": "2026-11-11: related work only (Sec. 2); Gemini + Ayush hand-check"
+  },
+  {
+   "name": "Push-T",
+   "aliases": [
+    "Push-T",
+    "Push-T (background recoloring distribution shift)"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "n is meant to achieve, and no single number can capture that. Maes et al. [17] report that recoloring the background in Push-T reduces planning success from 50.8% to 6.0% for both LeWM and PLDM, and conclude that current world models remain britt",
+   "year": 2023,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 2, \\\"Maes et al. [17] report that recoloring the background in Push-T reduces planning success from 50.8% to 6.0%\\\"",
+    "gemini_note": "Citing results from prior work, not evaluated on in this paper."
+   },
+   "kind_note": "2026-11-11: prior work's result quoted (Sec. 2), not evaluated on"
+  },
+  {
+   "name": "Minigrid and MiniHack",
+   "aliases": [
+    "Continual-Dreamer evaluation sequences (Minigrid and Minihack)",
+    "Minigrid and MiniHack"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "are constructed such that the second case cannot arise. Kessler et al. [12] evaluate Continual-Dreamer on sequences of Minigrid and Minihack tasks, and Yang et al. [23] evaluate WMAR (World Models with Augmented Replay) on Procgen and Atari sequences. In both",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 2, \\\"Kessler et al. [12] evaluate Continual-Dreamer on sequences of Minigrid and Minihack tasks\\\"",
+    "gemini_note": "Describing prior work evaluation setup, not evaluated on in this paper."
+   },
+   "kind_note": "2026-11-11: prior work's setup described (Sec. 2), not evaluated on"
+  },
+  {
+   "name": "Procgen and Atari",
+   "aliases": [
+    "Procgen and Atari",
+    "WMAR evaluation sequences (Procgen and Atari)"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "on sequences of Minigrid and Minihack tasks, and Yang et al. [23] evaluate WMAR (World Models with Augmented Replay) on Procgen and Atari sequences. In both cases ground truth within a task is fixed throughout, so any subsequent degradation is genuinely for",
+   "year": 2013,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2013,
+    "where": "Section 2, \\\"Yang et al. [23] evaluate WMAR (World Models with Augmented Replay) on Procgen and Atari sequences.\\\"",
+    "gemini_note": "Describing prior work evaluation setup, not evaluated on in this paper."
+   },
+   "kind_note": "2026-11-11: prior work's setup described (Sec. 2), not evaluated on"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PhyGround",
+   "task": "Physical reasoning in generative world models (thirteen physical laws spanning solid-body mechanics, fluid dynamics and optics)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "WorldBench",
+   "task": "Physical understanding of world models by isolating individual physics concepts"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Push-T (background recoloring distribution shift)",
+   "task": "Planning success of world models under background-color distribution shift"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Continual-Dreamer evaluation sequences (Minigrid and Minihack)",
+   "task": "Continual reinforcement learning with world models"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "WMAR evaluation sequences (Procgen and Atari)",
+   "task": "Continual reinforcement learning with world models"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

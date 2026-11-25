@@ -1,0 +1,24 @@
+{
+ "benchmarks": [
+  {
+   "name": "PanoVideoBench",
+   "aliases": [
+    "PanoVideoBench"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "rent times. Understand- ing it requires models to connect observations across the viewing sphere and time. We introduce PanoVideoBench, the first manually annotated benchmark for comprehensive panoramic video understanding. Its 1,000 questions span five"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PanoVideoBench",
+   "task": "Multiple-choice question answering on panoramic (360°) video understanding, covering appearance, spherical spatial reasoning, action, cross-view tracking, and spatio-temporal event reasoning"
+  }
+ ],
+ "checked_by_author": false
+}

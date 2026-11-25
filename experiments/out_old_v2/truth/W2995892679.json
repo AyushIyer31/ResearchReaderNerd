@@ -1,0 +1,162 @@
+{
+ "benchmarks": [
+  {
+   "name": "miniImageNet",
+   "aliases": [
+    "miniImageNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ally validate WarpGrad and show it surpasses baseline gradient-based meta-learners on standard few-shot learning tasks (miniImageNet, tieredImageNet; Vinyals et al., 2016; Ravi & Larochelle, 2016; Ren et al., 2018), while scaling beyond few-shot learni"
+  },
+  {
+   "name": "tieredImageNet",
+   "aliases": [
+    "tieredImageNet",
+    "tieredImageNet (multi-shot)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "WarpGrad and show it surpasses baseline gradient-based meta-learners on standard few-shot learning tasks (miniImageNet, tieredImageNet; Vinyals et al., 2016; Ravi & Larochelle, 2016; Ren et al., 2018), while scaling beyond few-shot learning to standard s"
+  },
+  {
+   "name": "Omniglot",
+   "aliases": [
+    "Omniglot",
+    "Omniglot (multi-shot protocol of Flennerhag et al., 2019)",
+    "Omniglot (multi-shot)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "le, 2016; Ren et al., 2018), while scaling beyond few-shot learning to standard supervised settings on the “multi”-shot Omniglot benchmark (Flennerhag et al., 2019) and a multi-shot version of tieredImageNet. We further ﬁnd that WarpGrad outperform"
+  },
+  {
+   "name": "Maze Navigation",
+   "aliases": [
+    "Maze Navigation",
+    "Maze Navigation (RL)",
+    "Maze navigation (RL environment)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "performs competing methods in a reinforce- ment learning (RL) setting where previous gradient-based meta-learners fail (maze navigation with recurrent neural networks (Miconi et al., 2019)) and can be used to meta-learn an optimiser that prevents catastro"
+  },
+  {
+   "name": "Continual Sine Regression",
+   "aliases": [
+    "Continual Learning Sine Regression",
+    "Continual Sine Regression",
+    "Continual sine regression (continual learning benchmark)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "e joint objective over all tasks with every update in the fully online learning setting where no past data is retained. Continual Sine Regression We propose a continual learning version of the sine regression meta- learning experiment in Finn et al. (2017). We spli"
+  },
+  {
+   "name": "Synthetic 2-D Loss Surface",
+   "aliases": [
+    "Synthetic 2-D Loss Surface",
+    "Synthetic 2-D loss surface experiment"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "miniImageNet",
+   "task": "5-way 1-shot"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "miniImageNet",
+   "task": "5-way 5-shot"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "tieredImageNet",
+   "task": "5-way 1-shot"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "tieredImageNet",
+   "task": "5-way 5-shot"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "tieredImageNet (multi-shot)",
+   "task": "10-way 640-shot"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Omniglot (multi-shot)",
+   "task": "20-way 100-shot"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Maze Navigation (RL)",
+   "task": "maze navigation with RNNs"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Continual Learning Sine Regression",
+   "task": "sine regression with incremental task sequences"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "miniImageNet",
+   "task": "5-way few-shot image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "tieredImageNet",
+   "task": "5-way few-shot image classification and 10-way multi-shot image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Omniglot (multi-shot protocol of Flennerhag et al., 2019)",
+   "task": "20-way multi-shot classification with 100 adaptation steps"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Maze navigation (RL environment)",
+   "task": "Meta-reinforcement learning on a fixed 11x11 maze with teleporting goal"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Continual sine regression (continual learning benchmark)",
+   "task": "Continual regression with 5 sequential sub-tasks, mitigating catastrophic forgetting"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Synthetic 2-D loss surface experiment",
+   "task": "Gradient descent on randomly generated 2-D loss surfaces"
+  }
+ ],
+ "checked_by_author": true
+}

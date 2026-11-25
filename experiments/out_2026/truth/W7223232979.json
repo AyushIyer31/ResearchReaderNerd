@@ -1,0 +1,210 @@
+{
+ "benchmarks": [
+  {
+   "name": "Internal domain-specific text retrieval benchmark",
+   "aliases": [
+    "Domain-specific text retrieval benchmark (internal)",
+    "Internal domain-specific text retrieval benchmark"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 3.1, \\\"we evaluate a collection of 72 public tasks across six domains [...] which we bundle into an internal domain-specific benchmark.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Q2D-Web",
+   "aliases": [
+    "Q2D-Web"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nternaldomain-specific benchmark. Additionally, we evaluate the text version of ViDoRe-V3 (Loison et al., 2026) and the Q2D-Web (Schall et al., 2026) benchmark. Text baselines include Nemotron 3 Embed 8B (NVIDIA, 2026), Qwen3 Embedding (Zhang et a",
+   "year": 2026,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 3.1, \\\"Additionally, we evaluate the text version of ViDoRe-V3 (Loison et al., 2026) and the Q2D-Web (Schall et al., 2026) benchmark.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ViDoRe-V3 (text)",
+   "aliases": [
+    "ViDoRe-V3 (text)",
+    "ViDoRe-V3 (text, Markdown OCR version, public subset)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "b, these models were evaluated with an output dimension of 128. – denotes not evaluated. Best score per column in bold. ViDoRe-V3 (text) Q2D-Web Model Dim. Vectors Avg. Citation Web Combined >1B / size unreported pplx-embed-v2-late-9b 128 multi 64.7 88.2 6",
+   "year": 2026,
+   "year_source": "arxiv",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 3.1, \\\"Additionally, we evaluate the text version of ViDoRe-V3 (Loison et al., 2026) and the Q2D-Web (Schall et al., 2026) benchmark.\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: ViDoRe V3 arXiv 2601.08620, Jan 2026; paper cites Loison et al. 2026"
+  },
+  {
+   "name": "ViDoRe-V3 (image)",
+   "aliases": [
+    "ViDoRe-V3 (image)",
+    "ViDoRe-V3 (image, public subset)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "t dimensionality makes indexing impractical; – denotes not evaluated. Best score per column in bold. Model Dim. Vectors ViDoRe-V3 (image) MIRACL-Vision PPLX-Q2I Vision + language, >1B / size unreported pplx-embed-v2-late-9b 128 multi 65.2 75.7 65.0 topk-emb",
+   "year": 2026,
+   "year_source": "arxiv",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Table 3, \\\"Text-to-image retrieval (nDCG@10, %) on the public subset of ViDoRe-V3 (average), MIRACL-Vision and PPLX-Q2I.\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: ViDoRe V3 arXiv 2601.08620, Jan 2026"
+  },
+  {
+   "name": "MIRACL-Vision",
+   "aliases": [
+    "MIRACL-Vision"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "d-v1-0.8b at 128 dimensions. Table 3| Text-to-image retrieval (nDCG@10, %) on the public subset of ViDoRe-V3 (average), MIRACL-Vision and PPLX-Q2I. Vision-only models are trained specifically for image retrieval and are listed separately from vision-lan",
+   "year": 2025,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": null,
+    "where": "Table 3, \\\"Text-to-image retrieval (nDCG@10, %) on the public subset of ViDoRe-V3 (average), MIRACL-Vision and PPLX-Q2I.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "PPLX-Q2I",
+   "aliases": [
+    "PPLX-Q2I",
+    "PPLX-Q2I (internal)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "imensions. Table 3| Text-to-image retrieval (nDCG@10, %) on the public subset of ViDoRe-V3 (average), MIRACL-Vision and PPLX-Q2I. Vision-only models are trained specifically for image retrieval and are listed separately from vision-language models.",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Table 3, \\\"Text-to-image retrieval (nDCG@10, %) on the public subset of ViDoRe-V3 (average), MIRACL-Vision and PPLX-Q2I.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "BrowseComp+",
+   "aliases": [
+    "BrowseComp+"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "he hybrid setting thus improves retrieval performance without increasing query encoding cost. 3.4. Agentic retrieval In BrowseComp+ (Chen et al., 2026), an LLM agent (GPT-OSS-120B (OpenAI, 2025), high effort) answers complex queries by searching a cor",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 3.4, \\\"In BrowseComp+ (Chen et al., 2026), an LLM agent [...] answers complex queries\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Domain-specific text retrieval benchmark (internal)",
+   "task": "Text retrieval across finance, legal, health, conversation, tech, and multilingual domains"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Q2D-Web",
+   "task": "First-stage retrieval over a web corpus for agent-reformulated queries"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ViDoRe-V3 (text, Markdown OCR version, public subset)",
+   "task": "Text retrieval over complex real-world documents converted to Markdown with OCR"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ViDoRe-V3 (image, public subset)",
+   "task": "Text-to-image visual document retrieval"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MIRACL-Vision",
+   "task": "Visual document retrieval over Wikipedia article screenshots"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PPLX-Q2I (internal)",
+   "task": "Text-to-image retrieval from production image-search logs (visual documents and natural images)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BrowseComp+",
+   "task": "Agentic deep-search retrieval: answer accuracy and retrieval recall with a GPT-OSS-120B search agent"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

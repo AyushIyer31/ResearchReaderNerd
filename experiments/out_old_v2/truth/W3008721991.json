@@ -1,0 +1,115 @@
+{
+ "benchmarks": [
+  {
+   "name": "SYNTH-CAR",
+   "aliases": [
+    "SYNTH-CAR",
+    "SYNTH-CAR1"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "0° – 359° 45° 0.5 – 0.6 –4 – 4 –4 – 4 REAL -C ARS [57] 139,714 0° – 359° 0° – 35° 0.5 – 0.8 –3 – 4 –5 – 6 21 [page 22] SYNTH-CAR1 SYNTH-CAR2 SYNTH-CAR3 CHAIR1 CHAIR2 CLEVR2 CLEVR3 CLEVR4 Figure 18: Samples from the synthetic datasets. F Implement"
+  },
+  {
+   "name": "SYNTH-CHAIR",
+   "aliases": [
+    "SYNTH-CHAIR",
+    "SYNTH-CHAIR1"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "CompCars",
+   "aliases": [
+    "CompCars",
+    "REAL-CAR"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "CLEVR",
+   "aliases": [
+    "CLEVR",
+    "CLEVR2"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "hapes and simple to natural images with complex texture and cluttered background). These datasets include the synthetic CLEVRn [23], SYNTH -CARn and SYNTH -CHAIRn, and the real REAL -CAR [57], wheren is the number of foreground objects. Addition"
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": false,
+   "snippet": null,
+   "added_by_author": true,
+   "note": "added in the hand check but the name does not occur in the paper's text; held back pending confirmation"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "SYNTH-CAR1",
+   "task": "Image generation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "SYNTH-CHAIR1",
+   "task": "Image generation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "REAL-CAR",
+   "task": "Image generation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CLEVR2",
+   "task": "Image generation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SYNTH-CAR1",
+   "task": "Image generation (unconditional GAN sample quality, one foreground object)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SYNTH-CHAIR1",
+   "task": "Image generation (unconditional GAN sample quality, one foreground object)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "REAL-CAR",
+   "task": "Image generation (unconditional GAN sample quality, natural car images with cluttered background)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CLEVR2",
+   "task": "Image generation (unconditional GAN sample quality, two foreground objects)"
+  }
+ ],
+ "checked_by_author": true
+}

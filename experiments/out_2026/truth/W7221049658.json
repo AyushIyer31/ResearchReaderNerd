@@ -1,0 +1,77 @@
+{
+ "benchmarks": [
+  {
+   "name": "Mind2Web",
+   "aliases": [
+    "MIND2WEB-derived public websites",
+    "Public websites (13 sites, MIND2WEB-derived shopping-style tasks)",
+    "MIND2WEB"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rename",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 4 / Table 1, \\\"13 sites, MIND2WEB-derived shopping-style tasks\\\"",
+    "gemini_note": "Evaluated on tasks derived from the Mind2Web benchmark.",
+    "new_name": "Mind2Web"
+   },
+   "rename_note": "2026-11-11: tasks derived from Mind2Web; canonical benchmark name"
+  },
+  {
+   "name": "VisualWebArena",
+   "aliases": [
+    "VisualWebArena OneStopShop",
+    "VisualWebArena OneStopShop sandbox",
+    "VWA",
+    "OneStopShop"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rename",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4 / Table 1, \\\"VisualWebArena OneStopShop sandbox\\\"",
+    "gemini_note": "Evaluated on the OneStopShop environment from VisualWebArena.",
+    "new_name": "VisualWebArena"
+   },
+   "rename_note": "2026-11-11: OneStopShop is a VisualWebArena environment; canonical name"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Public websites (13 sites, MIND2WEB-derived shopping-style tasks)",
+   "task": "Targeted grounded selection by web agents (SeeAct, WebVoyager): causing the agent to click an attacker-controlled candidate"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VisualWebArena OneStopShop sandbox",
+   "task": "Targeted grounded selection by web agent (CogVLM backbone) on the shopping sandbox"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

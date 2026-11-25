@@ -1,0 +1,188 @@
+{
+ "benchmarks": [
+  {
+   "name": "Visual Decathlon",
+   "aliases": [
+    "Visual Decathlon",
+    "Visual Decathlon (VD)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "an et al., 2017) and PACS (Li et al., 2017a) benchmarks, as well as the heterogeneous DG setting using the larger scale Visual Decathlon (VD) (Rebufﬁ et al., 2017) benchmark. 2. Related Work Multi-Domain Learning (MDL) MDL addresses train- ing a single mod"
+  },
+  {
+   "name": "Rotated MNIST",
+   "aliases": [
+    "Rotated MNIST"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ther end-to-end in a meta-learning pipeline. Our evaluation shows good performance in the conventional DG setting using Rotated MNIST (Ghifary et al., 2015; Motiian et al., 2017) and PACS (Li et al., 2017a) benchmarks, as well as the heterogeneous DG se"
+  },
+  {
+   "name": "PACS",
+   "aliases": [
+    "PACS",
+    "PACS Dataset"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ws good performance in the conventional DG setting using Rotated MNIST (Ghifary et al., 2015; Motiian et al., 2017) and PACS (Li et al., 2017a) benchmarks, as well as the heterogeneous DG setting using the larger scale Visual Decathlon (VD) (Re"
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "ncountered. The central example is the ubiquitous computer vision pipeline where a CNN feature extractor pre-trained on ImageNet is re-used for diverse applications. If data, computation, and human expert time is available, the feature can be ﬁne-t",
+   "added_by_author": true
+  },
+  {
+   "name": "CIFAR-100",
+   "aliases": [
+    "CIFAR-100"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "et domains. It should do so ‘out-of-the-box’, without further ﬁne tuning. Speciﬁcally, we take the six larger datasets (CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D",
+   "added_by_author": true
+  },
+  {
+   "name": "SVHN",
+   "aliases": [
+    "SVHN"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "ox’, without further ﬁne tuning. Speciﬁcally, we take the six larger datasets (CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flowers and UCF101)",
+   "added_by_author": true
+  },
+  {
+   "name": "Omniglot",
+   "aliases": [
+    "Omniglot"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "t-of-the-box’, without further ﬁne tuning. Speciﬁcally, we take the six larger datasets (CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flowers and UC",
+   "added_by_author": true
+  },
+  {
+   "name": "GTSRB",
+   "aliases": [
+    "GTSRB"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "so ‘out-of-the-box’, without further ﬁne tuning. Speciﬁcally, we take the six larger datasets (CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flow",
+   "added_by_author": true
+  },
+  {
+   "name": "Daimler Ped",
+   "aliases": [
+    "Daimler Ped"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "It should do so ‘out-of-the-box’, without further ﬁne tuning. Speciﬁcally, we take the six larger datasets (CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, V",
+   "added_by_author": true
+  },
+  {
+   "name": "Aircraft",
+   "aliases": [
+    "Aircraft"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "(CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flowers and UCF101) as target domains. We use ImageNet pre-trained ResNet-18 (He et al., 2016) as the",
+   "added_by_author": true
+  },
+  {
+   "name": "D. Textures",
+   "aliases": [
+    "D. Textures"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "0, Daimler Ped, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flowers and UCF101) as target domains. We use ImageNet pre-trained ResNet-18 (He et al., 2016) as the base network",
+   "added_by_author": true
+  },
+  {
+   "name": "VGG-Flowers",
+   "aliases": [
+    "VGG-Flowers"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "d, GTSRB, Omniglot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flowers and UCF101) as target domains. We use ImageNet pre-trained ResNet-18 (He et al., 2016) as the base network for all comp",
+   "added_by_author": true
+  },
+  {
+   "name": "UCF101",
+   "aliases": [
+    "UCF101"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "ot, SVHN and ImageNet) as source domains and hold out the four smaller datasets (Aircraft, D. Textures, VGG-Flowers and UCF101) as target domains. We use ImageNet pre-trained ResNet-18 (He et al., 2016) as the base network for all competitors. Fo",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Visual Decathlon",
+   "task": "Heterogeneous Domain Generalization"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Rotated MNIST",
+   "task": "Homogeneous Domain Generalization"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "PACS Dataset",
+   "task": "Homogeneous Domain Generalization"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Visual Decathlon (VD)",
+   "task": "Heterogeneous domain generalisation: train a feature extractor on six source datasets (CIFAR-100, Daimler Ped, GTSRB, Omniglot, SVHN, ImageNet) and evaluate off-the-shelf features with SVM or KNN on four held-out target datasets (Aircraft, D. Textures, VGG-Flowers, UCF101)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Rotated MNIST",
+   "task": "Homogeneous domain generalisation: leave-one-domain-out digit classification across six rotated MNIST domains (M0, M15, M30, M45, M60, M75)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PACS",
+   "task": "Homogeneous domain generalisation: object recognition across four domains (Photo, Art painting, Cartoon, Sketch) with 7 categories, using leave-one-domain-out evaluation"
+  }
+ ],
+ "checked_by_author": true
+}

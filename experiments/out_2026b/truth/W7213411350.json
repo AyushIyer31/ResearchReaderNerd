@@ -1,0 +1,343 @@
+{
+ "benchmarks": [
+  {
+   "name": "LIBERO",
+   "aliases": [
+    "LIBERO"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ptimizer Scheduler Checkpoint Vision Trajectory Post-processing Closed-loop performance Average success (%) Best result LIBERO 98.65% Range: 80-100% best reported 80 90 95 100 SmolVLA 84.70 Cosmos3-Nano 96.90 GR00T N1.5 95.30 GR00T N1.7 95.93 Fas",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Figure 4, \\\"average closed-loop success rates (%) across LIBERO, RoboCasa GR-1, RoboTwin, and RoboDojo.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "RoboCasa",
+   "aliases": [
+    "RoboCasa GR-1 Tabletop",
+    "RoboCasa GR-1"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "Keep success / partial progress distinct Per-task / per-trial results retained Supported evaluation environments LIBERO RoboCasa GR-1 Tabletop RoboTwin RoboDojo … Figure 4: Closed-loop simulation evaluation inFluxVLA. Shared policy inference and data processing",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rename",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Figure 4, \\\"Supported evaluation environments LIBERO RoboCasa GR-1 Tabletop RoboTwin RoboDojo\\\"",
+    "gemini_note": "",
+    "new_name": "RoboCasa"
+   },
+   "rename_note": "2026-11-11: GR-1 Tabletop is a RoboCasa variant; canonical name"
+  },
+  {
+   "name": "RoboTwin",
+   "aliases": [
+    "RoboTwin",
+    "RoboTwin (Clean and Random settings)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "data, model, training, and inference stack. Right: average closed-loop success rates (%) across LIBERO, RoboCasa GR-1, RoboTwin, and RoboDojo. Stars mark the best reported result within each benchmark. Values are not normalized to a baseline; prot",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Figure 4, \\\"average closed-loop success rates (%) across LIBERO, RoboCasa GR-1, RoboTwin, and RoboDojo.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "RoboDojo",
+   "aliases": [
+    "RoboDojo"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "oop performance Average success (%) ★ Best in each benchmark FluxVLA integration † Cosmos3-Nano on LIBERO, RoboCasa and RoboDojo; RoboT win reports Cosmos3 without specifying the variant. Different checkpoints / training budgets; not a controlled",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Figure 4, \\\"average closed-loop success rates (%) across LIBERO, RoboCasa GR-1, RoboTwin, and RoboDojo.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ALOHA real-robot benchmark",
+   "aliases": [
+    "ALOHA real-robot benchmark",
+    "ALOHA real-robot benchmark (six tasks)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4, real-robot evaluation tasks on the ALOHA hardware platform",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Oli real-robot benchmark",
+   "aliases": [
+    "Oli real-robot benchmark",
+    "Oli real-robot benchmark (four tasks)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4, real-robot evaluation tasks on the Oli hardware platform",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Rebot real-robot benchmark",
+   "aliases": [
+    "Rebot real-robot benchmark",
+    "Rebot real-robot benchmark (four tasks)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4, real-robot evaluation tasks on the Rebot hardware platform",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Dual-arm Franka real-robot benchmark",
+   "aliases": [
+    "Dual-arm Franka real-robot benchmark",
+    "Dual-arm Franka real-robot benchmark (five tasks)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4, real-robot evaluation tasks on the Dual-arm Franka platform",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AgileX ALOHA towel-folding",
+   "aliases": [
+    "AgileX ALOHA towel-folding",
+    "AgileX ALOHA towel-folding (companion ARM study)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "19: Real-robot results reported by the companion ARM study [28]. All methods use a GR00T-N1.5 policy on an eight-stage AgileX ALOHA towel-folding task with a 120-second timeout. The training set contains 972 episodes: 809 expert and 163 DAgger episodes. Bold denote",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Figure 19, \\\"eight-stage AgileX ALOHA towel-folding task with a 120-second timeout.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Inference acceleration benchmark",
+   "aliases": [
+    "Inference acceleration benchmark",
+    "Inference acceleration benchmark (model-path frequency)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4, engineering system throughput and latency checks",
+    "gemini_note": "Engineering performance measurement, not an evaluation benchmark dataset."
+   }
+  },
+  {
+   "name": "Numerical alignment test",
+   "aliases": [
+    "Numerical alignment test",
+    "Numerical alignment test (GR00T action heads)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4, numerical sanity check across action heads",
+    "gemini_note": "Software sanity/alignment check, not a dataset benchmark."
+   }
+  },
+  {
+   "name": "Trajectory post-processing latency benchmark",
+   "aliases": [
+    "Trajectory post-processing latency benchmark"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4, post-processing latency evaluation",
+    "gemini_note": "Engineering execution speed metric/test, not a dataset benchmark."
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LIBERO",
+   "task": "Language-guided manipulation (Spatial, Object, Goal, Long/libero_10 suites)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RoboCasa GR-1 Tabletop",
+   "task": "Household tabletop manipulation (trained-task categories and generalization set)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RoboTwin (Clean and Random settings)",
+   "task": "Bimanual manipulation (Clean and Random domain-randomized settings)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RoboDojo",
+   "task": "Generalist manipulation evaluation (sim-and-real benchmark) across 42 tasks"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ALOHA real-robot benchmark (six tasks)",
+   "task": "Real-robot deformable-object folding and pick-and-place"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Oli real-robot benchmark (four tasks)",
+   "task": "Stationary manipulation (candy picking, tabletop clearing) and mobile manipulation (box transport, basket-and-toy picking)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Rebot real-robot benchmark (four tasks)",
+   "task": "Block transfer, box opening and car placement, flower insertion, black-block stacking"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Dual-arm Franka real-robot benchmark (five tasks)",
+   "task": "Bimanual tube handover, bag loading, alternating toy picking, drawer loading, block stacking"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AgileX ALOHA towel-folding (companion ARM study)",
+   "task": "Eight-stage towel folding with 120-second timeout"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Inference acceleration benchmark (model-path frequency)",
+   "task": "Model inference frequency (Hz) for GR00T and π0.5 baseline vs accelerated implementations"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Numerical alignment test (GR00T action heads)",
+   "task": "Random-weight numerical comparison of original vs accelerated GR00T action heads"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Trajectory post-processing latency benchmark",
+   "task": "Host-side latency of trajectory post-processing backends on a synthetic trajectory"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

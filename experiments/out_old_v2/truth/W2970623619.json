@@ -1,0 +1,64 @@
+{
+ "benchmarks": [
+  {
+   "name": "PointDA-10",
+   "aliases": [
+    "PointDA-10",
+    "PointDA-10 Dataset"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ains. Since there is no common evaluation benchmark for 3D point cloud DA scenario, we build a general benchmark (i.e., PointDA-10) extracted from three popular 3D object/scene datasets (i.e., ModelNet, ShapeNet and ScanNet) for cross-domain 3D objec"
+  },
+  {
+   "name": "ModelNet",
+   "aliases": [
+    "ModelNet"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "scenario, we build a general benchmark (i.e., PointDA-10) extracted from three popular 3D object/scene datasets (i.e., ModelNet, ShapeNet and ScanNet) for cross-domain 3D objects classiﬁcation fashion. Extensive experiments on PointDA-10 illustrat",
+   "added_by_author": true
+  },
+  {
+   "name": "ShapeNet",
+   "aliases": [
+    "ShapeNet"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "we build a general benchmark (i.e., PointDA-10) extracted from three popular 3D object/scene datasets (i.e., ModelNet, ShapeNet and ScanNet) for cross-domain 3D objects classiﬁcation fashion. Extensive experiments on PointDA-10 illustrate the supe",
+   "added_by_author": true
+  },
+  {
+   "name": "ScanNet",
+   "aliases": [
+    "ScanNet"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "eneral benchmark (i.e., PointDA-10) extracted from three popular 3D object/scene datasets (i.e., ModelNet, ShapeNet and ScanNet) for cross-domain 3D objects classiﬁcation fashion. Extensive experiments on PointDA-10 illustrate the superiority of o",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "PointDA-10 Dataset",
+   "task": "Cross-domain 3D object classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PointDA-10",
+   "task": "Unsupervised domain adaptation for 3D point cloud object classification"
+  }
+ ],
+ "checked_by_author": true
+}

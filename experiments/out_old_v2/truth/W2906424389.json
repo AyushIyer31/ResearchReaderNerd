@@ -1,0 +1,174 @@
+{
+ "benchmarks": [
+  {
+   "name": "MNIST",
+   "aliases": [
+    "MNIST"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "erarchy was then used for ground-truth auxiliary labels for the Human baseline (see below). For the other six datasets: MNIST [ 19], SVHN [12], CIFAR-10 [18], ImageNet [7], CINIC-10 [6] and UCF-101 [32], a hierarchy is either not available or di"
+  },
+  {
+   "name": "SVHN",
+   "aliases": [
+    "SVHN"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "hen used for ground-truth auxiliary labels for the Human baseline (see below). For the other six datasets: MNIST [ 19], SVHN [12], CIFAR-10 [18], ImageNet [7], CINIC-10 [6] and UCF-101 [32], a hierarchy is either not available or difﬁcult to ac"
+  },
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "xperimental Setup Datasets We evaluated on seven different datasets, with varying sizes and complexities. One of these, CIFAR-100 [ 18], contains a manually-deﬁned 2-level hierarchical structure, which we expanded into a 4-level hierarchy by manual"
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "corporating knowledge learned from one or more related domains. Pre-training a model with a large-scale dataset such as ImageNet [ 7] has become a standard practise in many vision-based applications. Auxiliary Learning Whilst in multi-task learning"
+  },
+  {
+   "name": "CINIC-10",
+   "aliases": [
+    "CINIC-10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ls for the Human baseline (see below). For the other six datasets: MNIST [ 19], SVHN [12], CIFAR-10 [18], ImageNet [7], CINIC-10 [6] and UCF-101 [32], a hierarchy is either not available or difﬁcult to access, and so no ground-truth auxiliary label"
+  },
+  {
+   "name": "UCF-101",
+   "aliases": [
+    "UCF-101"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "baseline (see below). For the other six datasets: MNIST [ 19], SVHN [12], CIFAR-10 [18], ImageNet [7], CINIC-10 [6] and UCF-101 [32], a hierarchy is either not available or difﬁcult to access, and so no ground-truth auxiliary labels exist. All lar"
+  },
+  {
+   "name": "CIFAR-100 4-level hierarchy",
+   "aliases": [
+    "CIFAR-100 (4-level hierarchy version by the authors)",
+    "CIFAR-100 4-level hierarchy"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "CIFAR-100",
+   "aliases": [
+    "CIFAR-100"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "xperimental Setup Datasets We evaluated on seven different datasets, with varying sizes and complexities. One of these, CIFAR-100 [ 18], contains a manually-deﬁned 2-level hierarchical structure, which we expanded into a 4-level hierarchy by manuall",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "MNIST",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "SVHN",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ImageNet",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CINIC-10",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "UCF-101",
+   "task": "Video Classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MNIST",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SVHN",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CINIC-10",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "UCF-101",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-100 (4-level hierarchy version by the authors)",
+   "task": "image classification"
+  }
+ ],
+ "checked_by_author": true
+}

@@ -1,0 +1,125 @@
+{
+ "benchmarks": [
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "er. Experiments show that the architecture discovered by our method is very competitive for image classiﬁcation task on CIFAR-10 and language modeling task on PTB, outperforming or on par with the best results of previous architecture search method"
+  },
+  {
+   "name": "CIFAR-100",
+   "aliases": [
+    "CIFAR-100"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "uage modeling task. The best discovered architectures on both tasks are successfully transferred to other tasks such as CIFAR-100 (test error rate of14.75%), ImageNet (top-1 test error rate of 25.7%) and WikiText-2 (test perplexity of67.0). Furtherm"
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "d architectures on both tasks are successfully transferred to other tasks such as CIFAR-100 (test error rate of14.75%), ImageNet (top-1 test error rate of 25.7%) and WikiText-2 (test perplexity of67.0). Furthermore, combined with the recent propose"
+  },
+  {
+   "name": "Penn Treebank",
+   "aliases": [
+    "PTB (Penn Treebank)",
+    "Penn Treebank",
+    "Penn Treebank (PTB)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": ", Grace Kim, Mary Ann Marcinkiewicz, Robert MacIntyre, Ann Bies, Mark Ferguson, Karen Katz, and Britta Schasberger. The penn treebank: annotating predicate argument structure. In Proceedings of the workshop on Human Language Technology, pages 114–119. A"
+  },
+  {
+   "name": "WikiText-2",
+   "aliases": [
+    "WikiText-2",
+    "WikiText-2 (WT2)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "transferred to other tasks such as CIFAR-100 (test error rate of14.75%), ImageNet (top-1 test error rate of 25.7%) and WikiText-2 (test perplexity of67.0). Furthermore, combined with the recent proposed weight sharing mechanism, we discover powerful"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-100",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ImageNet",
+   "task": "Image Classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "PTB (Penn Treebank)",
+   "task": "Language Modeling"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "WikiText-2 (WT2)",
+   "task": "Language Modeling"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-100",
+   "task": "image classification (transfer of CIFAR-10 cell)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet",
+   "task": "image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Penn Treebank (PTB)",
+   "task": "language modeling"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "WikiText-2",
+   "task": "language modeling (transfer of PTB-searched cell)"
+  }
+ ],
+ "checked_by_author": true
+}

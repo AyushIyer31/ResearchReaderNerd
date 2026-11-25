@@ -10,6 +10,7 @@ import anthropic
 
 from .analyze import AnalysisError, AnalysisResult, Prompts, analyze_paper
 from .consider import Consideration, consider_benchmarks
+from .llm import OllamaError
 from .paper import Paper, PaperError
 from .pricing import Spend
 from .report import render_report
@@ -31,7 +32,8 @@ def run_pipeline(
     arxiv_id: str | None = None,
     progress: Callable[[str], None] = lambda stage: None,
 ) -> tuple[AnalysisResult, Consideration | None, Spend]:
-    """R1/R2 from the PDF, then (optionally) the benchmarks the paper might consider."""
+    """R2 from the paper, then (optionally) the benchmarks the paper might consider.
+    `client` comes from llm.make_client(model)."""
     spend = Spend()
     progress("analyze")
     result = analyze_paper(paper, client, prompts=prompts, model=model, effort=effort)
@@ -94,7 +96,7 @@ def save_run(
 
 def describe_error(e: Exception) -> str | None:
     """A plain message for failures a user can act on, or None for unexpected errors."""
-    if isinstance(e, (PaperError, AnalysisError, ScholarError)):
+    if isinstance(e, (PaperError, AnalysisError, ScholarError, OllamaError)):
         return str(e)
     if isinstance(e, anthropic.AuthenticationError):
         return "The Anthropic API key was rejected. Check ANTHROPIC_API_KEY."

@@ -1,0 +1,125 @@
+{
+ "benchmarks": [
+  {
+   "name": "ASSISTments 2009",
+   "aliases": [
+    "ASSISTments 2009"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "eractions. Junyi Academy contains an average of 10.8 interactions per student-skill pair. We use four public datasets: ASSISTments 2009, which contains U.S. middle -school mathematics practice (Feng et al., 2009); EdNet KT1, which records Korean test-pre",
+   "year": 2009,
+   "year_source": "citation",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2009,
+    "where": "Section 3 / Table 1, \\\"ASSISTments 2009, which contains U.S. middle-school mathematics practice (Feng et al., 2009)\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: 2009-2010 skill-builder data, paper cites Feng et al. 2009; evidence year 1995 was wrong"
+  },
+  {
+   "name": "EdNet KT1",
+   "aliases": [
+    "EdNet KT1"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "Interaction Records Avg. Interactions per Student Correctness Rate (%) ASSISTments 2009 2,254 138 200,000 88.7 62.4 EdNet KT1 352 187 200,000 568.2 55.1 DBE-KT22 543 13 19,400 35.7 71.8 Junyi Academy 816 1,278 189,000 231.6 69.8 Note. Knowle",
+   "year": 2020,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2020,
+    "where": "Section 3 / Table 1, \\\"EdNet KT1...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "DBE-KT22",
+   "aliases": [
+    "DBE-KT22"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "per Student Correctness Rate (%) ASSISTments 2009 2,254 138 200,000 88.7 62.4 EdNet KT1 352 187 200,000 568.2 55.1 DBE-KT22 543 13 19,400 35.7 71.8 Junyi Academy 816 1,278 189,000 231.6 69.8 Note. Knowledge components are the distinct skill",
+   "year": 2022,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 3 / Table 1, \\\"DBE-KT22...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Junyi Academy",
+   "aliases": [
+    "Junyi Academy"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nents are the distinct skills tracked after preprocessing. Correctness rate is the proportion of correct interactions. Junyi Academy contains an average of 10.8 interactions per student-skill pair. We use four public datasets: ASSISTments 2009, which",
+   "year": 2020,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2015,
+    "where": "Section 3 / Table 1, \\\"Junyi Academy contains an average of 10.8 interactions per student-skill pair.\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ASSISTments 2009",
+   "task": "Knowledge tracing / mastery threshold evaluation on student practice logs"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "EdNet KT1",
+   "task": "Knowledge tracing / mastery threshold evaluation on test-preparation activity logs"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DBE-KT22",
+   "task": "Knowledge tracing / mastery threshold evaluation on university database course interactions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Junyi Academy",
+   "task": "Knowledge tracing / mastery threshold evaluation on K-12 mathematics practice logs"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

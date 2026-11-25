@@ -1,0 +1,74 @@
+{
+ "benchmarks": [
+  {
+   "name": "VBench2.0",
+   "aliases": [
+    "VBench2.0",
+    "VBench2.0 (CogVideoX-2B backbone)",
+    "VBench2.0 (Wan2.1-T2V-1.3B-Diffusers backbone)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "d to different skills, domains, or evaluation di- mensions. We study this problem in text-to-video post-training, where VBench2.0 dimensions define data buckets and an external multimodal reward pipeline assigns sample weights. We propose G3-LoRA (G",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 1 / Section 4, \\\"where VBench2.0 dimensions define data buckets\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "VideoScore-v1.1",
+   "aliases": [
+    "VideoScore-v1.1",
+    "VideoScore-v1.1 (independent learned evaluator on Wan2.1 videos)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "rap over prompts (Appendix J). As an evaluator independent of the Qwen reward model, we also score the same videos with VideoScore-v1.1 (He et al., 2024). The retention study in Appendix G is a separate matched diagnostic evaluation and is reported only f",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4 / Appendix J, \\\"we also score the same videos with VideoScore-v1.1 (He et al., 2024).\\\"",
+    "gemini_note": "Evaluator model/metric, not a benchmark dataset."
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VBench2.0 (Wan2.1-T2V-1.3B-Diffusers backbone)",
+   "task": "Text-to-video generation evaluation across 17 non-diversity VBench2.0 dimensions, used both as evaluation suite and as data categories"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VBench2.0 (CogVideoX-2B backbone)",
+   "task": "Text-to-video generation evaluation on a second backbone with its native diffusion-denoising loss, macro mean over 17 dimensions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VideoScore-v1.1 (independent learned evaluator on Wan2.1 videos)",
+   "task": "Learned video quality evaluation of Wan2.1 base and grouped adapter outputs, used as an evaluator independent of the Qwen3-VL reward model"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

@@ -7,9 +7,8 @@ import os
 import sys
 from pathlib import Path
 
-import anthropic
-
 from .analyze import DEFAULT_EFFORT, DEFAULT_MODEL, Prompts
+from .llm import is_local_model, make_client
 from .paper import PaperError, load_paper, parse_arxiv_id
 from .run import BUDGET_USD, describe_error, run_pipeline, save_run
 from .storage import LocalStorage
@@ -30,14 +29,16 @@ def load_dotenv(path: Path = Path(".env")) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="rrn",
-        description="Report a paper's assumptions (R1), benchmarks (R2), and benchmarks it might consider (R3).",
+        description="Report a paper's benchmarks (R2) and benchmarks it might consider (R3).",
     )
     parser.add_argument("paper", help="Path to a PDF, an arXiv ID (2401.01234), or an arXiv URL.")
     parser.add_argument("-o", "--out-dir", type=Path, default=Path("reports"), help="Where to write the report (default: reports/).")
-    parser.add_argument("--model", default=DEFAULT_MODEL)
-    parser.add_argument("--effort", default=DEFAULT_EFFORT, choices=["low", "medium", "high", "xhigh", "max"])
+    parser.add_argument("--model", default=DEFAULT_MODEL,
+                        help="An Ollama model (default: %(default)s) or a Claude model such as claude-haiku-5-5.")
+    parser.add_argument("--effort", default=DEFAULT_EFFORT, choices=["low", "medium", "high", "xhigh", "max"],
+                        help="Reasoning effort; Claude models only.")
     parser.add_argument("--skip-consider", action="store_true",
-                        help="Only R1 and R2: skip the search for benchmarks the paper might consider.")
+                        help="Only R2: skip the search for benchmarks the paper might consider.")
     args = parser.parse_args(argv)
     load_dotenv()
 
@@ -51,7 +52,7 @@ def main(argv: list[str] | None = None) -> int:
     prompts = Prompts()
     try:
         result, consideration, spend = run_pipeline(
-            paper, anthropic.Anthropic(), prompts, model=args.model, effort=args.effort,
+            paper, make_client(args.model), prompts, model=args.model, effort=args.effort,
             consider=not args.skip_consider, arxiv_id=parse_arxiv_id(args.paper),
             progress=lambda stage: print(f"  {stage}...", file=sys.stderr),
         )
@@ -67,12 +68,14 @@ def main(argv: list[str] | None = None) -> int:
         consideration=consideration, spend=spend,
     )
     out = args.out_dir
-    found = f"Found {len(result.analysis.assumptions)} assumptions and {len(result.analysis.benchmarks)} benchmarks"
+    found = f"Found {len(result.analysis.benchmarks)} benchmarks"
     if consideration is not None:
         found += f", and {len(consideration.suggestions)} benchmarks to consider"
+    cost = ("local model, no API cost" if is_local_model(args.model)
+            else f"about ${spend.cost:.3f}; budget ${BUDGET_USD:.2f}")
     print(
         f"{found}.\n"
-        f"Tokens: {spend.input_tokens:,} in, {spend.output_tokens:,} out (about ${spend.cost:.3f}; budget ${BUDGET_USD:.2f})\n"
+        f"Tokens: {spend.input_tokens:,} in, {spend.output_tokens:,} out ({cost})\n"
         f"Report: {out / (name + '.md')}\nWeb:    {out / (name + '.html')}\nData:   {out / (name + '.json')}",
         file=sys.stderr,
     )

@@ -1,0 +1,111 @@
+{
+ "benchmarks": [
+  {
+   "name": "SVHN",
+   "aliases": [
+    "SVHN"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "s in fact harm robust performance to a very large de- gree in adversarially robust training across mul- tiple datasets (SVHN, CIFAR-10, CIFAR-100, and ImageNet) and perturbation models (𝓁∞ and 𝓁2). Based upon this observed effect, we show that"
+  },
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "act harm robust performance to a very large de- gree in adversarially robust training across mul- tiple datasets (SVHN, CIFAR-10, CIFAR-100, and ImageNet) and perturbation models (𝓁∞ and 𝓁2). Based upon this observed effect, we show that the perfor"
+  },
+  {
+   "name": "CIFAR-100",
+   "aliases": [
+    "CIFAR-100"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "obust performance to a very large de- gree in adversarially robust training across mul- tiple datasets (SVHN, CIFAR-10, CIFAR-100, and ImageNet) and perturbation models (𝓁∞ and 𝓁2). Based upon this observed effect, we show that the performance gains"
+  },
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ce to a very large de- gree in adversarially robust training across mul- tiple datasets (SVHN, CIFAR-10, CIFAR-100, and ImageNet) and perturbation models (𝓁∞ and 𝓁2). Based upon this observed effect, we show that the performance gains of virtually"
+  },
+  {
+   "name": "Tiny Images",
+   "aliases": [
+    "Tiny Images"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": false,
+   "snippet": null,
+   "added_by_author": true,
+   "note": "added in the hand check but the name does not occur in the paper's text; held back pending confirmation"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "SVHN",
+   "task": ""
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": ""
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-100",
+   "task": ""
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "ImageNet",
+   "task": ""
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SVHN",
+   "task": "Adversarially robust image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10",
+   "task": "Adversarially robust image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-100",
+   "task": "Adversarially robust image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet",
+   "task": "Adversarially robust image classification (fine-tuning of pretrained models)"
+  }
+ ],
+ "checked_by_author": true
+}

@@ -1,0 +1,4 @@
+{
+ "source": "GET https://api.openalex.org/rate-limit?api_key=<redacted>, read on 13 Nov 2026, local time (14 Nov 00:00 UTC), during the launch build (copied verbatim from the session record). launch.py's Meter reads resets_at, daily_used_usd, daily_remaining_usd and prepaid_remaining_usd; quota.py reads daily_remaining_usd and prepaid_remaining_usd; the worksheet's unit prices are endpoint_costs_usd.",
+ "rate_limit": {"daily_budget_usd": 1, "daily_used_usd": 0, "daily_remaining_usd": 1, "prepaid_balance_usd": 3.1789, "prepaid_remaining_usd": 3.1789, "prepaid_expires_at": "Tue Feb 09 2027 05:30:47 GMT+0000 (Coordinated Universal Time)", "resets_at": "2026-11-15T00:00:00.000Z", "resets_in_seconds": 86382, "endpoint_costs_usd": {"singleton": 0, "list": 0.0001, "search": 0.001, "search_rerank": 0.002, "rerank_extra": 0.001, "content": 0.01, "semantic": 0.001, "text": 0.01}}
+}

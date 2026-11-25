@@ -1,0 +1,234 @@
+{
+ "benchmarks": [
+  {
+   "name": "MMBrowseComp",
+   "aliases": [
+    "MMBrowseComp"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "tance ratios. 10 [page 11] 7 Experiments 7.1 Experimental setup We evaluate search ability on seven public benchmarks: MMBrowseComp [16], MMSearch [12], MMSearch-Plus [26], SimpleVQA [4], VDR-Bench [32], LiveVQA [6], and FVQA [27]. We additionally eva",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 7.1, \\\"We evaluate search ability on seven public benchmarks: MMBrowseComp [16]...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MMSearch",
+   "aliases": [
+    "MMSearch"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "[page 1] WeAgent-MMSearch: Native Text-Vision Interaction for Multimodal Search Agents Zongkai Liu 1,2 Hui Zhang 1 Liqiang Niu 1,‡ Zhen Cao 1 Han",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 7.1, \\\"MMSearch [12]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MMSearch-Plus",
+   "aliases": [
+    "MMSearch-Plus"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ". Multimodal search benchmarks.MMSearch evaluates multimodal search through component-level and end- to-end tasks [12]; MMSearch-Plus emphasizes provenance-aware search and evidence attribution [26]; and MM-BrowseComp uses expert-crafted, multi-hop brow",
+   "year": 2026,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 7.1, \\\"MMSearch-Plus [26]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "VisTarget-Bench",
+   "aliases": [
+    "VisTarget-Bench"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "vageable abnormal rollouts and filters invalid ones to improve bounded multimodal planning and search. We also introduceVisTarget-Bench, a 150-task human-verified benchmark that pairs each question with a held-out target image, distinguishing image-retrie",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 7.1, \\\"We also introduceVisTarget-Bench, a 150-task human-verified benchmark...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "SimpleVQA",
+   "aliases": [
+    "SimpleVQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ntal setup We evaluate search ability on seven public benchmarks: MMBrowseComp [16], MMSearch [12], MMSearch-Plus [26], SimpleVQA [4], VDR-Bench [32], LiveVQA [6], and FVQA [27]. We additionally evaluate onVisTarget- Bench. Results are scored by Kim",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 7.1, \\\"SimpleVQA [4]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "VDR-Bench",
+   "aliases": [
+    "VDR-Bench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "valuate search ability on seven public benchmarks: MMBrowseComp [16], MMSearch [12], MMSearch-Plus [26], SimpleVQA [4], VDR-Bench [32], LiveVQA [6], and FVQA [27]. We additionally evaluate onVisTarget- Bench. Results are scored by Kimi K2.6. Unless",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 7.1, \\\"VDR-Bench [32]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LiveVQA",
+   "aliases": [
+    "LiveVQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "bility on seven public benchmarks: MMBrowseComp [16], MMSearch [12], MMSearch-Plus [26], SimpleVQA [4], VDR-Bench [32], LiveVQA [6], and FVQA [27]. We additionally evaluate onVisTarget- Bench. Results are scored by Kimi K2.6. Unless otherwise stat",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 7.1, \\\"LiveVQA [6]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "FVQA",
+   "aliases": [
+    "FVQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "aiaiai.github.io/WeAgent-MMSearch/ MMBrowse Comp MMSearch MMSearch Plus VisTarget- Bench Simple VQA VDR- Bench Live VQA FVQA 0 20 40 60 80 100Score 28.1 77.8 37.8 30.2 77.7 35.7 81.0 79.3 14.1 68.7 28.9 16.9 74.9 33.5 67.4 73.2 5.8 52.2 13.0 8.",
+   "year": 2017,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2017,
+    "where": "Section 7.1, \\\"FVQA [27]\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MMBrowseComp",
+   "task": "Multimodal browsing and search (MMSearch-style task)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MMSearch",
+   "task": "Multimodal search"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MMSearch-Plus",
+   "task": "Provenance-aware multimodal search and evidence attribution"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VisTarget-Bench",
+   "task": "Final-answer accuracy and visual-evidence use (target-image retrieval and matching) on 150 human-verified tasks"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SimpleVQA",
+   "task": "Multimodal factuality and knowledge QA"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VDR-Bench",
+   "task": "Visual and textual search for multimodal knowledge QA"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LiveVQA",
+   "task": "Multimodal knowledge QA on live (recent) visual knowledge"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "FVQA",
+   "task": "Fact-based visual question answering (multimodal knowledge QA)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

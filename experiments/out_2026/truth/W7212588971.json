@@ -1,0 +1,125 @@
+{
+ "benchmarks": [
+  {
+   "name": "MATH500",
+   "aliases": [
+    "MATH500"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ath according arXiv:2609.12317v1 [cs.LG] 11 Sep 2026 [page 2] 0.00 0.25 0.50 0.75Accuracy 0.496 0.69 0.785 0.748 0.818 MATH500 0.0 0.2 0.4 0.6Accuracy 0.329 0.512 0.537 0.573 0.591 HumanEval 0.0 0.2 0.4Accuracy 0.278 0.353 0.399 0.389 0.456 GPQA",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4 / Table 1, \\\"Performance comparison of DF-Sample and baselines on MATH500, HumanEval, GPQA-Diamond, and AlpacaEval 2.0.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "HumanEval",
+   "aliases": [
+    "HumanEval"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "0.00 0.25 0.50 0.75Accuracy 0.496 0.69 0.785 0.748 0.818 MATH500 0.0 0.2 0.4 0.6Accuracy 0.329 0.512 0.537 0.573 0.591 HumanEval 0.0 0.2 0.4Accuracy 0.278 0.353 0.399 0.389 0.456 GPQA 0 1 2 3Win Rate 1.61 2.09 2.38 2.88 3.06 AlpacaEval 2.0 Base Low",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 4 / Table 1, \\\"Performance comparison of DF-Sample and baselines on MATH500, HumanEval, GPQA-Diamond, and AlpacaEval 2.0.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "GPQA-Diamond",
+   "aliases": [
+    "GPQA-Diamond"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "cross three model families (Qwen2.5-Math-7B, Qwen2.5- 7B, Phi-3.5-mini-instruct) and four datasets (MATH500, HumanEval, GPQA-Diamond, AlpacaEval 2.0), DF-Sample consistently outperforms base models, competitive sam- pling baselines, and RL-trained coun",
+   "year": 2023,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 4 / Table 1, \\\"Performance comparison of DF-Sample and baselines on MATH500, HumanEval, GPQA-Diamond, and AlpacaEval 2.0.\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: GPQA arXiv 2311.12022, Nov 2023; matches GPQA Diamond in the other papers"
+  },
+  {
+   "name": "AlpacaEval 2.0",
+   "aliases": [
+    "AlpacaEval 2.0"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "7 0.573 0.591 HumanEval 0.0 0.2 0.4Accuracy 0.278 0.353 0.399 0.389 0.456 GPQA 0 1 2 3Win Rate 1.61 2.09 2.38 2.88 3.06 AlpacaEval 2.0 Base Low-temperature GRPO Power Sampling DF-Sample (Ours) Figure 1: DF-Sample vs. baselines on Qwen2.5-MATH-7B using MA",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4 / Table 1, \\\"Performance comparison of DF-Sample and baselines on MATH500, HumanEval, GPQA-Diamond, and AlpacaEval 2.0.\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MATH500",
+   "task": "Competition-level mathematical problem solving"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HumanEval",
+   "task": "Code generation (Python programming tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GPQA-Diamond",
+   "task": "Graduate-level multiple-choice science question answering (physics, chemistry, biology)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AlpacaEval 2.0",
+   "task": "Open-ended instruction following and general helpfulness"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

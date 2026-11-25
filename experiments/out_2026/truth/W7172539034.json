@@ -1,0 +1,321 @@
+{
+ "benchmarks": [
+  {
+   "name": "EvoChart",
+   "aliases": [
+    "EvoChart"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "n Appendix B. Evaluation.For VLM-based OPD, we include six bench- marks covering two aspects: (1) visual understanding: EvoChart(Huangetal.2025),MMIFEval(Dingetal.2025), and CountQA (Tamarapalli et al. 2025); and (2) visual rea- soning: MathVision",
+   "year": 2024,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Appendix B,\"visual understanding: EvoChart (Huang et al. 2025)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MMIFEval",
+   "aliases": [
+    "MMIFEval"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "For VLM-based OPD, we include six bench- marks covering two aspects: (1) visual understanding: EvoChart(Huangetal.2025),MMIFEval(Dingetal.2025), and CountQA (Tamarapalli et al. 2025); and (2) visual rea- soning: MathVision (Wang et al. 2024a), Geo3",
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Appendix B, \"MMIFEval (Ding et al. 2025)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "CountQA",
+   "aliases": [
+    "CountQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "six bench- marks covering two aspects: (1) visual understanding: EvoChart(Huangetal.2025),MMIFEval(Dingetal.2025), and CountQA (Tamarapalli et al. 2025); and (2) visual rea- soning: MathVision (Wang et al. 2024a), Geo3K (Lu et al. 2021), and Math",
+   "year": 2025,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Appendix B, \"CountQA (Tamarapalli et al.2025)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MathVision",
+   "aliases": [
+    "MathVision"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "g: EvoChart(Huangetal.2025),MMIFEval(Dingetal.2025), and CountQA (Tamarapalli et al. 2025); and (2) visual rea- soning: MathVision (Wang et al. 2024a), Geo3K (Lu et al. 2021), and MathVista (Lu et al. 2024). For LLM-based OPD, we evaluate mathematica",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Appendix B, \"visual reasoning: MathVision (Wang et al. 2024a)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Geo3K",
+   "aliases": [
+    "Geo3K"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "Eval(Dingetal.2025), and CountQA (Tamarapalli et al. 2025); and (2) visual rea- soning: MathVision (Wang et al. 2024a), Geo3K (Lu et al. 2021), and MathVista (Lu et al. 2024). For LLM-based OPD, we evaluate mathematical reasoning performance on",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Appendix B, \"Geo3K (Lu et al. 2021)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MathVista",
+   "aliases": [
+    "MathVista"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ntQA (Tamarapalli et al. 2025); and (2) visual rea- soning: MathVision (Wang et al. 2024a), Geo3K (Lu et al. 2021), and MathVista (Lu et al. 2024). For LLM-based OPD, we evaluate mathematical reasoning performance on fivebenchmarksspanningarangeofdi",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Appendix B, \"MathVista (Lu et al. 2024)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MATH-500",
+   "aliases": [
+    "MATH-500",
+    "Math500"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "we evaluate mathematical reasoning performance on fivebenchmarksspanningarangeofdifficultylevels:AIME 2024, AIME 2025, Math500 (Hendrycks et al. 2021), AMC 2023, and MinervaMATH (Lewkowycz et al. 2022). All benchmarksareevaluatedusingtheofficialm",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Appendix B,\"Math500 (Hendrycks et al. 2021)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AMC 2023",
+   "aliases": [
+    "AMC 2023"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "implicity, we refer to MathVistamini as MathVista throughout the paper. For LLM math reasoning, we evaluate on Math500, AMC 2023, AIME 2024, AIME 2025, and MinervaMATH. We follow the standard exact-match or official answer extraction protocol for e",
+   "year": 2023,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Appendix B, \"AMC 2023\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AIME 2024",
+   "aliases": [
+    "AIME 2024"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "we refer to MathVistamini as MathVista throughout the paper. For LLM math reasoning, we evaluate on Math500, AMC 2023, AIME 2024, AIME 2025, and MinervaMATH. We follow the standard exact-match or official answer extraction protocol for each benchma",
+   "year": 2024,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Appendix B, \"AIME 2024\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AIME 2025",
+   "aliases": [
+    "AIME 2025"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "-based OPD, we evaluate mathematical reasoning performance on fivebenchmarksspanningarangeofdifficultylevels:AIME 2024, AIME 2025, Math500 (Hendrycks et al. 2021), AMC 2023, and MinervaMATH (Lewkowycz et al. 2022). All benchmarksareevaluatedusingthe",
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Appendix B, \"AIME 2025\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MinervaMATH",
+   "aliases": [
+    "MinervaMATH"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "on fivebenchmarksspanningarangeofdifficultylevels:AIME 2024, AIME 2025, Math500 (Hendrycks et al. 2021), AMC 2023, and MinervaMATH (Lewkowycz et al. 2022). All benchmarksareevaluatedusingtheofficialmetricsandeval- uations to ensure consistent compari",
+   "year": 2022,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Appendix B, \"MinervaMATH (Lewkowycz et al. 2022)\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "EvoChart",
+   "task": "Visual understanding (chart understanding)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MMIFEval",
+   "task": "Visual understanding (multimodal instruction following)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CountQA",
+   "task": "Visual understanding (counting)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MathVision",
+   "task": "Visual reasoning (multimodal math)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Geo3K",
+   "task": "Visual reasoning (geometry problem solving)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MathVista",
+   "task": "Visual reasoning (mathematical reasoning in visual contexts)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Math500",
+   "task": "Mathematical reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AMC 2023",
+   "task": "Mathematical reasoning (competition)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AIME 2024",
+   "task": "Mathematical reasoning (competition)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AIME 2025",
+   "task": "Mathematical reasoning (competition)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MinervaMATH",
+   "task": "Mathematical reasoning"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

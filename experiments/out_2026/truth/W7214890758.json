@@ -1,0 +1,69 @@
+{
+ "benchmarks": [
+  {
+   "name": "OfficeQA",
+   "aliases": [
+    "OfficeQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "subsequent training only if it improves validation performance. With Qwen3.5-9B, V ACE achieves 45.26% test accuracy on OfficeQA and a mean partial-credit score of 75.19% on Automation- Bench, exceeding weight-only RL by 6.43 and 9.09 percentage po",
+   "year": 2026,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 1, \\\"VACE achieves 45.26% test accuracy on OfficeQA...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AutomationBench",
+   "aliases": [
+    "AutomationBench",
+    "AutomationBench (209-task subset from HR, Marketing, and Finance domains)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ork. Section 2 discusses the technical relationships to related and concurrent work. In our experiments on OfficeQA and AutomationBench with Qwen3.5-9B, V ACE scores 6.43 and 9.09 percentage points above weight-only RL, respectively, and 4.59 and 6.95 poi",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 1, \\\"In our experiments on OfficeQA and AutomationBench with Qwen3.5-9B...\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OfficeQA",
+   "task": "Document-grounded reasoning (end-to-end grounded question answering)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AutomationBench (209-task subset from HR, Marketing, and Finance domains)",
+   "task": "Business workflow automation involving tools and workplace applications"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

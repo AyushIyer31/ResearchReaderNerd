@@ -18,13 +18,13 @@ from importlib import resources
 from pathlib import Path
 from typing import Callable, Literal
 
-import anthropic
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
 from .analyze import DEFAULT_EFFORT, DEFAULT_MODEL, OUTPUT_FORMAT, Prompts
 from .cli import load_dotenv
+from .llm import make_client
 from .paper import MAX_PDF_BYTES, Paper, PaperError, load_paper, paper_from_bytes, parse_arxiv_id
 from .run import describe_error, run_pipeline, save_run
 from .storage import LocalStorage, S3Storage, Storage
@@ -48,11 +48,11 @@ STAGES = [
     },
     {
         "id": "analyze",
-        "title": "Read the paper (R1 + R2)",
-        "detail": "One Claude call with the PDF attached. The three system boxes are joined into one system prompt.",
+        "title": "Read the paper (R2)",
+        "detail": "One model call with the paper attached: the PDF itself for Claude, its extracted text for a "
+                  "local model. The two system boxes are joined into one system prompt.",
         "prompts": [
             {"key": "instructions", "label": "Shared instructions", "role": "system"},
-            {"key": "assumptions", "label": "R1 · Assumptions", "role": "system"},
             {"key": "benchmarks", "label": "R2 · Benchmarks", "role": "system"},
             {"key": "user", "label": "Message sent with the PDF", "role": "user"},
         ],
@@ -60,18 +60,31 @@ STAGES = [
     {
         "id": "plan",
         "title": "Plan the benchmark search",
-        "detail": "From R1/R2: the paper's field, themes, catalog search terms, and the paper each benchmark is cited to.",
+        "detail": "From R2: the paper's field, themes, catalog search terms, and the paper each benchmark is cited to.",
         "prompts": [{"key": "plan", "label": "Planning instructions", "role": "system"}],
     },
     {
         "id": "related",
         "title": "Read related papers",
-        "detail": "OpenAlex: the paper's references, and the most-cited papers that use each of its benchmarks. "
-                  "Claude reads their titles and abstracts and lists the benchmarks each one uses. "
-                  "We also count the papers most often cited in their bibliographies, and Claude picks out "
+        "detail": "OpenAlex: the paper's references, the most-cited papers that use each of its benchmarks, and, "
+                  "for a published paper, the most-cited papers citing it (a benchmark found only there counts "
+                  "if it existed six months before the paper; cited and citing evidence are reported apart). "
+                  "For a paper not yet written, known only by its title and abstract, the most-cited papers on its topics "
+                  "stand in for the reference list. "
+                  "The model reads their titles and abstracts and lists the benchmarks each one uses. "
+                  "We also count the papers most often cited in their bibliographies, and the model picks out "
                   "the ones that introduce a dataset or benchmark.",
         "prompts": [{"key": "extract", "label": "Benchmark extraction", "role": "system"},
                     {"key": "label", "label": "Dataset papers in the bibliographies", "role": "system"}],
+    },
+    {
+        "id": "verify",
+        "title": "Check the model's own proposals",
+        "detail": "The model names benchmarks from the paper's topic (asked alongside the reading above). Each is "
+                  "looked up in OpenAlex: its source paper, that paper's citations, and whether the related papers "
+                  "cite it. A name nothing confirms is dropped.",
+        "prompts": [{"key": "propose", "label": "Proposal instructions", "role": "system"},
+                    {"key": "propose_domain", "label": "Subfield proposal instructions", "role": "system"}],
     },
     {
         "id": "catalogs",
@@ -83,13 +96,15 @@ STAGES = [
     {
         "id": "rank",
         "title": "Choose 10 to consider",
-        "detail": "Claude ranks the candidates. Each suggestion keeps the evidence our code found for it.",
-        "prompts": [{"key": "rank", "label": "Ranking instructions", "role": "system"}],
+        "detail": "The model picks the candidates that fit; the list is then ordered by evidence, strongest first. "
+                  "Each suggestion keeps the evidence our code found for it.",
+        "prompts": [{"key": "date", "label": "Dating instructions", "role": "system"},
+                    {"key": "rank", "label": "Ranking instructions", "role": "system"}],
     },
     {
         "id": "write",
         "title": "Write the report",
-        "detail": "Turns Claude's structured answer into the report. Runs locally, no prompt.",
+        "detail": "Turns the model's structured answer into the report. Runs locally, no prompt.",
         "prompts": [],
     },
 ]
@@ -97,12 +112,14 @@ STAGES = [
 
 class PromptsIn(BaseModel):
     instructions: str = Field(max_length=MAX_PROMPT_CHARS)
-    assumptions: str = Field(max_length=MAX_PROMPT_CHARS)
     benchmarks: str = Field(max_length=MAX_PROMPT_CHARS)
     user: str = Field(max_length=MAX_PROMPT_CHARS)
     plan: str = Field(max_length=MAX_PROMPT_CHARS)
     extract: str = Field(max_length=MAX_PROMPT_CHARS)
     label: str = Field(max_length=MAX_PROMPT_CHARS)
+    propose: str = Field(max_length=MAX_PROMPT_CHARS)
+    propose_domain: str = Field(default="", max_length=MAX_PROMPT_CHARS)
+    date: str = Field(default="", max_length=MAX_PROMPT_CHARS)
     rank: str = Field(max_length=MAX_PROMPT_CHARS)
 
 
@@ -151,13 +168,17 @@ def _job_key(job_id: str) -> str:
 
 def create_app(
     storage: Storage | None = None,
-    client_factory: Callable[[], anthropic.Anthropic] = anthropic.Anthropic,
+    client_factory: Callable[[], object] | None = None,
     *,
+    model: str | None = None,
     daily_run_limit: int | None = None,
     origin_secret: str | None = None,
     basic_auth_password: str | None = None,
 ) -> FastAPI:
     storage = storage or LocalStorage(Path("reports"))
+    # The model for every run: RRN_MODEL, else the package default (a local Ollama model).
+    model = model or os.environ.get("RRN_MODEL") or DEFAULT_MODEL
+    client_factory = client_factory or (lambda: make_client(model))
     app = FastAPI(title="ResearchReaderNerd", docs_url=None, redoc_url=None)
     # When this server process started. On AWS a deploy starts a new task, so this is the deploy time.
     build = {
@@ -203,12 +224,12 @@ def create_app(
                 save_job(job)
 
             result, consideration, spend = run_pipeline(
-                paper, client_factory(), prompts, model=DEFAULT_MODEL, effort=request.effort,
+                paper, client_factory(), prompts, model=model, effort=request.effort,
                 arxiv_id=job.arxiv_id, progress=progress,
             )
             job.stage = "write"
             job.report = save_run(
-                paper, result, prompts, storage=storage, requested_model=DEFAULT_MODEL, effort=request.effort,
+                paper, result, prompts, storage=storage, requested_model=model, effort=request.effort,
                 consideration=consideration, spend=spend,
             )
             job.status = "done"
@@ -230,7 +251,7 @@ def create_app(
             "status": "ok",
             "build": {"sha": build["sha"], "date": build["built_at"] or "unknown", "started_at": build["started_at"]},
             "storage": type(storage).__name__,
-            "model": DEFAULT_MODEL,
+            "model": model,
         }
 
     @app.get("/", response_class=HTMLResponse)
@@ -244,7 +265,7 @@ def create_app(
             "defaults": Prompts().to_dict(),
             "effort": DEFAULT_EFFORT,
             "efforts": ["low", "medium", "high", "xhigh", "max"],
-            "model": DEFAULT_MODEL,
+            "model": model,
             "build": build,
             "output_schema": OUTPUT_FORMAT["schema"],
         }
@@ -394,7 +415,7 @@ def main(argv: list[str] | None = None) -> None:
         origin_secret=os.environ.get("RRN_ORIGIN_SECRET") or None,
         basic_auth_password=os.environ.get("RRN_BASIC_AUTH_PASSWORD") or None,
     )
-    # By default this listens on localhost only: every run spends API credit on your key.
+    # By default this listens on localhost only: a run uses your machine's model, or API credit on your key.
     print(f"ResearchReaderNerd is running at http://{args.host}:{args.port}  (Ctrl+C to stop)")
     uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
 

@@ -1,0 +1,68 @@
+{
+ "benchmarks": [
+  {
+   "name": "SkillConsist benchmark",
+   "aliases": [
+    "SkillConsist benchmark",
+    "SkillConsist inconsistency benchmark (ClawHub 500 Skills plus Skill-Inject 133 packages, 633 Skills total)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Abstract / Section 4, \\\"We construct a 633-Skill benchmark from ClawHub's 500 most-downloaded public Skills and 133 Skill-Inject packages.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Skill-Inject",
+   "aliases": [
+    "Malicious-Skill screening on Skill-Inject packages (133 Skills: 84 malicious, 49 benign)",
+    "Skill-Inject"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "s the detection results. We con- struct a 633-Skill benchmark from ClawHub’s 500 most- downloaded public Skills and 133 Skill-Inject packages. The benchmarkcontains319inconsistentand314consistentSkills and 442 localized inconsistency annotations. On th",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Abstract / Section 4, \\\"and 133 Skill-Inject packages.\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SkillConsist inconsistency benchmark (ClawHub 500 Skills plus Skill-Inject 133 packages, 633 Skills total)",
+   "task": "Package-level detection of declaration-implementation inconsistencies in Agent Skills, and localization of inconsistencies (Conflict, Unimplemented, Undeclared)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Malicious-Skill screening on Skill-Inject packages (133 Skills: 84 malicious, 49 benign)",
+   "task": "Binary malicious-Skill screening, with risk-informed gates added to the MASB pipeline"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

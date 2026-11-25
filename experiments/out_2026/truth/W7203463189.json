@@ -1,0 +1,40 @@
+{
+ "benchmarks": [
+  {
+   "name": "RoboTwin 2.0",
+   "aliases": [
+    "RoboTwin 2.0"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "me stage. The resulting stage advan- tages are applied to their corresponding intervals in a sin- gle policy update. On RoboTwin 2.0, Temporal GRPO im- proves task success and sample efficiency, with consistent gains across task horizons. Controlled up",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 1, \\\"On RoboTwin 2.0, Temporal GRPO improves task success and sample efficiency\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RoboTwin 2.0",
+   "task": "Bimanual robotic manipulation: task-level success across task horizons, and RL sample efficiency"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

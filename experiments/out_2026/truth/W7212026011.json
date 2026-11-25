@@ -1,0 +1,66 @@
+{
+ "benchmarks": [
+  {
+   "name": "AURA-Eval",
+   "aliases": [
+    "AURA-Eval"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "e AURA- Eval, a framework for evaluating whether agents recognize contextual risk and adapt their behavior accordingly. AURA-Eval truncates tool-use trajectories at safety-critical decision points and asks the evaluated model to generate the next th",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Abstract / Section 1, \\\"we introduce AURA-Eval, a framework for evaluating whether agents recognize contextual risk...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "R-Judge",
+   "aliases": [
+    "R-Judge"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nuation along three axes: risk detection from the reasoning trace, and action type and safety from the action. From 157 R-Judge seed trajectories, we construct 1,249 evaluation items and evaluate 20 frontier, open-weight, and safety-tuned models.",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Abstract / Section 4, \\\"From 157 R-Judge seed trajectories, we construct 1,249 evaluation items...\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AURA-Eval",
+   "task": "Contextual agent safety: next-step thought and action continuation of truncated tool-use trajectories, judged for risk detection, action type, and action safety"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "R-Judge",
+   "task": "Source dataset of multi-turn agent interaction records with safety labels and risk descriptions; used here as seed trajectories for AURA-Eval construction"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

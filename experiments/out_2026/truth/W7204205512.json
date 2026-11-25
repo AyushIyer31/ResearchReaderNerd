@@ -1,0 +1,409 @@
+{
+ "benchmarks": [
+  {
+   "name": "ARC-AGI-3",
+   "aliases": [
+    "ARC-AGI-3"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ecoming model failures and pushes measurement toward the model’s true maximal underlying capability. Prime Agent raises ARC-AGI-3 RHAE Best@1 from 30% to 95.5% and matches or exceeds native and popular harnesses across long-context coding, GPU- kern",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 3.1,\"Prime Agent raises ARC-AGI-3 RHAE Best@1 from 30% to 95.5%\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OOLONG",
+   "aliases": [
+    "OOLONG"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ": high) Opus 5 (reasoning: high) GPT-5.6 Sol (reasoning: high) Task Setting Prime Pi-mono Prime Claude Code Prime Codex OOLONG (Yahoo, 128k) [5] long context.700.420 .900.920 .940.900 OOLONG-Pairs [44] long output.874.556.929.922.911.895 OBLIQ-Be",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Table 1, \"OOLONG (Yahoo, 128k) [5] long context\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OOLONG-Pairs",
+   "aliases": [
+    "OOLONG-Pairs"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ask Setting Prime Pi-mono Prime Claude Code Prime Codex OOLONG (Yahoo, 128k) [5] long context.700.420 .900.920 .940.900 OOLONG-Pairs [44] long output.874.556.929.922.911.895 OBLIQ-Bench (math) [33] ranking (nDCG@10).669.635.802.795 .612.646 LongBench P",
+   "year": 2025,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Table 1,\"OOLONG-Pairs [44] long output\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OBLIQ-Bench",
+   "aliases": [
+    "OBLIQ-Bench",
+    "OBLIQ-Bench (math)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "x OOLONG (Yahoo, 128k) [5] long context.700.420 .900.920 .940.900 OOLONG-Pairs [44] long output.874.556.929.922.911.895 OBLIQ-Bench (math) [33] ranking (nDCG@10).669.635.802.795 .612.646 LongBench Pro (English) [6] comprehension.777.768.804.790.794.79",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": null,
+    "where": "Table 1, \"OBLIQ-Bench (math) [33] ranking (nDCG@10)\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LongBench Pro",
+   "aliases": [
+    "LongBench Pro",
+    "LongBench Pro (English)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "OLONG-Pairs [44] long output.874.556.929.922.911.895 OBLIQ-Bench (math) [33] ranking (nDCG@10).669.635.802.795 .612.646 LongBench Pro (English) [6] comprehension.777.768.804.790.794.790 LongBench v2 [3] expert long tasks .680.696.744.746 .714.704 ManyIH",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": null,
+    "where": "Table 1, \"LongBench Pro (English) [6] comprehension\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LongBench v2",
+   "aliases": [
+    "LongBench v2"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "math) [33] ranking (nDCG@10).669.635.802.795 .612.646 LongBench Pro (English) [6] comprehension.777.768.804.790.794.790 LongBench v2 [3] expert long tasks .680.696.744.746 .714.704 ManyIH Coding [45] long instructions.424.386.536.522.499.454 ManyIH IF",
+   "year": 2024,
+   "year_source": "arxiv",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Table 1, \"LongBench v2 [3] expert long tasks\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: arXiv 2412.15204, 19 Dec 2024; evidence year 2025 was the venue"
+  },
+  {
+   "name": "ManyIH Coding",
+   "aliases": [
+    "ManyIH Coding"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ch Pro (English) [6] comprehension.777.768.804.790.794.790 LongBench v2 [3] expert long tasks .680.696.744.746 .714.704 ManyIH Coding [45] long instructions.424.386.536.522.499.454 ManyIH IF [45] long instructions.209.164.225.175 .216.232 LongCoT-Mini [",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": null,
+    "where": "Table 1, \"ManyIH Coding [45] long instructions\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ManyIH IF",
+   "aliases": [
+    "ManyIH IF"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ngBench v2 [3] expert long tasks .680.696.744.746 .714.704 ManyIH Coding [45] long instructions.424.386.536.522.499.454 ManyIH IF [45] long instructions.209.164.225.175 .216.232 LongCoT-Mini [23] long reasoning.638.613.722.558 .671.681 EmulatorBench",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": null,
+    "where": "Table 1,\"ManyIH IF [45] long instructions\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LongCoT-Mini",
+   "aliases": [
+    "LongCoT-Mini"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ManyIH Coding [45] long instructions.424.386.536.522.499.454 ManyIH IF [45] long instructions.209.164.225.175 .216.232 LongCoT-Mini [23] long reasoning.638.613.722.558 .671.681 EmulatorBench [18] long coding.208.000 .047.062 .275.228 Table 1:Long-cont",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Table 1, \"LongCoT-Mini [23] long reasoning\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "EmulatorBench",
+   "aliases": [
+    "EmulatorBench"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "experimentation, iterative systems construction, recursive control, and online refinement? We study nanoGPT, PMPP-Hard, EmulatorBench, Factorio, and MazeBench through end- to-end outcomes and trajectory analysis. The trajectory analyses show how agents",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-14",
+    "checker": "Ayush, availability rule of protocol section 3 (12 Nov); evidence gathered from dated public releases, approved by Ayush 14 Nov",
+    "verdict": "rekind",
+    "decision": "own",
+    "where": "Table 1 p.7 row 'EmulatorBench [18] long coding'; Sec. 3.4 pp.8-9 'We report preliminary results in Table 1'; ref [18] 'Karten, Zhang, Jaghouar. Emulator Bench: Verifiable Whole-System Emulation for Ultra Long-Horizon Coding Agents, 2026. Manuscript.'",
+    "availability": "no release found before 24 Aug 2026 (arXiv, author site, GitHub, Hugging Face, Prime Intellect environment repos); cited only to the authors' unpublished manuscript; the 5 Aug 2026 launch blog calls it 'a preview benchmark'. First released with the paper: own.",
+    "previous": "2026-11-11 Gemini batch 1: keep (before the 12 Nov availability rule); the earlier note's [17] is [18] in this PDF"
+   },
+   "kind_note": "2026-11-14: protocol section 3 availability rule: no public release before the paper; cited only to the authors' unpublished manuscript; 'preview benchmark' (decisions_batch6.json)"
+  },
+  {
+   "name": "PMPP-Hard",
+   "aliases": [
+    "PMPP-Hard"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "multi-day experimentation, iterative systems construction, recursive control, and online refinement? We study nanoGPT, PMPP-Hard, EmulatorBench, Factorio, and MazeBench through end- to-end outcomes and trajectory analysis. The trajectory analyses s",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-14",
+    "checker": "Ayush, availability rule of protocol section 3 (12 Nov); evidence gathered from dated public releases, approved by Ayush 14 Nov",
+    "verdict": "keep",
+    "decision": "public",
+    "where": "Fig. 8 p.9 'PMPP-Hard solve rates at fixed within-model budgets' (43/69, 41/69, 47/69, 49/69); Acknowledgements p.12 'SinatraS created PMPP Hard'",
+    "availability": "huggingface.co/datasets/sinatras/pmpp-hard created 2026-07-31; github.com/SinatrasC/pmpp-hard tag v0.1.1 2026-08-03; release blog blog.sinatras.dev/PMPP-Hard (archived 2026-08-05) reports the same 41/69 and 49/69; all before the paper (24 Aug 2026)",
+    "previous": "2026-11-11 Gemini batch 1: keep"
+   }
+  },
+  {
+   "name": "nanoGPT speedrun",
+   "aliases": [
+    "nanoGPT speedrun"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "native and popular harnesses across long-context coding, GPU- kernel generation, emulator construction, and autonomous nanoGPT speedruns. On Factorio, we find refinement allows for continuous technology progres- sion and dedicated subagents enable paralle",
+   "year": 2024,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": null,
+    "where": "Section 1, \"autonomous nanoGPT speedruns\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Factorio Learning Environment",
+   "aliases": [
+    "Factorio Learning Environment",
+    "Factorio Learning Environment (Sonnet 5 run)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "educed cost, and, token-for-token, Prime Agent has an advantage. 3.5 Persistent interaction and refinement Factorio.The Factorio Learning Environment exposes Python observations and actions for a persistent factory world [12]. In a seven-day Sonnet 5 run, the root and",
+   "year": 2025,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 3.5, \"The Factorio Learning Environment exposes Python observations and actions for a persistent factory world [12].\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MazeBench",
+   "aliases": [
+    "MazeBench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "tains an 85.5-hour nanoGPT run with 19 validated records, and supports four-character Factorio control and long-horizon MazeBench exploration. 2 Prime Agent Architecture We next describe the Prime Agent architecture in detail. In particular, we disc",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-14",
+    "checker": "Ayush, availability rule of protocol section 3 (12 Nov); evidence gathered from dated public releases, approved by Ayush 14 Nov",
+    "verdict": "keep",
+    "decision": "public",
+    "where": "Fig. 10 p.11 'MazeBench exploration versus estimated token cost' (rooms, states, gems); Sec. 3.5 p.10; Acknowledgements 'Patience Cave created MazeBench'",
+    "availability": "PyPI package mazebench first released 2026-07-07; mazebench.com 'Introducing MazeBench' and 'MazeBench Results' dated 2026-07-28 (Wayback 2026-08-01); linked from Prime Intellect's 5 Aug launch blog with the paper's description; not the 2D maze sets of arXiv 2502.14669 or 2603.26839",
+    "previous": "2026-11-11 Gemini batch 1: keep"
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ARC-AGI-3",
+   "task": "Interactive reasoning: learning the rules of games under an action limit"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OOLONG",
+   "task": "Long-context reasoning and aggregation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OOLONG-Pairs",
+   "task": "Long-output aggregation over long context"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OBLIQ-Bench (math)",
+   "task": "Ranking in retrieval with latent and implicit queries"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LongBench Pro (English)",
+   "task": "Long-context comprehension"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LongBench v2",
+   "task": "Expert-level long-context multitask reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ManyIH Coding",
+   "task": "Following long, many-tier instructions in coding"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ManyIH IF",
+   "task": "Instruction following under long, many-tier instructions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LongCoT-Mini",
+   "task": "Long-horizon chain-of-thought reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "EmulatorBench",
+   "task": "Constructing emulators in Rust that match target game systems (long-context coding)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PMPP-Hard",
+   "task": "GPU kernel generation (edit, compile, correctness-check, profile loop under wall-clock budget)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "nanoGPT speedrun",
+   "task": "Autonomous research: reducing training steps for a 124M-parameter GPT to reach a fixed validation loss"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Factorio Learning Environment (Sonnet 5 run)",
+   "task": "Long-horizon persistent factory-building and technology research"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MazeBench",
+   "task": "Open-world 3D spatial exploration with puzzle rooms and gems"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-14",
+  "checker": "Ayush, availability rule of protocol section 3 (12 Nov); evidence gathered from dated public releases, approved by Ayush 14 Nov",
+  "status": "complete"
+ }
+}

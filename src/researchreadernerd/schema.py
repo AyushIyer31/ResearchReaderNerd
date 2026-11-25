@@ -1,27 +1,12 @@
-"""Structured output Claude must return for R1 (assumptions) and R2 (benchmarks)."""
+"""Structured output the model must return for R2 (benchmarks)."""
 
 from __future__ import annotations
-
-from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
 
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-
-
-class Assumption(_Strict):
-    statement: str = Field(description="The assumption, in one plain sentence.")
-    kind: Literal["explicit", "implicit"] = Field(
-        description="explicit: the paper states it. implicit: the results depend on it but the paper never states it."
-    )
-    category: Literal["modeling", "data", "statistical", "experimental_setup", "scope", "other"]
-    location: str = Field(description="Where in the paper, e.g. 'Section 3.2', 'Eq. 4', 'Table 2'.")
-    evidence: str = Field(
-        description="A short verbatim quote (under 40 words) from that location. For implicit assumptions, the passage that relies on it."
-    )
-    why_it_matters: str = Field(description="What would change in the results or claims if it did not hold.")
 
 
 class Result(_Strict):
@@ -45,14 +30,12 @@ class Benchmark(_Strict):
 
 
 class PaperAnalysis(_Strict):
-    title: str
-    authors: list[str]
+    title: str = Field(description="The paper's own title, exactly as printed on its first page; "
+                                   "not the file name and not a description of this task.")
+    authors: list[str] = Field(description="The authors as printed on the first page.")
     proposed_method: str = Field(description="Name of the paper's main method or contribution.")
     summary: str = Field(description="Under 150 words: the problem, the approach, and the main claim.")
-    assumptions: list[Assumption] = Field(
-        description="The top 5 assumptions (stated or implicit), most important first."
-    )
     benchmarks: list[Benchmark]
     caveats: list[str] = Field(
-        description="Things the paper leaves unclear that affect R1 or R2, e.g. missing split details or unreadable tables."
+        description="Things the paper leaves unclear that affect the benchmarks, e.g. missing split details or unreadable tables."
     )

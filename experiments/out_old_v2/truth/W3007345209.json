@@ -1,0 +1,53 @@
+{
+ "benchmarks": [
+  {
+   "name": "MNIST",
+   "aliases": [
+    "MNIST"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "on when the data distributions are heterogeneous. In particular, we consider the multi-class classiﬁcation problem over MNIST [44] and CIFAR-10 [45] datasets and distribute the training data betweenn users as follows: (i) Half of the users, each"
+  },
+  {
+   "name": "CIFAR-10",
+   "aliases": [
+    "CIFAR-10"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "a distributions are heterogeneous. In particular, we consider the multi-class classiﬁcation problem over MNIST [44] and CIFAR-10 [45] datasets and distribute the training data betweenn users as follows: (i) Half of the users, each have a images of"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "MNIST",
+   "task": "Multi-class classification"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "CIFAR-10",
+   "task": "Multi-class classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MNIST",
+   "task": "multi-class image classification (heterogeneous federated split over 50 users)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CIFAR-10",
+   "task": "multi-class image classification (heterogeneous federated split over 50 users)"
+  }
+ ],
+ "checked_by_author": true
+}

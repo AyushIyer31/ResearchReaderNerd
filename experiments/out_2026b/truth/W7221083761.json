@@ -1,0 +1,61 @@
+{
+ "benchmarks": [
+  {
+   "name": "Synthetic probabilistic downscaling task",
+   "aliases": [
+    "Synthetic probabilistic downscaling task",
+    "Synthetic probabilistic downscaling task (8x8 areal max/min statistics)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Allen-Cahn stationary PDE",
+   "aliases": [
+    "Allen-Cahn stationary PDE",
+    "Allen-Cahn stationary PDE on an irregular star-shaped domain"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Sea-level anomaly inversion from simulated radar waveforms",
+   "aliases": [
+    "Sea-level anomaly inversion from simulated Level 0 satellite radar waveforms (IMOS GSLA ground truth)",
+    "Sea-level anomaly inversion from simulated radar waveforms"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Synthetic probabilistic downscaling task (8x8 areal max/min statistics)",
+   "task": "Probabilistic downscaling: conditional GP sampling on a fine grid under non-linear max/min constraints plus Gaussian point observations"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Allen-Cahn stationary PDE on an irregular star-shaped domain",
+   "task": "PDE-constrained conditional sampling: solution inference for a non-linear elliptic PDE with Dirichlet boundary conditions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Sea-level anomaly inversion from simulated Level 0 satellite radar waveforms (IMOS GSLA ground truth)",
+   "task": "Sea-level anomaly field reconstruction from raw non-Gaussian radar echo waveforms"
+  }
+ ],
+ "checked_by_author": false
+}

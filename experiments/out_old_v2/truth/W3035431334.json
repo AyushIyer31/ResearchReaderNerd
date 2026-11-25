@@ -1,0 +1,69 @@
+{
+ "benchmarks": [
+  {
+   "name": "NACA0012 airfoil flow-field dataset",
+   "aliases": [
+    "Generalization task",
+    "Interpolation task",
+    "NACA0012 airfoil flow-field dataset",
+    "NACA0012 airfoil flow-field dataset (Euler equations, SU2 ground truth, generalization split)",
+    "NACA0012 airfoil flow-field dataset (Euler equations, SU2 ground truth, interpolation split)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "8] Combining Differentiable PDE Solvers and Graph Neural Networks for Fluid Flow Prediction Table 1. Interpolation and generalization tasks. Test root mean squared error (RMSE) for the interpolation and generalization tasks. The CFD-GCN model is compared to"
+  },
+  {
+   "name": "Multi-airfoil generalization experiment (NACA4412, RAE2822, NACA0012)",
+   "aliases": [
+    "Multi-Airfoil Experiment",
+    "Multi-airfoil generalization experiment (NACA4412, RAE2822, NACA0012)",
+    "NACA4412 and RAE2822 airfoils (multi-airfoil generalization experiment, Appendix A)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "lution of Fluid Flow. arXiv:1802.10123 [cs], February 2018. URL http://arxiv.org/abs/1802.10123. [page 11] Appendix A. Multi-Airfoil Experiment As an additional test of the generalization capabilities of our model, we performed an experiment in which we train the"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Interpolation task",
+   "task": "Predicting fluid flow fields across a range of Angle of Attack (AoA) and Mach number values. Training set: AoAtrain = {-10, -9,..., 9, 10}, Machtrain = {0.2, 0.3, 0.35, 0.4, 0.5, 0.55, 0.6, 0.7}. Test set: AoAtest = {-10, -9,..., 9, 10}, Machtest = {0.25, 0.45, 0.65}"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Generalization task",
+   "task": "Predicting fluid flow fields with shock formation not seen in training data. Training set: AoAtrain = {-10, -9,..., 9, 10}, Machtrain = {0.2, 0.3, 0.35, 0.4, 0.5, 0.55, 0.6, 0.7}. Test set: AoAtest = {-10, -9,..., 9, 10}, Machtest = {Mach > 0.5}"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Multi-Airfoil Experiment",
+   "task": "Training on two airfoils (NACA4412 and RAE2822) and testing on a previously unseen one (NACA0012)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "NACA0012 airfoil flow-field dataset (Euler equations, SU2 ground truth, interpolation split)",
+   "task": "Prediction of velocity and pressure fields around an airfoil from angle of attack and Mach number"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "NACA0012 airfoil flow-field dataset (Euler equations, SU2 ground truth, generalization split)",
+   "task": "Out-of-distribution prediction of velocity and pressure fields for flows with shocks (Mach > 0.5 held out)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "NACA4412 and RAE2822 airfoils (multi-airfoil generalization experiment, Appendix A)",
+   "task": "Generalization to an unseen airfoil (NACA0012 held out as test in this setup, with NACA4412 and RAE2822 in training)"
+  }
+ ],
+ "checked_by_author": true
+}

@@ -1,0 +1,68 @@
+{
+ "benchmarks": [
+  {
+   "name": "Online-Mind2Web",
+   "aliases": [
+    "Online-Mind2Web"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "an prior trajectory datasets. Fine- tuning a compact multimodal model on this corpus raises its success rate on the liveOnline-Mind2Webfrom 25.66% to 33.33% and consistently improves step accuracy on the staticMultimodal-Mind2Web, with the gain growing as",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Abstract / Section 1, \\\"raises its success rate on the live Online-Mind2Web from 25.66% to 33.33%\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Multimodal-Mind2Web",
+   "aliases": [
+    "Multimodal-Mind2Web"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "s its success rate on the liveOnline-Mind2Webfrom 25.66% to 33.33% and consistently improves step accuracy on the staticMultimodal-Mind2Web, with the gain growing as the corpus scales. Controlled analyses further confirm that open-web sourcing and broad websi",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Abstract / Section 1, \\\"consistently improves step accuracy on the static Multimodal-Mind2Web\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Online-Mind2Web",
+   "task": "End-to-end task success of web agents on live websites"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Multimodal-Mind2Web",
+   "task": "Step-wise action accuracy (grounding and action prediction) under a fixed-trajectory protocol"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

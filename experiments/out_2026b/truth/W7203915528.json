@@ -1,0 +1,179 @@
+{
+ "benchmarks": [
+  {
+   "name": "MedUAGBench",
+   "aliases": [
+    "MedUAGBench"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "and generation dataset to date, comprising over 6 million instances across 14 imaging modalities. Second, we introduce MedUAGBench, a systematic benchmark that expands medical generation evaluation to 12 diverse tasks under standardized protocols. Fi",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 1, \\\"Second, we introduce MedUAGBench, a systematic benchmark that expands medical generation evaluation to 12 diverse tasks...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "VQA-RAD",
+   "aliases": [
+    "VQA-RAD"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "529 TABLE III COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS,WHEREOM.VQAINDICATESOMNIMEDVQA. Model Unified VQA-RAD SLAKE PathVQA OM.VQA Avg. Proprietary Baselines GPT-4.1✗ 65.0 72.2 55.5 75.5 67.1 Claude Sonnet 4✗ 67.6 70.6 54.2 65.5",
+   "year": 2018,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2018,
+    "where": "Table III, \\\"COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS... VQA-RAD\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "SLAKE",
+   "aliases": [
+    "SLAKE"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "E III COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS,WHEREOM.VQAINDICATESOMNIMEDVQA. Model Unified VQA-RAD SLAKE PathVQA OM.VQA Avg. Proprietary Baselines GPT-4.1✗ 65.0 72.2 55.5 75.5 67.1 Claude Sonnet 4✗ 67.6 70.6 54.2 65.5 64.5 G",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Table III, \\\"COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS... SLAKE\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "PathVQA",
+   "aliases": [
+    "PathVQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS,WHEREOM.VQAINDICATESOMNIMEDVQA. Model Unified VQA-RAD SLAKE PathVQA OM.VQA Avg. Proprietary Baselines GPT-4.1✗ 65.0 72.2 55.5 75.5 67.1 Claude Sonnet 4✗ 67.6 70.6 54.2 65.5 64.5 Gemini-2.",
+   "year": 2020,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2020,
+    "where": "Table III, \\\"COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS... PathVQA\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OmniMedVQA",
+   "aliases": [
+    "OmniMedVQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ".809 0.320 0.039 17.897 0.529 TABLE III COMPARISON AMONG VARIOUS MODELS ON UNDERSTANDING BENCHMARKS,WHEREOM.VQAINDICATESOMNIMEDVQA. Model Unified VQA-RAD SLAKE PathVQA OM.VQA Avg. Proprietary Baselines GPT-4.1✗ 65.0 72.2 55.5 75.5 67.1 Claude Sonnet",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Table III, \\\"WHERE OM.VQA INDICATES OMNIMEDVQA\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "CheXpert",
+   "aliases": [
+    "CheXpert",
+    "CheXpert (medical report generation with synthetic augmentation)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ", costly, or privacy-restricted [54]. To evaluate this potential, we conduct an exploratory experiment on MRG task from CheXpert [55] using Qwen3-VL-4B as the backbone. We compare three training settings: 1K real image-report pairs, 1K [page 7] TA",
+   "year": 2019,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2019,
+    "where": "Section 4 / Table IV, \\\"we conduct an exploratory experiment on MRG task from CheXpert [55]\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MedUAGBench",
+   "task": "Medical image generation across four categories: synthesis, translation, reconstruction, and prediction (12 tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "VQA-RAD",
+   "task": "Medical visual question answering (radiology)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SLAKE",
+   "task": "Medical visual question answering"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "PathVQA",
+   "task": "Medical visual question answering (pathology)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OmniMedVQA",
+   "task": "Medical visual question answering (broad, multi-modality)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "CheXpert (medical report generation with synthetic augmentation)",
+   "task": "Medical report generation (exploratory low-resource experiment)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

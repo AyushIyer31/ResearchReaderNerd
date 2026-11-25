@@ -1,0 +1,127 @@
+{
+ "benchmarks": [
+  {
+   "name": "SWE-bench Lite",
+   "aliases": [
+    "SWE-bench Lite",
+    "SWE-bench Lite (89-instance frozen subset)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "for Qwen3-4B-Thinking-2507, we increase the training set to 5K to observe differentiable behavior after SFT. Benchmarks.SWE-bench Lite Jimenez et al. [2024] share similar trajectory format as the training data and serves as the primary target-task benchm",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 1 / Section 4, \\\"SWE-bench Lite Jimenez et al. [2024] share similar trajectory format as the training data\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "GPQA Diamond",
+   "aliases": [
+    "GPQA Diamond"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nez et al. [2024] share similar trajectory format as the training data and serves as the primary target-task benchmark. GPQA Diamond Rein et al. [2024], BFCL v4 Patil et al. [2025], and LiveCodeBench Jain et al. [2025] evaluate capabilities retained du",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 1 / Section 4, \\\"GPQA Diamond Rein et al. [2024]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "BFCL v4",
+   "aliases": [
+    "BFCL v4",
+    "BFCL v4 (multi-turn subset)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "rajectory format as the training data and serves as the primary target-task benchmark. GPQA Diamond Rein et al. [2024], BFCL v4 Patil et al. [2025], and LiveCodeBench Jain et al. [2025] evaluate capabilities retained during fine-tuning, from the a",
+   "year": 2025,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 1 / Section 4, \\\"BFCL v4 Patil et al. [2025]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LiveCodeBench",
+   "aliases": [
+    "LiveCodeBench",
+    "LiveCodeBench (release v6 stratified subset)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "data and serves as the primary target-task benchmark. GPQA Diamond Rein et al. [2024], BFCL v4 Patil et al. [2025], and LiveCodeBench Jain et al. [2025] evaluate capabilities retained during fine-tuning, from the aspects of general reasoning, multi-turn",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 1 / Section 4, \\\"LiveCodeBench Jain et al. [2025] evaluate capabilities retained during fine-tuning\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SWE-bench Lite (89-instance frozen subset)",
+   "task": "Software engineering issue resolution by agents (target task)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GPQA Diamond",
+   "task": "Graduate-level science question answering (non-target, general reasoning)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BFCL v4 (multi-turn subset)",
+   "task": "Multi-turn tool and function calling (non-target, tool use)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LiveCodeBench (release v6 stratified subset)",
+   "task": "Competitive code generation (non-target, code generation)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

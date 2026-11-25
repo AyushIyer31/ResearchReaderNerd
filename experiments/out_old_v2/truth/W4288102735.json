@@ -1,0 +1,261 @@
+{
+ "benchmarks": [
+  {
+   "name": "AFEW-VA",
+   "aliases": [
+    "AFEW-VA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ces on the validation set, which we use for testing. Table 4: Properties of Databases used in our Experiments Databases AFEW-VA [21] AffectNet RAF-DB [22] FER2013 [13] IMFDB[36] Emotionet DISFA [27] BP4DS [51] BP4D+ [52] Model of Affect VA VA, Exp"
+  },
+  {
+   "name": "AffectNet",
+   "aliases": [
+    "AffectNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": ") [11] and continuous emotions of valence and arousal (VA) [35, 45] in-the-wild. In [29] a static in-the-wild database (AffectNet) has been created that contains VA annotations for 1 M images. However, from those images, only around 450 K are manual"
+  },
+  {
+   "name": "RAF-DB",
+   "aliases": [
+    "RAF-DB"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "et, which we use for testing. Table 4: Properties of Databases used in our Experiments Databases AFEW-VA [21] AffectNet RAF-DB [22] FER2013 [13] IMFDB[36] Emotionet DISFA [27] BP4DS [51] BP4D+ [52] Model of Affect VA VA, Expr Expr Expr Expr AUs A"
+  },
+  {
+   "name": "FER2013",
+   "aliases": [
+    "FER2013"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "use for testing. Table 4: Properties of Databases used in our Experiments Databases AFEW-VA [21] AffectNet RAF-DB [22] FER2013 [13] IMFDB[36] Emotionet DISFA [27] BP4DS [51] BP4D+ [52] Model of Affect VA VA, Expr Expr Expr Expr AUs AUs AUs AUs #"
+  },
+  {
+   "name": "IMFDB",
+   "aliases": [
+    "IMFDB"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ing. Table 4: Properties of Databases used in our Experiments Databases AFEW-VA [21] AffectNet RAF-DB [22] FER2013 [13] IMFDB[36] Emotionet DISFA [27] BP4DS [51] BP4D+ [52] Model of Affect VA VA, Expr Expr Expr Expr AUs AUs AUs AUs # of videos 6"
+  },
+  {
+   "name": "EmotioNet",
+   "aliases": [
+    "EmotioNet",
+    "Emotionet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "otations for the seven basic expressions plus the contempt class for 290K images. In [2] a static in-the-wild database (Emotionet) has been created that contains AU annotations for 1 M images. However, from those images, only 50 K are manually annot"
+  },
+  {
+   "name": "DISFA",
+   "aliases": [
+    "DISFA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "o the ones used in the FERA 2015 [41] and 2017 [42] Challenges, respectively. All databases are in-the-wild, apart from DISFA, BP4DS, BP4D+, which are spontaneous. Let us note that for the Af- fectNet, BP4DS and BP4D+ databases, the test set is"
+  },
+  {
+   "name": "BP4D-Spontaneous",
+   "aliases": [
+    "BP4D-Spontaneous",
+    "BP4DS"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "51] Xing Zhang, Lijun Yin, Jeffrey F Cohn, Shaun Canavan, Michael Reale, Andy Horowitz, Peng Liu, and Jeffrey M Girard. Bp4d-spontaneous: a high- resolution spontaneous 3d dynamic facial expression database.Image and Vision Computing, 32(10):692–706, 2014."
+  },
+  {
+   "name": "BP4D+",
+   "aliases": [
+    "BP4D+"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "5,3 },best : 0.1/1 Databases Table 4 shows the databases used in our experiments along with their properties. BP4DS and BP4D+ datasets correspond to the ones used in the FERA 2015 [41] and 2017 [42] Challenges, respectively. All databases are in"
+  },
+  {
+   "name": "Aff-Wild2",
+   "aliases": [
+    "Aff-Wild2"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "[page 1] KOLLIAS, ZAFEIRIOU: AFF-WILD2, MULTI-TASK LEARNING & ARCFACE 1 Expression, Affect, Action Unit Recognition: Aff-Wild2, Multi-Task Learning and ArcFac"
+  },
+  {
+   "name": "Aff-Wild",
+   "aliases": [
+    "Aff-Wild"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "[page 1] KOLLIAS, ZAFEIRIOU: AFF-WILD2, MULTI-TASK LEARNING & ARCFACE 1 Expression, Affect, Action Unit Recognition: Aff-Wild2, Multi-Task Learning and ArcFa"
+  },
+  {
+   "name": "WiderFace",
+   "aliases": [
+    "WiderFace"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "nction, as described below. Visual Modality Pre-Processing The SSH detector [30] based on the ResNet and trained on the WiderFace dataset [46] was used to extract face bounding boxes from all images. Also, 5 facial landmarks (two eyes, nose and two",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "AFEW-VA",
+   "task": "Valence-Arousal Estimation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "AffectNet",
+   "task": "Valence-Arousal Estimation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "RAF-DB",
+   "task": "Expression Recognition"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "FER2013",
+   "task": "Expression Recognition"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "IMFDB",
+   "task": "Expression Recognition"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Emotionet",
+   "task": "Action Unit Detection"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "DISFA",
+   "task": "Action Unit Detection"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "BP4DS",
+   "task": "Action Unit Detection"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "BP4D+",
+   "task": "Action Unit Detection"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Aff-Wild2",
+   "task": "valence-arousal estimation, action unit detection, basic expression recognition"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Aff-Wild",
+   "task": "valence-arousal estimation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AFEW-VA",
+   "task": "valence-arousal estimation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AffectNet",
+   "task": "valence-arousal estimation and expression recognition (static images)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RAF-DB",
+   "task": "basic expression recognition"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "FER2013",
+   "task": "basic expression recognition"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "IMFDB",
+   "task": "basic expression recognition"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Emotionet",
+   "task": "action unit detection"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DISFA",
+   "task": "action unit detection"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BP4DS",
+   "task": "action unit detection"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BP4D+",
+   "task": "action unit detection"
+  }
+ ],
+ "checked_by_author": true
+}

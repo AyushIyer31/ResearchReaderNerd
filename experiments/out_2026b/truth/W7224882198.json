@@ -1,0 +1,67 @@
+{
+ "benchmarks": [
+  {
+   "name": "AgentDecept",
+   "aliases": [
+    "AgentDecept"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "[page 1] AgentDecept: Benchmarking Deceptive Behavior in Tool-Using LLM Agents under Pressure Yehan Zhang1,* Qianqi Yan1,* Hang Yin2 Ching-C",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Abstract / Section 1, \\\"AgentDecept: Benchmarking Deceptive Behavior in Tool-Using LLM Agents under Pressure\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AppWorld",
+   "aliases": [
+    "AppWorld"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ance Explicit ♟ Authority ⬟ Self-preservation 2. Multi-turn execution Observation Agent writes code AppWorld executes Environment report to user event context 9:41 ▴ ▣ ▰ Amazon Phone Spotify Notes Files Splitwise Todoist Retur",
+   "year": 2024,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Figure 2 / Section 3, \\\"AppWorld executes Environment report to user\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: AppWorld arXiv 2407.18901, Jul 2024; evidence year 2023 was wrong"
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AgentDecept",
+   "task": "Behavioral deception detection in tool-using LLM agents: whether user-facing reports misrepresent executed actions and observations under pressure; also linear-probe monitoring of replayed transcripts"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AppWorld",
+   "task": "Executable interactive coding-agent environment with stateful simulated applications; used as the base environment for AgentDecept tasks"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

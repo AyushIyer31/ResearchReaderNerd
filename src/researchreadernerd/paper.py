@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
+import io
 import re
 from dataclasses import dataclass
 from pathlib import Path
 
 import httpx2
 
-# The Claude API accepts requests up to 32 MB; base64 adds about a third.
+# The Claude API accepts requests up to 32 MB; base64 adds about a third. Local models get the
+# extracted text, so the same cap keeps uploads bounded either way.
 MAX_PDF_BYTES = 24 * 1024 * 1024
 
 # New-style IDs (2401.01234, optional version) and old-style IDs (hep-th/9901001).
@@ -86,8 +88,26 @@ def _download(url: str) -> bytes:
 
 
 def _check_pdf(data: bytes, source: str) -> bytes:
-    if not data.startswith(b"%PDF"):
+    # Viewers accept the %PDF magic anywhere in the first 1024 bytes: the spec wants it at byte 0, but many producers
+    # (scans, office exports) prepend junk bytes (Harsh Kashyap, PR #1).
+    if b"%PDF" not in data[:1024]:
         raise PaperError(f"{source} is not a PDF.")
     if len(data) > MAX_PDF_BYTES:
         raise PaperError(f"{source} is larger than {MAX_PDF_BYTES // (1024 * 1024)} MB.")
     return data
+
+
+def pdf_text(data: bytes) -> str:
+    """The text of a PDF, page by page, for models that cannot read a PDF themselves."""
+    from pypdf import PdfReader  # imported here: only local models need it
+
+    try:
+        reader = PdfReader(io.BytesIO(data))
+        pages = [page.extract_text() or "" for page in reader.pages]
+    except Exception as e:  # pypdf raises several types on a damaged file
+        raise PaperError(f"The PDF's text could not be extracted: {e}") from e
+    text = "\n\n".join(f"[page {i}]\n{page.strip()}" for i, page in enumerate(pages, 1) if page.strip())
+    text = re.sub(r"[ \t]+", " ", text)
+    if not text.strip():
+        raise PaperError("The PDF has no extractable text (a scanned paper?); a local model needs the text.")
+    return text

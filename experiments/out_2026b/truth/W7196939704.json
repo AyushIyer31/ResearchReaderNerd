@@ -1,0 +1,96 @@
+{
+ "benchmarks": [
+  {
+   "name": "IPIArena",
+   "aliases": [
+    "IPIArena"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "target agent (e.g., 10) per test sample. Experimental results demonstrate that PIMiner achieves strong performance. On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1 and 42.9% against Claude-Sonnet-4.5. On Agent",
+   "year": 2026,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Abstract / Section 1, \\\"On IPIArena, it attains a 76.2% ASR against Gemini-2.5-Pro...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AgentDojo",
+   "aliases": [
+    "AgentDojo"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "Arena, it attains a 76.2% ASR against Gemini-2.5-Pro, 61.9% ASR against GPT-5.1 and 42.9% against Claude-Sonnet-4.5. On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro, 53.3% ASR against GPT-5.1, and 40.0% ASR against Claude-Sonnet-4.5. O",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Abstract / Section 1, \\\"On AgentDojo, it achieves an 86.7% ASR against Gemini-2.5-Pro...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "InjecAgent",
+   "aliases": [
+    "InjecAgent"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "e composition of our training and testing datasets in Table 3 in the Appendix. We additionally use 30 test samples from InjecAgent [4] for comparison with baselines. Training and testing details.The training sequence T consists of 8 dataset–model pai",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 5 / Appendix Table 3, \\\"We additionally use 30 test samples from InjecAgent [4] for comparison with baselines.\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "IPIArena",
+   "task": "Indirect prompt injection red-teaming of LLM agents (tool use, coding, computer-use/browser agents)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AgentDojo",
+   "task": "Prompt injection attacks on tool-using LLM agents across workspace, banking, travel, and Slack domains"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "InjecAgent",
+   "task": "Indirect prompt injection in tool-integrated LLM agents (comparison with static, search-based, and RL-based attacks)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

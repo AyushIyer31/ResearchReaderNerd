@@ -1,0 +1,157 @@
+{
+ "benchmarks": [
+  {
+   "name": "BIG-Bench Hard (BBH)",
+   "aliases": [
+    "BIG-Bench Hard (BBH)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2022,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rename",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 6, \\\"Across BBH, MATH, and MMLU-Pro...\\\"",
+    "gemini_note": "",
+    "new_name": "BBH"
+   }
+  },
+  {
+   "name": "MATH",
+   "aliases": [
+    "MATH"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ignments to execution models, since prompt-based ability assignments alone can leave routing errors hidden. Across BBH, MATH, and MMLU-Pro, MeshHeal achieves 0.839 degraded-phase accuracy using 51k total model tokens per task, versus the strong",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 6, \\\"Across BBH, MATH, and MMLU-Pro...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MMLU-Pro",
+   "aliases": [
+    "MMLU-Pro"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "o execution models, since prompt-based ability assignments alone can leave routing errors hidden. Across BBH, MATH, and MMLU-Pro, MeshHeal achieves 0.839 degraded-phase accuracy using 51k total model tokens per task, versus the strongest baseline S",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 6, \\\"Across BBH, MATH, and MMLU-Pro...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Unnamed agent task execution set",
+   "aliases": [
+    "Unnamed agent task execution set",
+    "Unnamed network-scaling task set (Table 2(b))",
+    "Unnamed task set in model-pair study (Tables C3 and C4)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 6 / Table 2(b), \\\"Unnamed network-scaling task set (Table 2(b))\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Unnamed review-audit task streams",
+   "aliases": [
+    "Unnamed review-audit task streams",
+    "Unnamed review-audit task streams (Table C8)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Appendix C.8, \\\"Unnamed review-audit task streams (Table C8)\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "BIG-Bench Hard (BBH)",
+   "task": "Multi-task reasoning (seven task types used as task groups)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MATH",
+   "task": "Mathematical problem solving (seven subjects used as task groups)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MMLU-Pro",
+   "task": "Multi-domain multiple-choice knowledge and reasoning (seven domains used as task groups)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Unnamed task set in model-pair study (Tables C3 and C4)",
+   "task": "Agent task execution under two model pairs (dataset not named in the paper)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Unnamed network-scaling task set (Table 2(b))",
+   "task": "Agent task execution in complete and sparse agent networks of 96, 288, and 576 agents (dataset not named)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Unnamed review-audit task streams (Table C8)",
+   "task": "Review and Takeover audit of agent outputs (dataset not named)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "benchmarks": [
+  {
+   "name": "MBPP",
+   "aliases": [
+    "MBPP",
+    "Mostly Basic Programming Problems (MBPP)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "mming languages. We evaluate a collection of such models (with between 244M and 137B parameters) on two new benchmarks, MBPP and MathQA-Python, in both the few-shot and ﬁne-tuning regimes. Our benchmarks are designed to measure the ability of t"
+  },
+  {
+   "name": "MathQA-Python",
+   "aliases": [
+    "MathQA-Python"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "guages. We evaluate a collection of such models (with between 244M and 137B parameters) on two new benchmarks, MBPP and MathQA-Python, in both the few-shot and ﬁne-tuning regimes. Our benchmarks are designed to measure the ability of these models to syn"
+  },
+  {
+   "name": "MathQA-DSL",
+   "aliases": [
+    "MathQA-DSL",
+    "MathQA-DSL (original MathQA domain-specific language)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "plex. We experiment with both the domain-speciﬁc-language of the formulas in the original MathQA dataset, which we call MathQA-DSL, and the MathQA-Python dataset described in Section 2.2. As on the MBPP data (Section 4), we evaluate synthesis perform"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "MBPP",
+   "task": "Synthesize short Python programs from natural language descriptions."
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "MathQA-Python",
+   "task": "Synthesize Python code from complex natural language descriptions."
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Mostly Basic Programming Problems (MBPP)",
+   "task": "Python program synthesis from a natural language description and three assert tests; also program execution prediction (Section 6) and human-model dialog synthesis (Section 5)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MathQA-Python",
+   "task": "Python program synthesis from math word problems, with execution-based accuracy"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MathQA-DSL (original MathQA domain-specific language)",
+   "task": "Math word problem solving by generating programs in the original MathQA DSL"
+  }
+ ],
+ "checked_by_author": true
+}

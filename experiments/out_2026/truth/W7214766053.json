@@ -1,0 +1,25 @@
+{
+ "benchmarks": [
+  {
+   "name": "PCBench-derived deprecated API mappings",
+   "aliases": [
+    "830 deprecated API-replacement API mappings from 33 Python libraries (PCBench-derived dataset)",
+    "PCBench-derived deprecated API mappings"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "830 deprecated API-replacement API mappings from 33 Python libraries (PCBench-derived dataset)",
+   "task": "Empirical analysis of deprecated API replacement relationships: replacement locality, parameter-interface changes, cross-version replacement ranking, and post-deprecation lifecycle timing"
+  }
+ ],
+ "checked_by_author": false
+}

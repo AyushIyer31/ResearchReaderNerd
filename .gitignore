@@ -5,3 +5,25 @@ __pycache__/
 .DS_Store
 reports/
 .env
+experiments/pdfs/
+paper/
+
+# experiments: code, inputs, truth lists and key documents are versioned; run data, caches and archives stay local
+experiments/archive/
+experiments/out/*
+!experiments/out/report_2026-11-08/
+experiments/out/report_2026-11-08/*
+!experiments/out/report_2026-11-08/protocol_2026-11-11.md
+!experiments/out/report_2026-11-08/protocol_amendment_stageC_2026-11-16.md
+!experiments/out/report_2026-11-08/heldout_recipe_2026-11-14.md
+!experiments/out/report_2026-11-08/run_plan_2026-11-12.md
+!experiments/out/report_2026-11-08/run_request_2026-11-12.md
+!experiments/out/report_2026-11-08/free_source_test.md
+!experiments/out/report_2026-11-08/free_source_test.json
+!experiments/out/report_2026-11-08/years_haiku.json
+experiments/out_*/*
+!experiments/out_2026/truth/
+!experiments/out_2026b/truth/
+!experiments/out_old_v2/truth/
+experiments/__pycache__/
+.coverage

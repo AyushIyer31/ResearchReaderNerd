@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from .schema import Assumption, Benchmark, PaperAnalysis
+from .schema import Benchmark, PaperAnalysis
 
 
 def _cell(text: str) -> str:
@@ -30,7 +30,6 @@ def render_report(
         f"**Proposed method:** {analysis.proposed_method}",
         "",
     ]
-    lines += _assumptions_section(analysis.assumptions)
     lines += _benchmarks_section(analysis.benchmarks, analysis.proposed_method)
     if consideration is not None:
         lines += _consider_section(consideration)
@@ -43,28 +42,11 @@ def render_report(
     lines += [
         "---",
         "",
-        "_Everything above was extracted from the paper alone. Implicit assumptions are the model's "
-        "inference; check each quote against its location before relying on it._",
+        "_Everything above was extracted from the paper alone. Check each number against the table "
+        "it is attributed to before relying on it._",
         "",
     ]
     return "\n".join(lines)
-
-
-def _assumptions_section(assumptions: list[Assumption]) -> list[str]:
-    lines = ["## R1: Assumptions", ""]
-    if not assumptions:
-        return lines + ["No assumptions were identified.", ""]
-
-    lines += [f"Top {len(assumptions)}, most important first.", ""]
-    for i, a in enumerate(assumptions, 1):
-        kind = "stated" if a.kind == "explicit" else "inferred, not stated in the paper"
-        lines += [
-            f"{i}. **{a.statement}** ({kind}; {a.category.replace('_', ' ')}, {a.location})",
-            f"    - Evidence: \"{a.evidence}\"",
-            f"    - Why it matters: {a.why_it_matters}",
-        ]
-    lines.append("")
-    return lines
 
 
 def _benchmarks_section(benchmarks: list[Benchmark], proposed_method: str) -> list[str]:
@@ -106,7 +88,10 @@ def _benchmarks_section(benchmarks: list[Benchmark], proposed_method: str) -> li
 
 
 def _consider_section(c) -> list[str]:
+    from .consider import SETTINGS
     lines = ["## R3: Benchmarks to consider", ""]
+    if c.mode in SETTINGS:
+        lines += [f"**Setting:** {SETTINGS[c.mode]}", ""]
     if c.suggestions:
         lines += [f"Benchmarks this paper did not use that fit its task, most useful first ({c.field}).", ""]
         for i, sug in enumerate(c.suggestions, 1):

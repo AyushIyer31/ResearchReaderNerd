@@ -1,0 +1,68 @@
+{
+ "benchmarks": [
+  {
+   "name": "TPC-H",
+   "aliases": [
+    "TPC-H"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "e fixed synthesis targets in an isolated pipeline, proving SQL cor- rectness and program safety. We evaluate GenDB-V on TPC-H and SEC-EDGAR, a benchmark designed to reduce LLM training-data leakage. For verified template implementations, GenDB-V",
+   "year": 1999,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 1999,
+    "where": "Abstract, \\\"We evaluate GenDB-V on TPC-H and SEC-EDGAR\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "SEC-EDGAR",
+   "aliases": [
+    "SEC-EDGAR"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nthesis targets in an isolated pipeline, proving SQL cor- rectness and program safety. We evaluate GenDB-V on TPC-H and SEC-EDGAR, a benchmark designed to reduce LLM training-data leakage. For verified template implementations, GenDB-V achieves geom",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Abstract, \\\"We evaluate GenDB-V on TPC-H and SEC-EDGAR, a benchmark designed to reduce LLM training-data leakage [15].\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "TPC-H",
+   "task": "Analytical SQL query execution (22 parameterized templates) at scale factor SF100"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SEC-EDGAR",
+   "task": "Analytical SQL query execution over SEC financial-statement data (6 parameterized templates) at scale factor SF3"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

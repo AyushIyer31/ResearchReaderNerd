@@ -1,0 +1,117 @@
+{
+ "benchmarks": [
+  {
+   "name": "Pursuit",
+   "aliases": [
+    "Pursuit",
+    "Pursuit (SISL, from Gupta et al. 2017)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ze and inconvenient for learning code to parse. A notable case where this caused an issue in practice is in the popular pursuit gridworld environment from Gupta et al. [2017], shown in Figure 4. In it, 8 red controllable pursuer must work together"
+  },
+  {
+   "name": "PettingZoo Butterfly",
+   "aliases": [
+    "Butterfly environments (pistonball_v4, knights_archers_zombies_v7, cooperative_pong_v3, prospector_v4)",
+    "PettingZoo Butterfly"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Sequential Social Dilemma Games",
+   "aliases": [
+    "Sequential Social Dilemma Games"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "02. Eugene Vinitsky, Natasha Jaques, Joel Leibo, Antonio Castenada, and Edward Hughes. An open source implementation of sequential social dilemma games. https://github.com/ eugenevinitsky/sequential_social_dilemma_games/, 2019. GitHub repository. Oriol Vinyals, Igor Babu",
+   "added_by_author": true
+  },
+  {
+   "name": "Arcade Learning Environment",
+   "aliases": [
+    "Arcade Learning Environment",
+    "Arcade Learning Environment (ALE)"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "inforcement learning. arXiv preprint arXiv:2005.13625, 2020a. J K Terry and Benjamin Black. Multiplayer support for the arcade learning environment. arXiv preprint arXiv:2009.09341, 2020. J K Terry, Benjamin Black, and Ananth Hari. Supersuit: Simple microwrappers for",
+   "added_by_author": true
+  },
+  {
+   "name": "RLCard",
+   "aliases": [
+    "RLCard"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "hub.com/thu-ml/tianshou, 2020. Daochen Zha, Kwei-Herng Lai, Yuanpu Cao, Songyi Huang, Ruzhe Wei, Junyu Guo, and Xia Hu. Rlcard: A toolkit for reinforcement learning in card games. arXiv preprint arXiv:1910.04376, 2019. Lianmin Zheng, Jiacheng Yan",
+   "added_by_author": true
+  },
+  {
+   "name": "MAgent",
+   "aliases": [
+    "MAgent"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "ilar to Gym’s default environments, PettingZoo includes 63 environments. Half of the included environment classes (MPE, MAgent, and SISL), despite their popularity, existed as unmaintained “research grade” code, have not been available for instal",
+   "added_by_author": true
+  },
+  {
+   "name": "Multi-Agent Particle Environments",
+   "aliases": [
+    "Multi-Agent Particle Environments",
+    "Multi-Agent Particle Environments (MPE)"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "Deer are also slightly changed to prevent emergent behavior from being a direct result of the reward structure. MPE The Multi-Agent Particle Environments (MPE) were introduced as part of Mordatch and Abbeel [2017] and ﬁrst released as part of Lowe et al. [2017]. These are",
+   "added_by_author": true
+  },
+  {
+   "name": "SISL",
+   "aliases": [
+    "SISL"
+   ],
+   "kind": "public",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "s default environments, PettingZoo includes 63 environments. Half of the included environment classes (MPE, MAgent, and SISL), despite their popularity, existed as unmaintained “research grade” code, have not been available for installation via",
+   "added_by_author": true
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Pursuit",
+   "task": "Multi-agent grid world environment where pursuers must capture evaders."
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Pursuit (SISL, from Gupta et al. 2017)",
+   "task": "Cooperative multi-agent pursuit-evasion; evaluation of a reward-pruning fix to the environment's reward structure"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Butterfly environments (pistonball_v4, knights_archers_zombies_v7, cooperative_pong_v3, prospector_v4)",
+   "task": "Cooperative multi-agent reinforcement learning baselines with parameter-shared PPO"
+  }
+ ],
+ "checked_by_author": true
+}

@@ -1,0 +1,330 @@
+{
+ "AI2D": {
+  "year": 2016,
+  "source_title": "A Diagram Is Worth A Dozen Images"
+ },
+ "AIME 2024": {
+  "year": 2024,
+  "source_title": ""
+ },
+ "AIME 2025": {
+  "year": 2025,
+  "source_title": ""
+ },
+ "AMC 2023": {
+  "year": 2023,
+  "source_title": ""
+ },
+ "ARC-AGI-3": {
+  "year": null,
+  "source_title": ""
+ },
+ "AutomationBench": {
+  "year": null,
+  "source_title": ""
+ },
+ "Columbia": {
+  "year": null,
+  "source_title": ""
+ },
+ "CountQA": {
+  "year": 2025,
+  "source_title": "CountQA: How Well Do MLLMs Count in the Wild?"
+ },
+ "DBE-KT22": {
+  "year": null,
+  "source_title": ""
+ },
+ "EmulatorBench": {
+  "year": null,
+  "source_title": ""
+ },
+ "EvoChart": {
+  "year": 2024,
+  "source_title": "EvoChart: A Benchmark and a Learning Framework for Advanced Chart Understanding"
+ },
+ "GSM8K": {
+  "year": 2021,
+  "source_title": "Training Verifiers to Solve Math Word Problems"
+ },
+ "GenEval2": {
+  "year": null,
+  "source_title": ""
+ },
+ "Geo3K": {
+  "year": 2021,
+  "source_title": "Inter-GPS: Interpretable Geometry Problem Solving with Formal Language and Symbolic Reasoning"
+ },
+ "Gravity-model traffic matrices": {
+  "year": null,
+  "source_title": ""
+ },
+ "IllVQA": {
+  "year": null,
+  "source_title": ""
+ },
+ "Junyi Academy": {
+  "year": null,
+  "source_title": ""
+ },
+ "Kubric MOVi-A": {
+  "year": 2022,
+  "source_title": "Kubric: A Scalable Dataset Generator"
+ },
+ "MIRACL-Vision": {
+  "year": 2025,
+  "source_title": "MIRACL-VISION: A Large, multilingual, visual document retrieval benchmark"
+ },
+ "MMIFEval": {
+  "year": null,
+  "source_title": ""
+ },
+ "ManyIH Coding": {
+  "year": null,
+  "source_title": ""
+ },
+ "ManyIH IF": {
+  "year": null,
+  "source_title": ""
+ },
+ "MazeBench": {
+  "year": null,
+  "source_title": ""
+ },
+ "MinervaMATH": {
+  "year": 2022,
+  "source_title": "Solving Quantitative Reasoning Problems with Language Models"
+ },
+ "Multimodal understanding suite": {
+  "year": null,
+  "source_title": ""
+ },
+ "OBLIQ-Bench": {
+  "year": null,
+  "source_title": ""
+ },
+ "OOLONG-Pairs": {
+  "year": null,
+  "source_title": ""
+ },
+ "PMPP-Hard": {
+  "year": null,
+  "source_title": ""
+ },
+ "RealisticTampering": {
+  "year": null,
+  "source_title": ""
+ },
+ "ShareChat": {
+  "year": null,
+  "source_title": ""
+ },
+ "ShareGPT": {
+  "year": 2023,
+  "source_title": ""
+ },
+ "Skill-Inject": {
+  "year": null,
+  "source_title": ""
+ },
+ "WISE": {
+  "year": 2025,
+  "source_title": "WISE: A World Knowledge-Informed Semantic Evaluation for Text-to-Image Generation"
+ },
+ "nanoGPT speedrun": {
+  "year": 2024,
+  "source_title": ""
+ },
+ "LongBench Pro": {
+  "year": null,
+  "source_title": ""
+ },
+ "BFCL v4": {
+  "year": 2025,
+  "source_title": "Berkeley Function Calling Leaderboard (BFCL)"
+ },
+ "DeepFashion3D": {
+  "year": 2020,
+  "source_title": "DeepFashion3D: A Dataset and Benchmark for 3D Garment Reconstruction from Single Images"
+ },
+ "FeatureBench-Mini": {
+  "year": 2025,
+  "source_title": "FeatureBench: Benchmarking Agentic Coding for Complex Feature Development"
+ },
+ "IPIArena": {
+  "year": null,
+  "source_title": ""
+ },
+ "Kaggle Multimodal depression dataset": {
+  "year": null,
+  "source_title": ""
+ },
+ "LambdaBeam": {
+  "year": null,
+  "source_title": ""
+ },
+ "MLL23": {
+  "year": null,
+  "source_title": ""
+ },
+ "MPDD-2025": {
+  "year": 2025,
+  "source_title": "MPDD Challenge"
+ },
+ "Matek": {
+  "year": 2019,
+  "source_title": "An expert-annotated dataset of bone marrow cytomorphology in acute myeloid leukemia"
+ },
+ "Mental Health Multimodal (tabular)": {
+  "year": null,
+  "source_title": ""
+ },
+ "Meta-World ML10": {
+  "year": 2019,
+  "source_title": "Meta-World: A Benchmark and Evaluation for Multi-Task and Meta Reinforcement Learning"
+ },
+ "Meta-World ML45": {
+  "year": 2019,
+  "source_title": "Meta-World: A Benchmark and Evaluation for Multi-Task and Meta Reinforcement Learning"
+ },
+ "Minigrid and MiniHack": {
+  "year": 2021,
+  "source_title": "MiniHack the Planet: A Sandbox for Open-Ended Reinforcement Learning Research"
+ },
+ "OCR": {
+  "year": null,
+  "source_title": ""
+ },
+ "PhyGround": {
+  "year": null,
+  "source_title": ""
+ },
+ "Push-T": {
+  "year": 2023,
+  "source_title": "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion"
+ },
+ "Raabin": {
+  "year": 2021,
+  "source_title": "Raabin-WBC: a large free access dataset of white blood cells"
+ },
+ "RoboDojo": {
+  "year": null,
+  "source_title": ""
+ },
+ "SEC-EDGAR": {
+  "year": 2021,
+  "source_title": "EDGAR-CORPUS: Billions of Tokens Make The World Practice"
+ },
+ "SWE-bench Lite": {
+  "year": 2023,
+  "source_title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?"
+ },
+ "TPC-H": {
+  "year": 1999,
+  "source_title": "TPC Benchmark H Standard Specification"
+ },
+ "Toys4K": {
+  "year": 2021,
+  "source_title": "Using Shape to Categorize: Low-Shot Learning with an Explicit Shape Bias"
+ },
+ "UCF-101": {
+  "year": 2012,
+  "source_title": "UCF101: A Dataset of 101 Human Actions Classes From Videos in The Wild"
+ },
+ "VDR-Bench": {
+  "year": null,
+  "source_title": ""
+ },
+ "WorldBench": {
+  "year": null,
+  "source_title": ""
+ },
+ "Aircraft": {
+  "year": 2013,
+  "source_title": "Fine-Grained Visual Classification of Aircraft"
+ },
+ "CIFAR-100 4-level hierarchy": {
+  "year": null,
+  "source_title": ""
+ },
+ "CINIC-10": {
+  "year": 2018,
+  "source_title": "CINIC-10 Is Not ImageNet or CIFAR-10"
+ },
+ "CelebA": {
+  "year": 2015,
+  "source_title": "Deep Learning Face Attributes in the Wild"
+ },
+ "D. Textures": {
+  "year": 2014,
+  "source_title": "Describing Textures in the Wild"
+ },
+ "DQN": {
+  "year": 2013,
+  "source_title": "Playing Atari with Deep Reinforcement Learning"
+ },
+ "Daimler Ped": {
+  "year": 2009,
+  "source_title": "Monocular Pedestrian Detection: Survey and Experiments"
+ },
+ "GTSRB": {
+  "year": 2011,
+  "source_title": "The German Traffic Sign Recognition Benchmark: A Multi-Class Classification Competition"
+ },
+ "IMFDB": {
+  "year": 2013,
+  "source_title": "Indian Movie Face Database: A Benchmark for Face Recognition Under Wide Variations"
+ },
+ "MAgent": {
+  "year": 2017,
+  "source_title": "MAgent: A Many-Agent Reinforcement Learning Platform for Artificial Collective Intelligence"
+ },
+ "MathQA-Python": {
+  "year": 2021,
+  "source_title": "Program Synthesis with Large Language Models"
+ },
+ "Maze Navigation": {
+  "year": null,
+  "source_title": ""
+ },
+ "Omniglot": {
+  "year": 2015,
+  "source_title": "Human-level concept learning through probabilistic program induction"
+ },
+ "PettingZoo Butterfly": {
+  "year": 2020,
+  "source_title": "PettingZoo: Gym for Multi-Agent Reinforcement Learning"
+ },
+ "Pursuit": {
+  "year": 2017,
+  "source_title": "Cooperative Multi-Agent Control Using Deep Reinforcement Learning"
+ },
+ "QQP": {
+  "year": null,
+  "source_title": ""
+ },
+ "RLCard": {
+  "year": 2019,
+  "source_title": "RLCard: A Platform for Reinforcement Learning in Card Games"
+ },
+ "SISL": {
+  "year": 2017,
+  "source_title": "Cooperative Multi-Agent Control Using Deep Reinforcement Learning"
+ },
+ "SceneNN": {
+  "year": 2016,
+  "source_title": "SceneNN: A Scene Meshes Dataset with aNNotations"
+ },
+ "Sequential Social Dilemma Games": {
+  "year": 2017,
+  "source_title": "Multi-agent Reinforcement Learning in Sequential Social Dilemmas"
+ },
+ "SunnyvaleBigLoop": {
+  "year": null,
+  "source_title": ""
+ },
+ "UCF101": {
+  "year": 2012,
+  "source_title": "UCF101: A Dataset of 101 Human Actions Classes From Videos in The Wild"
+ }
+}

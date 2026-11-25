@@ -1,0 +1,25 @@
+{
+ "benchmarks": [
+  {
+   "name": "Internal pre-training mixture",
+   "aliases": [
+    "Internal mixed pre-training validation loss (web, book, and code mixture)",
+    "Internal pre-training mixture"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Internal mixed pre-training validation loss (web, book, and code mixture)",
+   "task": "Language model pre-training: validation cross-entropy as the objective for selecting learning rate and batch size, and prediction of optimal hyperparameters for held-out configurations"
+  }
+ ],
+ "checked_by_author": false
+}

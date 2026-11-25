@@ -1,0 +1,79 @@
+{
+ "benchmarks": [
+  {
+   "name": "Synthetic BB-code circuits",
+   "aliases": [
+    "30 synthetic BB-code circuits (Park-n-Ride evaluation workload)",
+    "Synthetic BB-code circuits"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "J288 BB-code scalability set",
+   "aliases": [
+    "J288 BB-code scalability set",
+    "J288,12,18 two-gross BB code scalability set (450 compiled schedules)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Logical error per BB operation model",
+   "aliases": [
+    "Logical error per BB operation model",
+    "Logical error per BB operation under an oracle decoder model"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "T-state factory stall model",
+   "aliases": [
+    "Non-Clifford T-state factory sensitivity model",
+    "T-state factory stall model"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "30 synthetic BB-code circuits (Park-n-Ride evaluation workload)",
+   "task": "Compilation and estimated runtime of BB-code logical circuits on a zoned neutral-atom compute zone, comparing module placement strategies"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "J288,12,18 two-gross BB code scalability set (450 compiled schedules)",
+   "task": "Scalability check of Park-n-Ride placement and runtime on a larger BB code"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Logical error per BB operation under an oracle decoder model",
+   "task": "Estimated logical error probability per BB-native operation (shift, idle, in-module and inter-module measurement) versus physical error rate"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Non-Clifford T-state factory sensitivity model",
+   "task": "Worst-case factory stall for synthetic T-injection requests under per-column single-server factories"
+  }
+ ],
+ "checked_by_author": false
+}

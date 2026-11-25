@@ -1,0 +1,96 @@
+{
+ "benchmarks": [
+  {
+   "name": "RULER",
+   "aliases": [
+    "RULER"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "runtime that publishes GPU partials in the order the NPU consumes them and merges them in its existing output store. On RULER, TileWeave matches XAttention’s accuracy with Qwen3-1.7B and improves it with Llama-3.2-3B-Instruct; its mean LongBench",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 1, \\\"On RULER, TileWeave matches XAttention’s accuracy with Qwen3-1.7B...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LongBench",
+   "aliases": [
+    "LongBench",
+    "LongBench v1"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "On RULER, TileWeave matches XAttention’s accuracy with Qwen3-1.7B and improves it with Llama-3.2-3B-Instruct; its mean LongBench scores match XAttention as well. On Snapdragon SM8750 and SM8850 phones, it achieves 1.35–3.23× faster full-model prefi",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 1, \\\"its mean LongBench scores match XAttention as well.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Snapdragon SM8750/SM8850 on-device prefill latency",
+   "aliases": [
+    "Snapdragon SM8750 and SM8850 phone prefill and attention latency (llama.cpp on Hexagon NPU and Adreno GPU)",
+    "Snapdragon SM8750/SM8850 on-device prefill latency"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 1, \\\"On Snapdragon SM8750 and SM8850 phones, it achieves 1.35–3.23× faster full-model prefill...\\\"",
+    "gemini_note": "Hardware execution latency metric, not a benchmark dataset."
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "RULER",
+   "task": "Long-context evaluation (13 synthetic retrieval, aggregation, and QA tasks)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "LongBench v1",
+   "task": "Long-context question answering and summarization"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Snapdragon SM8750 and SM8850 phone prefill and attention latency (llama.cpp on Hexagon NPU and Adreno GPU)",
+   "task": "On-device latency of attention and full-model prefill for Qwen3-1.7B across 1k to 16k prompt tokens"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

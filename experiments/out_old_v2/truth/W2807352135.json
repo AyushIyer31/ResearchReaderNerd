@@ -1,0 +1,124 @@
+{
+ "benchmarks": [
+  {
+   "name": "Illustrative 1D regression (sinusoid and line)",
+   "aliases": [
+    "Illustrative 1D regression (sinusoid and line tasks)",
+    "Illustrative 1D regression (sinusoid and line)",
+    "Illustrative 5-shot regression"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "nally provide a comparison on the MiniImagenet benchmark and specify the hyperparameters in the supplementary appendix. Illustrative 5-shot regression. In this 1D regression problem, different tasks correspond to different underlying functions. Half of the functions are"
+  },
+  {
+   "name": "Active learning with regression",
+   "aliases": [
+    "Active learning with regression"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "imation to quickly de- crease the error, while selecting datapoints ran- domly and using MAML leads to slower learning. Active learning with regression. To further evalu- ate the beneﬁt of modeling ambiguity, we now con- sider an active learning experiment. In particular"
+  },
+  {
+   "name": "Illustrative 2D circular classification",
+   "aliases": [
+    "Illustrative 1-Shot 2D classification",
+    "Illustrative 1-shot 2D circular classification",
+    "Illustrative 2D circular classification"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "CelebA",
+   "aliases": [
+    "Ambiguous CelebA (5-shot)",
+    "Ambiguous image classiﬁcation (CelebA)",
+    "CelebA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ree possible explanations, with some samples paying attention to hats (2nd and 3rd column) and others not (1st column). Ambiguous celebA (5-shot) Accuracy Coverage (max=3) Average NLL MAML 89.00± 1.78% 1.00± 0.0 0.73± 0.06 MAML + noise 84.3± 1.60 % 1.89± 0.04 0.68±"
+  },
+  {
+   "name": "MiniImageNet",
+   "aliases": [
+    "MiniImageNet",
+    "MiniImagenet (5-way, 1-shot)",
+    "MiniImagenet 5-way 1-shot"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "me neural network architecture and the same number of inner gradient steps. We additionally provide a comparison on the MiniImagenet benchmark and specify the hyperparameters in the supplementary appendix. Illustrative 5-shot regression. In this 1D reg"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Illustrative 5-shot regression",
+   "task": "1D regression on sinusoids and lines"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Active learning with regression",
+   "task": "active learning in simple regression setting"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Illustrative 1-Shot 2D classification",
+   "task": "binary classiﬁcation with circular decision boundaries"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Ambiguous image classiﬁcation (CelebA)",
+   "task": "attribute classification with ambiguous training sets"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "MiniImagenet (5-way, 1-shot)",
+   "task": "few-shot image classification"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Illustrative 1D regression (sinusoid and line tasks)",
+   "task": "few-shot regression"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Illustrative 1-shot 2D circular classification",
+   "task": "few-shot binary classification of circular decision boundaries"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Ambiguous CelebA (5-shot)",
+   "task": "ambiguous few-shot binary attribute classification with multi-mode coverage"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MiniImagenet 5-way 1-shot",
+   "task": "5-way 1-shot image classification"
+  }
+ ],
+ "checked_by_author": true
+}

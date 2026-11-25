@@ -1,0 +1,25 @@
+{
+ "benchmarks": [
+  {
+   "name": "Convergence analysis",
+   "aliases": [
+    "Convergence analysis",
+    "Theoretical convergence rates"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "s a predetermined number of devices. To summarize, the present work makes the following contributions: • We provide the convergence analysis of local SGD with periodic averaging for general non-convex optimization problems in both parameter server and decentra"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Theoretical convergence rates",
+   "task": "Convergence analysis for federated optimization problems"
+  }
+ ],
+ "checked_by_author": true
+}

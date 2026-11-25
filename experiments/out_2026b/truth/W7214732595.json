@@ -1,0 +1,68 @@
+{
+ "benchmarks": [
+  {
+   "name": "UCF-101",
+   "aliases": [
+    "UCF-101"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "IMENTALSETTING ANDANALYSIS 3.1 MODELS,DATA,AND TRAINING RUNS We analyze three Open-Sora STDiT configurations trained on UCF-101 (Soomro et al., 2012) at 16 frames and256×256resolution. Within each STDiT transformer block, spatial attention operate",
+   "year": 2012,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2012,
+    "where": "Section 3.1, \\\"We analyze three Open-Sora STDiT configurations trained on UCF-101 (Soomro et al., 2012)...\\\"",
+    "gemini_note": "Used only as a training dataset for the Open-Sora models, not evaluated as a benchmark."
+   },
+   "kind_note": "2026-11-11: training data for the analysed Open-Sora models (Sec. 3.1), not evaluated on"
+  },
+  {
+   "name": "Head-ablation clip set",
+   "aliases": [
+    "Head-ablation clip set",
+    "Head-ablation clip set (32 paired prompts, 96 stored clips)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4.3, \\\"An exploratory temporal-LPIPS comparison on the same generated clips reaches the same verdict.\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "UCF-101",
+   "task": "Action-recognition video dataset used as training data for the STDiT runs (16 frames at 256 x 256); no generation or recognition benchmark score is reported"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Head-ablation clip set (32 paired prompts, 96 stored clips)",
+   "task": "Quality-proxy evaluation of ablating selected temporal heads during video generation, compared with random-head ablation"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

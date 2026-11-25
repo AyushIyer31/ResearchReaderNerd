@@ -1,0 +1,97 @@
+{
+ "benchmarks": [
+  {
+   "name": "SWE-bench",
+   "aliases": [
+    "SWE-bench",
+    "SWE-bench-derived agent traces (SWE/Qwen3, SWE/Devstral, SWE/Gemma4)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "intly rank sessions from loop signals that the serving runtime already observes. Evaluated on six traces that cross the SWE-bench [12] and GAIA [13] agent benchmarks with three model families [14]–[16], totaling 1 415 sessions, 33 596 turns, and six",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 1, \\\"Evaluated on six traces that cross the SWE-bench [12] and GAIA [13] agent benchmarks...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "GAIA",
+   "aliases": [
+    "GAIA",
+    "GAIA-derived agent traces (GAIA/Qwen3, GAIA/Devstral, GAIA/Gemma4) and vLLM validation"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "hy GPU ... (a) Agent prefixes stay resident in a shared KV cache pool across tool waits SWE Qwen SWE Devstral SWE Gemma GAIA Qwen GAIA Devstral GAIA Gemma SWE Qwen SWE Devstral SWE Gemma GAIA Qwen GAIA Devstral GAIA Gemma AMAT / Oracle Extra pr",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 1, \\\"Evaluated on six traces that cross the SWE-bench [12] and GAIA [13] agent benchmarks...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Six-trace aggregate",
+   "aliases": [
+    "Six-trace aggregate",
+    "Six-trace aggregate (SWE and GAIA replay traces)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4, aggregated trace workload across SWE-bench and GAIA",
+    "gemini_note": "Aggregated execution trace workload, not a standalone benchmark dataset."
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SWE-bench-derived agent traces (SWE/Qwen3, SWE/Devstral, SWE/Gemma4)",
+   "task": "Trace-driven KV-cache eviction and residency evaluation of coding-agent sessions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GAIA-derived agent traces (GAIA/Qwen3, GAIA/Devstral, GAIA/Gemma4) and vLLM validation",
+   "task": "Trace-driven KV-cache eviction and residency evaluation of general-assistant agent sessions, plus a live vLLM prefix-cache test"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Six-trace aggregate (SWE and GAIA replay traces)",
+   "task": "Aggregate scoring of session-level cache policies across all six traces"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

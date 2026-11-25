@@ -1,0 +1,96 @@
+{
+ "benchmarks": [
+  {
+   "name": "GenEval",
+   "aliases": [
+    "GenEval"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ",andhuman preference show that our method consistently improves Stan- dard OPD methods. In particular, it increases the GenEval score of DiffusionOPD from0.927to0.961, while also im- proving OCR and all preference-based metrics. The resulting unif",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 4.1 / Table 1, \\\"We evaluate compositional alignment on GenEval (Ghosh et al. 2023)...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OCR",
+   "aliases": [
+    "OCR",
+    "OCR (text rendering accuracy)"
+   ],
+   "kind": "metric",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ard OPD methods. In particular, it increases the GenEval score of DiffusionOPD from0.927to0.961, while also im- proving OCR and all preference-based metrics. The resulting unifiedstudentsurpassesthecorrespondingsingle-taskteach- ers across all",
+   "kind_note": "10 Nov 2026: not a public benchmark (OCR is a text-rendering metric; the suite is a grouping of POPE, MMBench, MME-Perception, MMMU, GQA, VQAv2, SEED)",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "rekind",
+    "gemini_kind": "metric",
+    "gemini_year": null,
+    "where": "Section 4.1, \\\"Text rendering is evaluated using OCR accuracy.\\\"",
+    "gemini_note": "Text-rendering accuracy metric, not a standalone benchmark dataset."
+   }
+  },
+  {
+   "name": "DrawBench",
+   "aliases": [
+    "DrawBench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "and the overall score. Text ren- dering is evaluated using OCR accuracy. Human preference andvisualqualityareevaluatedonDrawBench(Sahariaetal. 2022)usingPickScore(Kirstainetal.2023),AestheticScore, HPSv2.1(Wuetal.2023),andImageReward(Xuetal.2023). A",
+   "year": 2022,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 4.1 / Table 1, \\\"Human preference and visual quality are evaluated on DrawBench (Saharia et al. 2022)...\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GenEval",
+   "task": "Compositional text-to-image alignment"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OCR (text rendering accuracy)",
+   "task": "Text rendering"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DrawBench",
+   "task": "Human preference and visual quality"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

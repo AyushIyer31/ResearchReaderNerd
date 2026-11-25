@@ -1,3 +1,4 @@
+import dataclasses
 import json
 
 import anthropic
@@ -9,24 +10,6 @@ SAMPLE_ANALYSIS = {
     "authors": ["Ada Lovelace", "Alan Turing"],
     "proposed_method": "SampleNet",
     "summary": "The paper proposes SampleNet. It beats baselines on ToyBench.",
-    "assumptions": [
-        {
-            "statement": "Training and test data come from the same distribution.",
-            "kind": "implicit",
-            "category": "data",
-            "location": "Section 4.1",
-            "evidence": "We evaluate on the held-out split.",
-            "why_it_matters": "Accuracy may drop under distribution shift.",
-        },
-        {
-            "statement": "Noise is Gaussian.",
-            "kind": "explicit",
-            "category": "statistical",
-            "location": "Eq. 3",
-            "evidence": "We assume the noise is Gaussian.",
-            "why_it_matters": "The likelihood in Eq. 3 is wrong for heavy-tailed noise.",
-        },
-    ],
     "benchmarks": [
         {
             "name": "ToyBench",
@@ -57,6 +40,12 @@ SAMPLE_EXTRACTION = {"papers": [{"paper": 0, "benchmarks": ["CIFAR-10"]}, {"pape
 SAMPLE_DATASET_PAPERS = {"dataset_papers": [{"item": 0, "benchmark": "CelebA"}, {"item": 7, "benchmark": "Not listed"}]}
 SAMPLE_RANKING = {"picks": [{"candidate": 0, "why": "The standard small image benchmark."},
                             {"candidate": 99, "why": "Not a real candidate."}]}
+# MNIST's source paper is found; ToyBench is already used; nothing in OpenAlex backs "Madeup".
+SAMPLE_DATES = {"items": [{"item": 0, "source_title": "Learning multiple layers of features from tiny images", "year": 2009}]}
+
+SAMPLE_PROPOSALS = {"proposals": [{"benchmark": "MNIST", "source_title": "Gradient-based learning applied to document recognition"},
+                                  {"benchmark": "ToyBench", "source_title": "ToyBench: a toy benchmark"},
+                                  {"benchmark": "Madeup", "source_title": ""}]}
 
 
 def fake_message(text: str, stop_reason: str = "end_turn", stop_details=None) -> dict:
@@ -119,7 +108,7 @@ def fake_api():
         def _reply_for(self, body: dict) -> dict:
             props = body.get("output_config", {}).get("format", {}).get("schema", {}).get("properties", {})
             for key, sample in (("catalog_queries", SAMPLE_PLAN), ("picks", SAMPLE_RANKING), ("papers", SAMPLE_EXTRACTION),
-                                ("dataset_papers", SAMPLE_DATASET_PAPERS)):
+                                ("dataset_papers", SAMPLE_DATASET_PAPERS), ("proposals", SAMPLE_PROPOSALS), ("items", SAMPLE_DATES)):
                 if key in props:
                     return fake_message(json.dumps(sample))
             return self.reply
@@ -140,9 +129,86 @@ def no_network(monkeypatch):
     # Both related papers cite W9, a dataset paper, and W2, ToyBench's own source paper.
     library = {"W1": work(1, "A referenced paper", ["W9", "W2", "W8"]),
                "W9": work(9, "CelebA: a large-scale face attributes dataset")}
-    monkeypatch.setattr(scholar, "find_paper", lambda title, arxiv_id=None: (work(0, title), ["W1"]))
+    # The paper itself has no citers in OpenAlex (an unpublished manuscript); tests of the published mode pass use_citers=True.
+    monkeypatch.setattr(scholar, "_s2_get", lambda path, params=None, **kw: {})  # Semantic Scholar: no paper found
+    monkeypatch.setattr(scholar, "find_paper", lambda title, arxiv_id=None, **kw: (dataclasses.replace(work(0, title), cited_by=0), ["W1"]))
     monkeypatch.setattr(scholar, "get_works", lambda ids: [library[i] for i in ids if i in library])
-    monkeypatch.setattr(scholar, "find_by_title", lambda title: work(2, title))
+    monkeypatch.setattr(scholar, "find_by_title", lambda title: work(2 if "ToyBench" in title else 5, title))
+    monkeypatch.setattr(scholar, "topic_works", lambda query, limit=10, up_to_year=None: [])
     monkeypatch.setattr(scholar, "citing_works", lambda work_id, limit=20: [work(3, "A paper using ToyBench", ["W9", "W2"])])
     monkeypatch.setattr(consider, "search_all", lambda queries, per_query=4: (
         [CatalogHit("TPC", "TPC-H", "decision support", "https://www.tpc.org/tpch/")], []))
+
+
+def make_pdf(text: str) -> bytes:
+    """A one-page PDF whose only content is `text`, for text extraction in tests."""
+    stream = f"BT /F1 12 Tf 72 720 Td ({text}) Tj ET".encode()
+    objects = [
+        b"<< /Type /Catalog /Pages 2 0 R >>",
+        b"<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+        b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R "
+        b"/Resources << /Font << /F1 5 0 R >> >> >>",
+        b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream",
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+    ]
+    out = bytearray(b"%PDF-1.4\n")
+    offsets = []
+    for i, obj in enumerate(objects, 1):
+        offsets.append(len(out))
+        out += b"%d 0 obj\n" % i + obj + b"\nendobj\n"
+    xref = len(out)
+    out += b"xref\n0 %d\n" % (len(objects) + 1) + b"0000000000 65535 f \n"
+    for offset in offsets:
+        out += b"%010d 00000 n \n" % offset
+    out += b"trailer\n<< /Size %d /Root 1 0 R >>\nstartxref\n%d\n%%%%EOF\n" % (len(objects) + 1, xref)
+    return bytes(out)
+
+
+TEXT_PDF = make_pdf("SampleNet beats baselines on ToyBench.")
+
+
+def as_ndjson(text: str, model: str, done_reason: str = "stop") -> bytes:
+    """Replay an answer as the newline-delimited JSON events of Ollama's streamed chat API."""
+    half = len(text) // 2
+    events = [
+        {"model": model, "message": {"role": "assistant", "content": text[:half]}, "done": False},
+        {"model": model, "message": {"role": "assistant", "content": text[half:]}, "done": False},
+        {"model": model, "message": {"role": "assistant", "content": ""}, "done": True, "done_reason": done_reason,
+         "prompt_eval_count": 10, "eval_count": 10},
+    ]
+    return "".join(json.dumps(e) + "\n" for e in events).encode()
+
+
+@pytest.fixture
+def fake_ollama():
+    """An OllamaClient backed by a fake transport. Set `.reply` (JSON text), `.done_reason`,
+    or `.status` to change the response."""
+    from researchreadernerd.llm import OllamaClient
+
+    class FakeOllama:
+        def __init__(self):
+            self.requests: list[dict] = []
+            self.reply = json.dumps(SAMPLE_ANALYSIS)
+            self.done_reason = "stop"
+            self.status = 200
+            transport = httpx.MockTransport(self._handle)
+            self.client = OllamaClient(base_url="http://ollama.test", num_ctx=32768,
+                                       http=httpx.Client(transport=transport))
+
+        def _handle(self, request: httpx.Request) -> httpx.Response:
+            body = json.loads(request.content)
+            self.requests.append(body)
+            if self.status != 200:
+                return httpx.Response(self.status, json={"error": f"model '{body['model']}' not found, try pulling it first"})
+            return httpx.Response(200, headers={"content-type": "application/x-ndjson"},
+                                  content=as_ndjson(self._reply_for(body), body["model"], self.done_reason))
+
+        def _reply_for(self, body: dict) -> str:
+            props = body.get("format", {}).get("properties", {})
+            for key, sample in (("catalog_queries", SAMPLE_PLAN), ("picks", SAMPLE_RANKING), ("papers", SAMPLE_EXTRACTION),
+                                ("dataset_papers", SAMPLE_DATASET_PAPERS), ("proposals", SAMPLE_PROPOSALS)):
+                if key in props:
+                    return json.dumps(sample)
+            return self.reply
+
+    return FakeOllama()

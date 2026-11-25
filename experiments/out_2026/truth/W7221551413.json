@@ -1,0 +1,235 @@
+{
+ "benchmarks": [
+  {
+   "name": "SquintBench",
+   "aliases": [
+    "SquintBench"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nt Textand study it as a recognition deficiency, motivated by cases from a production moderation pipeline. We introduce SQUINTBENCH, compris- ing 1076 production-derived moderation images, and SQUINTCTRL, a controlled synthetic suite for mechanism dia",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 1, \\\"We introduce SQUINTBENCH, comprising 1076 production-derived moderation images\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "SquintCtrl",
+   "aliases": [
+    "SquintCtrl"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "a production moderation pipeline. We introduce SQUINTBENCH, compris- ing 1076 production-derived moderation images, and SQUINTCTRL, a controlled synthetic suite for mechanism diagnosis. Frozen-weight analysis shows that hid- den text leaves a coarse",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 1, \\\"and SQUINTCTRL, a controlled synthetic suite for mechanism diagnosis.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "IllVQA",
+   "aliases": [
+    "IllVQA",
+    "Illusory VQA (IllVQA)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "g.88.6126.50 22.26 18.15 8.33 24.44 1/8only49.6438.22 22.41 27.90 8.13 34.37 40×40only76.1268.60 11.07 44.91 6.26 66.88 IllVQAIllusionWER↓67.00178.10 166.50 190.13 119.60 177.97 IllVQAFilteredWER↓64.8776.80 83.53 70.00 65.27 91.33 AdvOCR† orig.66",
+   "year": 2024,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 3.3, \\\"evaluate transfer on Illusory VQA (Rostamkhani et al., 2025)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AdvOCR",
+   "aliases": [
+    "AdvOCR"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "833 1076 deployment-derived SQUINTBENCHimages. We further evaluate transfer on Illusory VQA (Rostamkhani et al., 2025), AdvOCR (Xu et al., 2026), and HC-Bench (Li et al., 2025), and general vision-language capability on AI2D (Kembhavi et al., 201",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rekind",
+    "gemini_kind": "public",
+    "gemini_year": 2026,
+    "where": "Section 3.3, \\\"AdvOCR (Xu et al., 2026)\\\"",
+    "gemini_note": "Public benchmark cited from prior work (Xu et al., 2026)."
+   },
+   "year": 2026,
+   "year_source": "citation",
+   "kind_note": "2026-11-11: Sec. 3.3 'evaluate transfer on ... AdvOCR (Xu et al., 2026)'; was kind own"
+  },
+  {
+   "name": "HC-Bench",
+   "aliases": [
+    "HC-Bench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "A.2). 3.3 FREQUENCY ANDTOKENCOUNT That downscaling or low-pass filtering makes such text legible is already established—HC-Bench evaluates after downscaling (Li et al., 2025) and Illusory VQA after low-pass filtering (Rostamkhani et al., 2025). Wha",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "rekind",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 3.3, \\\"HC-Bench (Li et al., 2025)\\\"",
+    "gemini_note": "Public benchmark cited from prior work (Li et al., 2025)."
+   },
+   "year": 2025,
+   "year_source": "citation",
+   "kind_note": "2026-11-11: Sec. 3.3 'evaluate transfer on ... HC-Bench (Li et al., 2025)'; was kind own"
+  },
+  {
+   "name": "AI2D",
+   "aliases": [
+    "AI2D"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "es the original image alone. Table 2: SQUINTBENCHperformance and general vision-language capability. SQUINTBENCHgeneral AI2D DocVQA OCRBench BASE26.50 86.66 95.93 879 BASE+1/8view (two-view) 58.96 52.36 95.37 834 SFT (full, single) 72.47 85.52",
+   "year": 2016,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2016,
+    "where": "Table 2, \\\"AI2D (Kembhavi et al., 2016)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "DocVQA",
+   "aliases": [
+    "DocVQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "e original image alone. Table 2: SQUINTBENCHperformance and general vision-language capability. SQUINTBENCHgeneral AI2D DocVQA OCRBench BASE26.50 86.66 95.93 879 BASE+1/8view (two-view) 58.96 52.36 95.37 834 SFT (full, single) 72.47 85.52 64.73 7",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Table 2, \\\"DocVQA (Mathew et al., 2021)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OCRBench",
+   "aliases": [
+    "OCRBench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nal image alone. Table 2: SQUINTBENCHperformance and general vision-language capability. SQUINTBENCHgeneral AI2D DocVQA OCRBench BASE26.50 86.66 95.93 879 BASE+1/8view (two-view) 58.96 52.36 95.37 834 SFT (full, single) 72.47 85.52 64.73 722 DAPO 7",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Table 2, \\\"OCRBench (Liu et al., 2024)\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SquintBench",
+   "task": "Transcription of hidden text in production moderation images"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "SquintCtrl",
+   "task": "Controlled diagnostics of hidden-text presence, glyph identity, localization, recoverability, and open-vocabulary read-out on synthetic images"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Illusory VQA (IllVQA)",
+   "task": "Reading hidden text in visual illusions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AdvOCR",
+   "task": "Hidden or squint-visible text reading (OCR) under original and reduced views"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HC-Bench",
+   "task": "Reading hidden content in images that becomes legible after downscaling"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AI2D",
+   "task": "Diagram understanding (general vision-language capability)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DocVQA",
+   "task": "Document visual question answering (general vision-language capability)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OCRBench",
+   "task": "OCR capability in large multimodal models (general capability)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

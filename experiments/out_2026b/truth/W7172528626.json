@@ -1,0 +1,133 @@
+{
+ "benchmarks": [
+  {
+   "name": "DeepCoder",
+   "aliases": [
+    "DeepCoder",
+    "Deepcoder",
+    "Deepcoder LLM benchmark (Exedec)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "0 40 60 80 100 Synthesis accuracy (%) 87 80 73 64 SAD Solver-blind (b) Synthesis accuracy Figure 1: Accuracy paradox on Deepcoder. (a) Decomposition accuracy: predicted subgoal matches the GT subgoal exactly. (b) Synthesis accuracy: the synthesizer",
+   "year": 2016,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2016,
+    "where": "Section 1, \\\"On Deepcoder and Lambdabeam, the accuracy paradox holds in every setting\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "LambdaBeam",
+   "aliases": [
+    "LambdaBeam",
+    "Lambdabeam"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "advantage measures how much easier the sampled subgoal is for the synthesizer than the greedy one. 2. On Deepcoder and Lambdabeam, the accuracy paradox holds in every setting, and SAD improves task accuracy over the solver-blind decomposer both in-d",
+   "year": 2023,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 1, \\\"On Deepcoder and Lambdabeam, the accuracy paradox holds in every setting\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "RobustFill",
+   "aliases": [
+    "RobustFill",
+    "Robustfill"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "to zero-shot transfer to the benchmark of Rule et al.[35] (Appendix F) and to a fine-tuned Llama-3.1-8B (Section 6). On Robustfill, where the decomposition order is fixed, both decomposers perform equally, as predicted (Section 5.2). 3. With the same",
+   "year": 2017,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2017,
+    "where": "Section 1, \\\"On Robustfill, where the decomposition order is fixed, both decomposers perform equally\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Rule et al. list-function benchmark (BIG-bench)",
+   "aliases": [
+    "Rule et al. list-function benchmark (BIG-bench)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2022,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2022,
+    "where": "Section 1, \\\"zero-shot transfer to the benchmark of Rule et al.[35]\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Deepcoder",
+   "task": "Program synthesis from I/O examples over integer lists (programming-by-example)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Lambdabeam",
+   "task": "Program synthesis from I/O examples with higher-order functions, lambdas and conditionals"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Robustfill",
+   "task": "String transformation program synthesis from I/O examples"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Rule et al. list-function benchmark (BIG-bench)",
+   "task": "Zero-shot inductive list-function rule learning (integer lists to integer lists)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Deepcoder LLM benchmark (Exedec)",
+   "task": "Program synthesis from I/O examples with an LLM, Pythonic Deepcoder DSL"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

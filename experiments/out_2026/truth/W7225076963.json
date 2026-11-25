@@ -1,0 +1,388 @@
+{
+ "benchmarks": [
+  {
+   "name": "ImageNet",
+   "aliases": [
+    "ImageNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "senta- tion, and autoregressive generation over dense tokenizers under matched supervi- sion and active computation. On ImageNet, it combines strong reconstruction and semantic representation with state-of-the-art class-conditional generation withi",
+   "year": 2009,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2009,
+    "where": "Section 4, \\\"On ImageNet, it combines strong reconstruction and semantic representation\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "ImageNet ablation experiments",
+   "aliases": [
+    "ImageNet ablation experiments",
+    "ImageNet linear probe and reconstruction ablations (controlled studies)"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "not_a_benchmark",
+    "gemini_year": null,
+    "where": "Section 4, ablation studies on ImageNet",
+    "gemini_note": "Ablation study, not a standalone benchmark."
+   }
+  },
+  {
+   "name": "COCO",
+   "aliases": [
+    "COCO",
+    "ImageNet attention variance cross-dataset check (COCO)"
+   ],
+   "kind": "not_evaluated",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "el Maire, Serge J. Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr Doll´ar, and C. Lawrence Zitnick. Microsoft COCO: common objects in context. In David J. Fleet, Tom´as Pajdla, Bernt Schiele, and Tinne Tuytelaars (eds.),Computer Visio",
+   "year": 2014,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "remove",
+    "gemini_kind": "public",
+    "gemini_year": 2014,
+    "where": "References, Microsoft COCO: common objects in context",
+    "gemini_note": "Cited in references, not evaluated as a benchmark."
+   },
+   "kind_note": "2026-11-11: only an attention-variance consistency check uses COCO images; no benchmark result reported (Gemini + Ayush)"
+  },
+  {
+   "name": "GenEval",
+   "aliases": [
+    "GenEval"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "matching or surpassing diffusion-based models such as BAGEL and Qwen-Image on bench- marks including DPG-Bench (87.61), GenEval2 (40.04 GM), and WISE (0.49). 1 INTRODUCTION Modern visual tokenizers aim to preserve fine-grained visual details while",
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2023,
+    "where": "Section 4, \\\"Text-conditioned generation is evaluated on GenEval, DPG-Bench, WISE, and GenEval2\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "DPG-Bench",
+   "aliases": [
+    "DPG-Bench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "d discrete models, matching or surpassing diffusion-based models such as BAGEL and Qwen-Image on bench- marks including DPG-Bench (87.61), GenEval2 (40.04 GM), and WISE (0.49). 1 INTRODUCTION Modern visual tokenizers aim to preserve fine-grained vis",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4, \\\"Text-conditioned generation is evaluated on GenEval, DPG-Bench, WISE, and GenEval2\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "WISE",
+   "aliases": [
+    "WISE"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ffusion-based models such as BAGEL and Qwen-Image on bench- marks including DPG-Bench (87.61), GenEval2 (40.04 GM), and WISE (0.49). 1 INTRODUCTION Modern visual tokenizers aim to preserve fine-grained visual details while learning high-level s",
+   "year": 2025,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Table 8, \\\"WISE: World-knowledge-intensive generation across six knowledge domains\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "GenEval2",
+   "aliases": [
+    "GenEval2"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "matching or surpassing diffusion-based models such as BAGEL and Qwen-Image on bench- marks including DPG-Bench (87.61), GenEval2 (40.04 GM), and WISE (0.49). 1 INTRODUCTION Modern visual tokenizers aim to preserve fine-grained visual details while",
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 4, \\\"Text-conditioned generation is evaluated on GenEval, DPG-Bench, WISE, and GenEval2\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Multimodal understanding suite",
+   "aliases": [
+    "Multimodal understanding suite",
+    "Multimodal understanding suite (POPE, MMBench, MME-Perception, MMMU, GQA, VQAv2, SEED)"
+   ],
+   "kind": "composite",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "kind_note": "10 Nov 2026: not a public benchmark (OCR is a text-rendering metric; the suite is a grouping of POPE, MMBench, MME-Perception, MMMU, GQA, VQAv2, SEED)",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "split",
+    "gemini_kind": "composite",
+    "gemini_year": null,
+    "where": "Table 6, \\\"Multimodal understanding benchmarks\\\"",
+    "gemini_note": "",
+    "components": [
+     "POPE",
+     "MMBench",
+     "MME-Perception",
+     "MMMU",
+     "GQA",
+     "VQAv2",
+     "SEED"
+    ]
+   }
+  },
+  {
+   "name": "POPE",
+   "aliases": [
+    "POPE"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2023,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; arXiv 2305.10355",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  },
+  {
+   "name": "MMBench",
+   "aliases": [
+    "MMBench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2023,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; arXiv 2307.06281",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  },
+  {
+   "name": "MME-Perception",
+   "aliases": [
+    "MME-Perception",
+    "MME"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2023,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; MME, arXiv 2306.13394",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  },
+  {
+   "name": "MMMU",
+   "aliases": [
+    "MMMU"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2023,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; arXiv 2311.16502",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  },
+  {
+   "name": "GQA",
+   "aliases": [
+    "GQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2019,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; CVPR 2019",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  },
+  {
+   "name": "VQAv2",
+   "aliases": [
+    "VQAv2"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2017,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; CVPR 2017",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  },
+  {
+   "name": "SEED",
+   "aliases": [
+    "SEED",
+    "SEED-Bench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "hand_check"
+   ],
+   "in_text": true,
+   "snippet": "Table 6, multimodal understanding benchmarks (split from the composite entry)",
+   "year": 2023,
+   "year_source": "manual",
+   "kind_note": "2026-11-11: component of the 'Multimodal understanding suite' composite, reported separately in Table 6; SEED-Bench, arXiv 2307.16125",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "added"
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet",
+   "task": "Tokenizer reconstruction, linear probe and zero-shot classification, and class-conditional generation (ImageNet 256x256)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet linear probe and reconstruction ablations (controlled studies)",
+   "task": "Tokenizer ablations: encoder depth, expert configuration, routing granularity, codebook size, latent dimension, loss-free balancing"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ImageNet attention variance cross-dataset check (COCO)",
+   "task": "Consistency analysis of query attention variance across image distributions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GenEval",
+   "task": "Text-to-image generation compositional evaluation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DPG-Bench",
+   "task": "Text-to-image generation dense prompt following"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "WISE",
+   "task": "World-knowledge-intensive text-to-image generation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GenEval2",
+   "task": "Compositional text-to-image generation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Multimodal understanding suite (POPE, MMBench, MME-Perception, MMMU, GQA, VQAv2, SEED)",
+   "task": "Visual understanding / VQA"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

@@ -1,0 +1,284 @@
+{
+ "benchmarks": [
+  {
+   "name": "ResNet-18",
+   "aliases": [
+    "ResNet-18"
+   ],
+   "kind": "public",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "rithm TVM: Random Search Baseline: cuDNN Figure 12: Comparison of different automation methods for a conv2d operator in ResNet-18 on TITAN X. The ML-based model starts with no training data and uses the collected data to improve itself. The Y-axis i"
+  },
+  {
+   "name": "MobileNet",
+   "aliases": [
+    "MobileNet"
+   ],
+   "kind": "public",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "stions: • Can TVM optimize DL workloads over multiple platforms? • How does TVM compare to existing DL frame- ResNet-18 MobileNet0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0Time(ms) LSTM LM DQN DCGAN0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 Tensorﬂow XLA Tensorﬂow"
+  },
+  {
+   "name": "LSTM Language Model",
+   "aliases": [
+    "LSTM Language Model"
+   ],
+   "kind": "public",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "DQN",
+   "aliases": [
+    "DQN"
+   ],
+   "kind": "public",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "tforms? • How does TVM compare to existing DL frame- ResNet-18 MobileNet0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0Time(ms) LSTM LM DQN DCGAN0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 Tensorﬂow XLA Tensorﬂow MXNet TVM w/o graph opt TVM Figure 14: GPU end-to-"
+  },
+  {
+   "name": "DCGAN",
+   "aliases": [
+    "DCGAN"
+   ],
+   "kind": "public",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ms? • How does TVM compare to existing DL frame- ResNet-18 MobileNet0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0Time(ms) LSTM LM DQN DCGAN0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 Tensorﬂow XLA Tensorﬂow MXNet TVM w/o graph opt TVM Figure 14: GPU end-to-end ev"
+  },
+  {
+   "name": "Ultra low-precision conv2d",
+   "aliases": [
+    "Ultra Low-Precision Operators",
+    "Ultra low-precision conv2d",
+    "Ultra low-precision conv2d on ResNet (2-bit activations, 1-bit weights) on ARM Cortex A53"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "s. Finally, Figure 16 shows an end-to- end comparison of three workloads, where TVM outper- forms the TFLite baseline.3 Ultra Low-Precision Operators We demonstrate TVM’s ability to support ultra low-precision infer- ence [13, 33] by generating highly optimized operato"
+  },
+  {
+   "name": "VDLA FPGA accelerator",
+   "aliases": [
+    "VDLA FPGA Accelerator",
+    "VDLA FPGA accelerator"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "End-to-end DL inference on Titan X",
+   "aliases": [
+    "End-to-end DL inference on Titan X",
+    "End-to-end DL workloads (ResNet-18, MobileNet, LSTM LM, DQN, DCGAN) on NVIDIA Titan X"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Operator-level conv2d and depthwise conv2d",
+   "aliases": [
+    "Operator-level conv2d (ResNet-18 C1-C12) and depthwise conv2d (MobileNet D1-D9) on Titan X",
+    "Operator-level conv2d and depthwise conv2d"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Operator fusion micro-benchmarks",
+   "aliases": [
+    "Operator fusion micro-benchmarks",
+    "Operator fusion micro-benchmarks (conv+bn+relu, depthwise-conv+bn+relu, RNN cell, LSTM cell) on NVIDIA Titan X"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "Matrix multiplication kernel",
+   "aliases": [
+    "Matrix multiplication 1024 and 2048 on Titan X (cooperative shared memory ablation)",
+    "Matrix multiplication kernel"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "Automation method comparison",
+   "aliases": [
+    "Automation method comparison",
+    "Automation method comparison on a ResNet-18 conv2d operator on TITAN X"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "ARM Cortex A53 end-to-end inference",
+   "aliases": [
+    "ARM Cortex A53 end-to-end (ResNet-18, MobileNet, DQN) and operator-level conv2d/depthwise conv2d",
+    "ARM Cortex A53 end-to-end inference"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "Mali-T860MP4 mobile GPU end-to-end inference",
+   "aliases": [
+    "Mali-T860MP4 mobile GPU end-to-end (ResNet-18, MobileNet, DQN) in float32 and float16",
+    "Mali-T860MP4 mobile GPU end-to-end inference"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "struck_by_author": true
+  },
+  {
+   "name": "ResNet inference on VDLA FPGA",
+   "aliases": [
+    "ResNet inference on VDLA FPGA",
+    "ResNet inference on VDLA FPGA accelerator (PYNQ, Artix-7) with and without latency hiding"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "ResNet-18",
+   "task": "Inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "MobileNet",
+   "task": "Inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "LSTM Language Model",
+   "task": "Inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "DQN",
+   "task": "Inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "DCGAN",
+   "task": "Inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Ultra Low-Precision Operators",
+   "task": "Inference"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "VDLA FPGA Accelerator",
+   "task": "Inference"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "End-to-end DL workloads (ResNet-18, MobileNet, LSTM LM, DQN, DCGAN) on NVIDIA Titan X",
+   "task": "End-to-end DL inference time"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Operator-level conv2d (ResNet-18 C1-C12) and depthwise conv2d (MobileNet D1-D9) on Titan X",
+   "task": "Single-operator kernel performance"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Operator fusion micro-benchmarks (conv+bn+relu, depthwise-conv+bn+relu, RNN cell, LSTM cell) on NVIDIA Titan X",
+   "task": "Fused vs non-fused operator performance"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Matrix multiplication 1024 and 2048 on Titan X (cooperative shared memory ablation)",
+   "task": "Matrix multiplication kernel performance"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Automation method comparison on a ResNet-18 conv2d operator on TITAN X",
+   "task": "Schedule search efficiency"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ARM Cortex A53 end-to-end (ResNet-18, MobileNet, DQN) and operator-level conv2d/depthwise conv2d",
+   "task": "Embedded CPU inference time and operator speedup"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Ultra low-precision conv2d on ResNet (2-bit activations, 1-bit weights) on ARM Cortex A53",
+   "task": "Low-precision operator performance"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Mali-T860MP4 mobile GPU end-to-end (ResNet-18, MobileNet, DQN) in float32 and float16",
+   "task": "Embedded GPU inference time"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "ResNet inference on VDLA FPGA accelerator (PYNQ, Artix-7) with and without latency hiding",
+   "task": "Accelerator roofline utilization and end-to-end inference time"
+  }
+ ],
+ "checked_by_author": true
+}

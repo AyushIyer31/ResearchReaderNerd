@@ -1,0 +1,106 @@
+{
+ "benchmarks": [
+  {
+   "name": "B4 WAN topology",
+   "aliases": [
+    "B4 WAN topology",
+    "B4 WAN topology for LMTE traffic engineering evaluation",
+    "Demand pinning heuristic on B4 with K=4 shortest paths",
+    "Teal evaluation on the LMTE dataset"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2013,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Ayush, arXiv HTML read of 2610.24348 (Gemini could not open the PDF)",
+    "verdict": "keep",
+    "gemini_kind": null,
+    "gemini_year": null,
+    "where": "Sec. 4.1-4.2, 'We evaluate LMTE on B4', K=4 shortest paths",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "Gravity-model traffic matrices",
+   "aliases": [
+    "Gravity-model held-out traffic matrix set used to train and evaluate LMTE",
+    "Gravity-model traffic matrices"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2005,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Ayush, arXiv HTML read of 2610.24348 (Gemini could not open the PDF)",
+    "verdict": "rekind",
+    "where": "Sec. 4.1, 'fine-tune LMTE's embedding layers on 20K gravity-model traffic matrices'; held-out split of the same generated set",
+    "gemini_note": ""
+   },
+   "kind_note": "2026-11-11: synthetic traffic matrices the paper generates itself (20K, gravity model) to train and test LMTE; a generation method, not a public benchmark"
+  },
+  {
+   "name": "Random knapsack GPU scheduling instances",
+   "aliases": [
+    "Random 0/1 knapsack GPU cluster scheduling instances (200 GPUs, 1–40 GPUs per job)",
+    "Random knapsack GPU scheduling instances"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Ayush, arXiv HTML read of 2610.24348 (Gemini could not open the PDF)",
+    "verdict": "keep",
+    "where": "Sec. 4.1, '500K randomly generated instances', 200-GPU knapsack",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "B4 WAN topology for LMTE traffic engineering evaluation",
+   "task": "Traffic engineering: max-flow routing of traffic matrices by the LMTE LLM solver versus an optimal solver"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Gravity-model held-out traffic matrix set used to train and evaluate LMTE",
+   "task": "Accuracy of the LMTE traffic engineering LLM solver on held-out inputs"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Random 0/1 knapsack GPU cluster scheduling instances (200 GPUs, 1–40 GPUs per job)",
+   "task": "GPU cluster scheduling: allocating GPUs to jobs to maximize throughput with the LLMCoSolver LLM solver versus an optimal solver"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Teal evaluation on the LMTE dataset",
+   "task": "Traffic engineering with Teal, a GNN plus ADMM RL-based TE system treated as a black box"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Demand pinning heuristic on B4 with K=4 shortest paths",
+   "task": "Performance analysis of the demand pinning traffic engineering heuristic against its optimal counterpart"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Ayush, arXiv HTML read of 2610.24348 (Gemini could not open the PDF)",
+  "status": "complete"
+ }
+}

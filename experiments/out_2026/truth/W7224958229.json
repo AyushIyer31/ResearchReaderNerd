@@ -1,0 +1,25 @@
+{
+ "benchmarks": [
+  {
+   "name": "Surface 1 production ranking data",
+   "aliases": [
+    "Surface 1 production ranking data",
+    "Surface 1 production ranking data (proprietary, billion scale)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Surface 1 production ranking data (proprietary, billion scale)",
+   "task": "Downstream engagement prediction (ranking) for a large recommendation surface"
+  }
+ ],
+ "checked_by_author": false
+}

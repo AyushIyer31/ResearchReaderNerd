@@ -1,4 +1,4 @@
-"""Ask Claude to read the paper and return its assumptions (R1) and benchmarks (R2)."""
+"""Ask the model to read the paper and return its benchmarks (R2)."""
 
 from __future__ import annotations
 
@@ -7,19 +7,20 @@ from dataclasses import asdict, dataclass
 
 import anthropic
 
-from .llm import FALLBACK_BETA, FALLBACK_MODELS, AnalysisError, ask, output_format
+from .llm import FALLBACK_BETA, FALLBACK_MODELS, AnalysisError, OllamaError, ask, output_format
 from .paper import Paper
 from .schema import PaperAnalysis
 
-DEFAULT_MODEL = "claude-haiku-5-5"
+DEFAULT_MODEL = "qwen2.5:14b"  # local, through Ollama; any "claude-*" name uses the Anthropic API
 DEFAULT_EFFORT = "medium"
 # Room for the model's reasoning plus long results tables. Above ~16K the response
-# must be streamed, or the HTTP request can time out.
+# must be streamed, or the HTTP request can time out. A local model is capped lower
+# (llm.MAX_LOCAL_OUTPUT) so the paper fits in its context window.
 DEFAULT_MAX_TOKENS = 32000
 
 OUTPUT_FORMAT = output_format(PaperAnalysis)
 
-__all__ = ["AnalysisError", "FALLBACK_BETA", "FALLBACK_MODELS"]  # re-exported for callers and tests
+__all__ = ["AnalysisError", "OllamaError", "FALLBACK_BETA", "FALLBACK_MODELS"]  # re-exported for callers and tests
 
 INSTRUCTIONS_PROMPT = """\
 You are a careful reviewer reading a scientific paper for a researcher who wants to \
@@ -27,17 +28,10 @@ understand it and check it. Work only from the attached paper. Do not add facts,
 numbers, or citations from your own knowledge: if something is not in the paper, \
 leave it out or mention it under caveats.
 
-Summary: keep it under 150 words. Cover the problem, the approach, and the main claim."""
+Title and authors: copy the paper's own title and author list as printed on its first page. \
+The title is the paper's title, not the file name and not a description of this report.
 
-ASSUMPTIONS_PROMPT = """\
-Assumptions (R1):
-- List only the top 5 assumptions the method, theory, and experiments rely on: the ones \
-whose failure would most change the results or claims. Order them most important first.
-- Explicit assumptions are ones the paper states. Implicit assumptions are ones the \
-results depend on but the paper never states; include them only when you can point \
-to the passage that relies on them.
-- Give each one a precise location (section, equation, table, or page) and a short \
-verbatim quote from that location."""
+Summary: keep it under 150 words. Cover the problem, the approach, and the main claim."""
 
 BENCHMARKS_PROMPT = """\
 Benchmarks (R2):
@@ -49,7 +43,7 @@ baseline, copied exactly as printed. Note which table or figure each number is f
 - Under notes, flag anything that limits comparison with other papers, such as custom \
 splits or baselines rerun by the authors instead of copied from the original papers."""
 
-USER_PROMPT = "Read the attached paper and extract its assumptions and benchmarks."
+USER_PROMPT = "Read the attached paper and extract its benchmarks."
 
 PLAN_PROMPT = """\
 You are planning a search for benchmarks a computer-science paper could have used. From \
@@ -78,16 +72,44 @@ introduces ImageNet), and give each one's standard short name. Skip papers that 
 introduce a method, model, tool or survey, even when they also release some data as a \
 side product. Return an empty list if none do."""
 
+PROPOSE_PROMPT = """\
+You advise the authors of the computer-science paper below on benchmarks to evaluate on. \
+From its title, summary and method, name up to 15 public benchmarks, datasets or evaluation \
+suites that papers on this problem are expected to use, by their standard names, most \
+important first. Choose only established, obtainable benchmarks; do not invent names. Skip \
+the benchmarks the paper already uses. For each, give the title of the paper that introduced \
+it (the one usually cited for it); leave it empty if you do not know it. Each name is checked \
+against OpenAlex and dropped when no paper confirms it."""
+
+PROPOSE_DOMAIN_PROMPT = """\
+You advise the authors of the computer-science paper below on benchmarks to evaluate on. \
+Name up to 15 datasets, benchmarks or evaluation suites that are specific to this paper's \
+subfield and task: the field's own collections (medical, educational, security, robotics, \
+networking, forensics, scientific and similar domain data), competition and challenge data, \
+and the test sets the specialist papers on this exact problem report on. Leave out the \
+general-purpose benchmarks everyone in the field would name first; those are asked for \
+separately. Choose only established, obtainable benchmarks under their standard names; do \
+not invent names. Skip the benchmarks the paper already uses. For each, give the title of \
+the paper that introduced it (the one usually cited for it); leave it empty if you do not \
+know it. Each name is checked against OpenAlex and dropped when no paper confirms it."""
+
+DATE_PROMPT = """\
+For each numbered benchmark or dataset name, give the title of the paper or report that introduced it \
+and the year it became available. If you do not know it, give an empty title and the year 0. Each \
+title is checked against OpenAlex; the year counts only when that record confirms it."""
+
 RANK_PROMPT = """\
 You advise the authors of the paper below on benchmarks they should consider adding. \
-The numbered candidates were found in the paper's references, in papers that use the \
-same benchmarks, in the bibliographies of those related papers (a benchmark's source \
-paper cited by many of them), and in public dataset catalogs; each shows the evidence \
-for it.
-- Choose 10 that would most strengthen this paper's evaluation, most useful first. \
-Put the best-supported first; when a pick rests on weaker evidence, say so in its \
-sentence. Return fewer than 10 only if fewer than 10 candidates are datasets or \
-benchmarks related to the paper's task.
+The numbered candidates were found in the paper's references, in the most-cited papers \
+citing it (for a published paper; only benchmarks that existed before it), in papers that \
+use the same benchmarks, in the bibliographies of those related papers (a benchmark's \
+source paper cited by many of them), among benchmarks named from the paper's topic and \
+confirmed in OpenAlex, and in public dataset catalogs; each shows the evidence for it, with \
+cited and citing papers counted separately, and the list is in order of evidence, strongest first.
+- Choose 10 that would most strengthen this paper's evaluation. The report orders them \
+by evidence, and by your order among equals, so list the best first; when a pick rests on \
+weaker evidence, say so in its sentence. Return fewer than 10 only if fewer than 10 \
+candidates are datasets or benchmarks related to the paper's task.
 - Prefer established benchmarks that reviewers in this field would expect, and those \
 with stronger evidence (used by more related papers). Catalog hits are keyword matches: \
 prefer recognized benchmarks, and never pick an entry that is a paper title or a \
@@ -97,23 +119,32 @@ candidates that do not fit its task.
 - For each, write one sentence on why it fits this paper.
 - Choose only from the numbered candidates."""
 
+# The recency rule (version 2, change 2): appended to the ranking prompt only when candidates are dated, so that
+# with dating off the ranker sees exactly the as-run prompt and listing (13 Nov 2026).
+RECENCY_RULE = ("Each candidate also shows the year it was first seen where that is known; a benchmark introduced in "
+                "the last year or two has had little time to be used, so do not hold thin evidence against it: judge a "
+                "recent benchmark by its fit to the task and its source, and include the recent ones that fit.")
+RANK_PROMPT = RANK_PROMPT + " " + RECENCY_RULE
+
 
 @dataclass(frozen=True)
 class Prompts:
-    """The editable prompts. system() joins the first three for the R1/R2 call; the others
+    """The editable prompts. system() joins the first two for the reading call; the others
     drive the "benchmarks to consider" steps."""
 
     instructions: str = INSTRUCTIONS_PROMPT
-    assumptions: str = ASSUMPTIONS_PROMPT
     benchmarks: str = BENCHMARKS_PROMPT
     user: str = USER_PROMPT
     plan: str = PLAN_PROMPT
     extract: str = EXTRACT_PROMPT
     label: str = LABEL_PROMPT
+    propose: str = PROPOSE_PROMPT
+    propose_domain: str = ""  # second proposal call for the subfield's own datasets (PROPOSE_DOMAIN_PROMPT); off by default, 12 Nov 2026: not in version 2
+    date: str = DATE_PROMPT  # dating the candidates before the ranking (11 Nov 2026)
     rank: str = RANK_PROMPT
 
     def system(self) -> str:
-        return "\n\n".join(p.strip() for p in (self.instructions, self.assumptions, self.benchmarks) if p.strip())
+        return "\n\n".join(p.strip() for p in (self.instructions, self.benchmarks) if p.strip())
 
     def to_dict(self) -> dict[str, str]:
         return asdict(self)
@@ -129,7 +160,7 @@ class AnalysisResult:
 
 def analyze_paper(
     paper: Paper,
-    client: anthropic.Anthropic,
+    client,  # OllamaClient or anthropic.Anthropic (see llm.make_client)
     *,
     prompts: Prompts | None = None,
     model: str = DEFAULT_MODEL,

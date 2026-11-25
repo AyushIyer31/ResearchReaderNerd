@@ -1,0 +1,209 @@
+{
+ "benchmarks": [
+  {
+   "name": "HarmBench",
+   "aliases": [
+    "HarmBench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "cross two model pairs under full KV reuse and the state-of- the-art selective reuse setting, VREPAROreduces the average HarmBench attack success rate (ASR) from 57.28% to 39.21% and the average StrongREJECT score from 0.4215 to 0.2163 upon our bench",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 1, \\\"VREPAROreduces the average HarmBench attack success rate (ASR)...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "StrongREJECT",
+   "aliases": [
+    "StrongREJECT"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ive reuse setting, VREPAROreduces the average HarmBench attack success rate (ASR) from 57.28% to 39.21% and the average StrongREJECT score from 0.4215 to 0.2163 upon our benchmarks, while retaining an average Time to First Token (TTFT) reduction of 85.",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 1, \\\"and the average StrongREJECT score from 0.4215 to 0.2163...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "OR-Bench",
+   "aliases": [
+    "OR-Bench"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "te QA quality using token-level F1, the harmonic mean of token precision and recall. Benign refusal is evaluated on 200 OR-Bench prompts (Cui et al., 2024). Full refusal means declining assistance without a substantive completion. All conditions wi",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4.1, \\\"Benign refusal is evaluated on 200 OR-Bench prompts (Cui et al., 2024).\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "XSTest",
+   "aliases": [
+    "XSTest"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "., 2023) examples, without task or safety labels. We select the correction strengthαusing string-based refusal rates on XSTest (Röttger et al., 2024). We repeat this procedure with five random seeds for data sampling. The fitted maps and selected",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4.1, \\\"We select the correction strengthαusing string-based refusal rates on XSTest (Röttger et al., 2024).\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "HotpotQA",
+   "aliases": [
+    "HotpotQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "e. Fitting and calibration.We fit separate affine maps for each sender–receiver pair and reuse con- figuration using 32 HotpotQA (Yang et al., 2018) and 32 HEx-PHI (Qi et al., 2023) examples, without task or safety labels. We select the correction",
+   "year": 2018,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2018,
+    "where": "Appendix B.2, \\\"We measure question-answering quality using token-level F1 on HotpotQA...\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "2WikiMultihopQA",
+   "aliases": [
+    "2WikiMultihopQA"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "the five runs. B.2 EVALUATION ANDTIMINGPROTOCOL We measure question-answering quality using token-level F1 on HotpotQA, 2WikiMultihopQA (Ho et al., 2020), and MultiFieldQA-en from LongBench-E (Bai et al., 2024). Evaluation subsets and refusal scoring.The",
+   "year": 2020,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2020,
+    "where": "Appendix B.2, \\\"2WikiMultihopQA (Ho et al., 2020)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MultiFieldQA-en",
+   "aliases": [
+    "MultiFieldQA-en",
+    "MultiFieldQA-en (LongBench)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "PROTOCOL We measure question-answering quality using token-level F1 on HotpotQA, 2WikiMultihopQA (Ho et al., 2020), and MultiFieldQA-en from LongBench-E (Bai et al., 2024). Evaluation subsets and refusal scoring.The 32 HarmBench development prompts are se",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Appendix B.2, \\\"and MultiFieldQA-en from LongBench-E (Bai et al., 2024).\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HarmBench",
+   "task": "Safety evaluation: whether the receiver response exhibits requested harmful behavior (direct harmful requests, no jailbreak optimization)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "StrongREJECT",
+   "task": "Safety evaluation: extent to which the response provides harmful assistance, scored on 0-1 scale by a fine-tuned evaluator"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OR-Bench",
+   "task": "Benign over-refusal: full refusal rate on benign prompts"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "XSTest",
+   "task": "Refusal calibration for selecting correction strength alpha (safe and unsafe prompts)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HotpotQA",
+   "task": "Question answering quality (token-level F1) and fitting data for affine maps"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "2WikiMultihopQA",
+   "task": "Question answering quality (token-level F1)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MultiFieldQA-en (LongBench)",
+   "task": "Question answering quality (token-level F1)"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

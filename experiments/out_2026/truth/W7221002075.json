@@ -1,0 +1,209 @@
+{
+ "benchmarks": [
+  {
+   "name": "MBPP",
+   "aliases": [
+    "MBPP"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "nts on seven benchmarks spanning three reasoning domains. For code reasoning, we use Hu- manEval (Chen et al. 2021) and MBPP (Austin et al. 2021). For mathematical reasoning, we adopt MATH-500 (Light- manetal.2024)toassessgeneralmathematicalpro",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 4.1, \\\"MBPP (Austin et al. 2021)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "HumanEval",
+   "aliases": [
+    "HumanEval"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "ures, preference-data construction, and optimization configura- tions are provided in Appendix B. [page 6] Method MBPP HumanEval MATH-500 AIME GSM8K GPQA MMLU-Pro Average IO 63.73 82.70 81.20 17.78 88.09 37.54 51.57 60.37 CoT 70.48↑6.7585.75↑3.0584",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 4.1, \\\"HumanEval (Chen et al. 2021)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MATH-500",
+   "aliases": [
+    "MATH-500"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "de reasoning, we use Hu- manEval (Chen et al. 2021) and MBPP (Austin et al. 2021). For mathematical reasoning, we adopt MATH-500 (Light- manetal.2024)toassessgeneralmathematicalproblemsolv- ing,GSM8K(Cobbeetal.2021)toevaluatemulti-steparith- metic",
+   "year": 2021,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4.1, \\\"MATH-500 (Lightman et al. 2024)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "AIME 2025",
+   "aliases": [
+    "AIME 2025"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "l.2024)toassessgeneralmathematicalproblemsolv- ing,GSM8K(Cobbeetal.2021)toevaluatemulti-steparith- metic reasoning, and AIME 2025 (Mathematical Associa- tion of America 2025) to probe performance on challenging competition-level problems. For knowle",
+   "year": 2025,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2025,
+    "where": "Section 4.1, \\\"AIME 2025 (Mathematical Association of America 2025)\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: the 2025 contest; evidence year 2014 came from an unrelated source paper"
+  },
+  {
+   "name": "GSM8K",
+   "aliases": [
+    "GSM8K"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ". 2021). For mathematical reasoning, we adopt MATH-500 (Light- manetal.2024)toassessgeneralmathematicalproblemsolv- ing,GSM8K(Cobbeetal.2021)toevaluatemulti-steparith- metic reasoning, and AIME 2025 (Mathematical Associa- tion of America 2025) t",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 4.1, \\\"GSM8K (Cobbe et al. 2021)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "GPQA Diamond",
+   "aliases": [
+    "GPQA Diamond"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2023,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4.1, \\\"GPQA Diamond (Rein et al. 2024)\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "MMLU-Pro",
+   "aliases": [
+    "MMLU-Pro"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": ". For knowledge-intensive rea- soning,weuseGPQADiamond(Reinetal.2024)toevaluate graduate-level scientific reasoning and MMLU-Pro (Wang et al. 2024) to assess complex discipline reasoning. Baselines.We compare DHCG with representative base- linesfro",
+   "year": 2024,
+   "year_source": "evidence",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2024,
+    "where": "Section 4.1, \\\"MMLU-Pro (Wang et al. 2024)\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MBPP",
+   "task": "code generation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "HumanEval",
+   "task": "code generation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MATH-500",
+   "task": "mathematical reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "AIME 2025",
+   "task": "competition-level mathematical reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GSM8K",
+   "task": "multi-step arithmetic reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "GPQA Diamond",
+   "task": "graduate-level scientific reasoning"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MMLU-Pro",
+   "task": "multi-discipline knowledge reasoning"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 1",
+  "status": "complete"
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "benchmarks": [
+  {
+   "name": "Epsilon",
+   "aliases": [
+    "Epsilon",
+    "Epsilon dataset",
+    "Epsilon dataset (logistic regression)"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "acy of local SGD for general non-convex optimization. Figure 1: Running SyncSGD for different number of mini-batches on Epsilon dataset with logistic regression. Increasing mini-batches can result in divergence as it is the case here for mini-batc"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "Epsilon dataset",
+   "task": "Logistic Regression"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Epsilon dataset (logistic regression)",
+   "task": "Binary classification via logistic regression (distributed training)"
+  }
+ ],
+ "checked_by_author": true
+}

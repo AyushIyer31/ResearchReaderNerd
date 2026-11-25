@@ -1,0 +1,43 @@
+{
+ "benchmarks": [
+  {
+   "name": "UI-TAU Bench",
+   "aliases": [
+    "UI-TAU Bench",
+    "UI-TAU Bench (Lite and Full splits)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "Dynamic UX rendering benchmark",
+   "aliases": [
+    "Dynamic UX rendering benchmark",
+    "Dynamic UX rendering benchmark (1,100 pre-verified TSX components)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "UI-TAU Bench (Lite and Full splits)",
+   "task": "Active human-agent interaction through generated UI code followed by database-backed tool action (stateful service tasks in 10 domains)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Dynamic UX rendering benchmark (1,100 pre-verified TSX components)",
+   "task": "Systems benchmark for rendering generated front-end components in parallel browser sessions (throughput, latency, memory, process count)"
+  }
+ ],
+ "checked_by_author": false
+}

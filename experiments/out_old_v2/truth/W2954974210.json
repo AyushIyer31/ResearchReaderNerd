@@ -1,0 +1,53 @@
+{
+ "benchmarks": [
+  {
+   "name": "DeepMind Control Suite",
+   "aliases": [
+    "DeepMind Control Suite"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "gainst prior methods, we evaluate SLAC on four tasks (cheetah run, walker walk, ball-in-cup catch, ﬁnger spin) from the DeepMind Control Suite [52], and four tasks (cheetah, walker, ant, hopper) from OpenAI Gym [7]. Note that the Gym tasks are typically used wit"
+  },
+  {
+   "name": "OpenAI Gym",
+   "aliases": [
+    "OpenAI Gym"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "continuous control benchmark tasks: DeepMind Control’s cheetah run, walker walk, ball-in-cup catch, and ﬁnger spin, and OpenAI Gym’s half cheetah, walker, hopper, and ant (left to right). These images, which are rendered at a resolution of 64× 64 pix"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "DeepMind Control Suite",
+   "task": "Cheetah run, Walker walk, Ball-in-cup catch, Finger spin"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "OpenAI Gym",
+   "task": "HalfCheetah-v2, Walker2d-v2, Hopper-v2, Ant-v2"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DeepMind Control Suite",
+   "task": "Continuous control from 64x64 image observations (cheetah run, walker walk, ball-in-cup catch, finger spin in the main comparison; cartpole swingup and reacher easy in the appendix ablations)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "OpenAI Gym",
+   "task": "Continuous control from 64x64 image observations (HalfCheetah-v2, Walker2d-v2, Hopper-v2, Ant-v2)"
+  }
+ ],
+ "checked_by_author": true
+}

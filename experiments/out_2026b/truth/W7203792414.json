@@ -1,0 +1,75 @@
+{
+ "benchmarks": [
+  {
+   "name": "MiniGrid",
+   "aliases": [
+    "MiniGrid",
+    "MiniGrid, 20-task planner-in-isolation audit",
+    "MiniGrid-DoorKey-6x6-v0"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "also specify the full inference algorithm, publish a reference implementation, evaluate the planner in isolation on 20 MiniGrid tasks with a locally-served Qwen-2.5:14b (100% parse rate, 54.8% ground-truth coverage), and run a small pipeline-valid",
+   "year": 2018,
+   "year_source": "manual",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2018,
+    "where": "Section 5, \\\"evaluate the planner in isolation on 20 MiniGrid tasks...\\\"",
+    "gemini_note": ""
+   },
+   "year_note": "2026-11-11: gym-minigrid released 2018; evidence year 2023 was the Minigrid library paper"
+  },
+  {
+   "name": "Custom 3-state MDP",
+   "aliases": [
+    "Custom 3-state MDP",
+    "Custom 3-state, 2-action deterministic MDP (numerical check of Proposition 4.1)"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4, \\\"Custom 3-state, 2-action deterministic MDP (numerical check of Proposition 4.1)\\\"",
+    "gemini_note": ""
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MiniGrid, 20-task planner-in-isolation audit",
+   "task": "Evaluation of LLM subgoal plans against hand-curated ground-truth subgoal decompositions"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "MiniGrid-DoorKey-6x6-v0",
+   "task": "Reinforcement learning on a sparse-reward grid task: PPO baseline versus subgoal-conditioned PPO with an LLM planner"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Custom 3-state, 2-action deterministic MDP (numerical check of Proposition 4.1)",
+   "task": "Numerical verification that potential-based shaping preserves the optimal policy"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+  "status": "complete"
+ }
+}

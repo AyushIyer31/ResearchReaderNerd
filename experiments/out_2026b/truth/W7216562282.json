@@ -1,0 +1,93 @@
+{
+ "benchmarks": [
+  {
+   "name": "Toys4K",
+   "aliases": [
+    "Toys4K"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "4.02 4 Experiments Experiment Setup.We use Trellis-500K [ 76] for training. For evaluation, we use 200 randomly sampled Toys4K assets[63] and 50 in-the-wild images, with no overlap with the training set. We compare the reconstruction quality of S",
+   "year": 2021,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "public",
+    "gemini_year": 2021,
+    "where": "Section 4, \\\"For evaluation, we use 200 randomly sampled Toys4K assets[63]\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "In-the-wild images",
+   "aliases": [
+    "50 in-the-wild images",
+    "In-the-wild images"
+   ],
+   "kind": "own",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": true,
+   "snippet": "eriment Setup.We use Trellis-500K [ 76] for training. For evaluation, we use 200 randomly sampled Toys4K assets[63] and 50 in-the-wild images, with no overlap with the training set. We compare the reconstruction quality of Slice V AE with Dora [ 8], XCube [ 55]",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Gemini (PDF) reviewed by Ayush, batch 2",
+    "verdict": "keep",
+    "gemini_kind": "own",
+    "gemini_year": 2026,
+    "where": "Section 4, \\\"and 50 in-the-wild images, with no overlap with the training set.\\\"",
+    "gemini_note": ""
+   }
+  },
+  {
+   "name": "DeepFashion3D",
+   "aliases": [
+    "DeepFashion3D"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5"
+   ],
+   "in_text": false,
+   "snippet": null,
+   "year": 2020,
+   "year_source": "haiku",
+   "hand_check": {
+    "date": "2026-11-11",
+    "checker": "Ayush: arXiv HTML read (SILSA Appendix D) and Harsh's review of the MERID HTML",
+    "verdict": "keep",
+    "where": "Appendix D 'Open Surface Evaluation': 'We further evaluate SliceVAE on the open-surface dataset DeepFashion3D'; Table 5 reports CD, F-Score, IoU, Betti-Err",
+    "gemini_note": "Gemini's location-free 'remove' rejected"
+   }
+  }
+ ],
+ "entries": [
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Toys4K",
+   "task": "Image-to-3D generation (Table 1) and VAE shape reconstruction (Tables 2, 3, and ablations in Tables 4, 6, 7, 8, 9)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "50 in-the-wild images",
+   "task": "Qualitative image-to-3D evaluation"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "DeepFashion3D",
+   "task": "VAE reconstruction on open-surface shapes"
+  }
+ ],
+ "checked_by_author": false,
+ "hand_check": {
+  "date": "2026-11-11",
+  "checker": "Ayush: arXiv HTML read (SILSA Appendix D) and Harsh's review of the MERID HTML",
+  "status": "complete"
+ }
+}

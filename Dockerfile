@@ -1,7 +1,10 @@
 # Single-container image for ECS Fargate (or any Docker host). Serves the web app
-# and calls Claude. Secrets (ANTHROPIC_API_KEY, RRN_ORIGIN_SECRET) are injected at
-# runtime, never baked in. Reports and uploads go to S3 when RRN_S3_BUCKET is set.
+# and calls Claude: the container has no Ollama, so RRN_MODEL pins a Claude model.
+# Secrets (ANTHROPIC_API_KEY, RRN_ORIGIN_SECRET) are injected at runtime, never
+# baked in. Reports and uploads go to S3 when RRN_S3_BUCKET is set.
 FROM python:3.11-slim
+
+ENV RRN_MODEL=claude-haiku-5-5
 
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1

@@ -1,0 +1,155 @@
+{
+ "benchmarks": [
+  {
+   "name": "KITTI odometry",
+   "aliases": [
+    "KITTI odometry",
+    "KITTI odometry dataset"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "ive results on estimating the pose of driving vehicles, even in previously unseen scenar- ios. In the experiment on the KITTI odometry dataset [46], this data-driven solution outperforms conventional represen- tative monocular VO, e.g. VISO2 [47] and ORB"
+  },
+  {
+   "name": "7-Scenes",
+   "aliases": [
+    "7-Scenes",
+    "7-Scenes (Indoor) Dataset"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "new scenarios. • Performance reports the position (m) and orientation (degree) error (a small number is better) on the 7-Scenes (Indoor) [151] and Cambridge (Outdoor) dataset [130]. Both datasets are split into training and testing set. We report"
+  },
+  {
+   "name": "Cambridge Landmarks",
+   "aliases": [
+    "Cambridge Dataset",
+    "Cambridge Landmarks"
+   ],
+   "kind": "public",
+   "found_by": [
+    "claude-haiku-5-5",
+    "qwen2.5:14b"
+   ],
+   "in_text": false,
+   "snippet": null
+  },
+  {
+   "name": "SunnyvaleBigLoop",
+   "aliases": [
+    "SunnyvaleBigLoop",
+    "SunnyvaleBigLoop sequences"
+   ],
+   "kind": "public",
+   "found_by": [
+    "qwen2.5:14b"
+   ],
+   "in_text": true,
+   "snippet": "repetitive data collection over the same road and areas make our dataset ideal for testing local- ization systems. The SunnyvaleBigLoop sequences, with a year’s time interval between the collected mapping and test- ing data, made it quite challenging, but"
+  },
+  {
+   "name": "Oxford RobotCar Dataset",
+   "aliases": [
+    "Oxford RobotCar Dataset"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "rs,” arXiv preprint arXiv:2005.14165, 2020. [34] W. Maddern, G. Pascoe, C. Linegar, and P. Newman, “1 Year, 1000km: The Oxford RobotCar Dataset,” The International Journal of Robotics Research , vol. 36, no. 1, pp. 3–15, 2016. [35] P. Wang, X. Huang, X. Cheng, D.",
+   "added_by_author": true,
+   "note": "mentioned, or used for pretraining, but not an evaluation benchmark of this paper (hand check)"
+  },
+  {
+   "name": "Apolloscape",
+   "aliases": [
+    "Apolloscape"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "botics Research , vol. 36, no. 1, pp. 3–15, 2016. [35] P. Wang, X. Huang, X. Cheng, D. Zhou, Q. Geng, and R. Yang, “The apolloscape open dataset for autonomous driving and its application,” IEEE transactions on pattern analysis and machine intelligenc",
+   "added_by_author": true,
+   "note": "mentioned, or used for pretraining, but not an evaluation benchmark of this paper (hand check)"
+  },
+  {
+   "name": "Waymo Open Dataset",
+   "aliases": [
+    "Waymo Open Dataset"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "n, A. Gao, A. Joshi, Y . Zhang, J. Shlens, Z. Chen, and D. Anguelov, “Scalability in perception for autonomous driving: Waymo open dataset,” 2019. [37] H. Durrant-Whyte and T. Bailey, “Simultaneous localization and mapping: part i,” IEEE robotics & automatio",
+   "added_by_author": true,
+   "note": "mentioned, or used for pretraining, but not an evaluation benchmark of this paper (hand check)"
+  },
+  {
+   "name": "Stanford Bunny",
+   "aliases": [
+    "Stanford Bunny"
+   ],
+   "kind": "not_a_benchmark",
+   "found_by": [],
+   "in_text": true,
+   "snippet": "Clearly, (b) Depth (c) Voxel (d) Point (e) Mesh(a) Original Figure 6: An illustrations of scene representations on the Stanford Bunny benchmark: (a) original model, (b) depth representation, (c) voxel representation (d) point represen- tation (e) mesh r",
+   "added_by_author": true,
+   "note": "mentioned, or used for pretraining, but not an evaluation benchmark of this paper (hand check)"
+  }
+ ],
+ "entries": [
+  {
+   "model": "qwen2.5:14b",
+   "name": "KITTI odometry dataset",
+   "task": "Odometry Estimation"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "7-Scenes (Indoor) Dataset",
+   "task": "Global Localization"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Cambridge Dataset",
+   "task": "Global Localization"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "7-Scenes (Indoor) Dataset",
+   "task": "2D-to-3D Localization"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "Cambridge Dataset",
+   "task": "2D-to-3D Localization"
+  },
+  {
+   "model": "qwen2.5:14b",
+   "name": "SunnyvaleBigLoop sequences",
+   "task": "3D-to-3D Localization"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "KITTI odometry dataset",
+   "task": "Odometry estimation (visual, visual-inertial and LIDAR odometry) on driving sequences"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "7-Scenes",
+   "task": "Camera relocalization (6-DoF global pose regression and scene coordinate regression, indoor)"
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "name": "Cambridge Landmarks",
+   "task": "Camera relocalization (6-DoF global pose regression and scene coordinate regression, outdoor)"
+  }
+ ],
+ "checked_by_author": true
+}

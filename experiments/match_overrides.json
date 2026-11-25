@@ -1,0 +1,53 @@
+{
+ "_note": "Judge matches rejected by hand (11 Nov 2026, after Harsh's review; extended 12 Nov after a manual review of every family-only match). Key: arxiv | truth benchmark | matched suggestion. A listed pair scores as no match in every test. Family matches (versions, subsets) are kept and reported separately in match_sensitivity.md.",
+ "overrides": [
+  {
+   "arxiv": "2609.02272",
+   "benchmark": "Paper2CodeBench",
+   "found_as": "MBPP",
+   "why": "different benchmarks; MBPP is a Python function-synthesis set, Paper2CodeBench is paper-to-repository"
+  },
+  {
+   "arxiv": "2608.04887",
+   "benchmark": "DrawBench",
+   "found_as": "DPG-Bench",
+   "why": "different benchmarks; DPG-Bench is dense-prompt following, DrawBench is Imagen's prompt set"
+  },
+  {
+   "arxiv": "2608.28062",
+   "benchmark": "MMSearch-Plus",
+   "found_as": "VisBrowse-Bench",
+   "why": "different benchmarks: VisBrowse-Bench (169 tasks, github.com/ZhengboZhang/VisBrowse-Bench) vs MMSearch-Plus (311 tasks, mmsearch-plus.github.io); flagged by Harsh"
+  },
+  {
+   "arxiv": "2610.39377",
+   "benchmark": "AppWorld",
+   "found_as": "AgentBench",
+   "why": "different benchmarks: AgentBench is a multi-environment agent suite, AppWorld a separate app-simulation benchmark"
+  },
+  {
+   "arxiv": "2610.07835",
+   "benchmark": "MMLU-Pro",
+   "found_as": "MMLU",
+   "why": "different benchmarks: MMLU-Pro has its own question set and ten options; not a subset of MMLU"
+  },
+  {
+   "arxiv": "2609.29015",
+   "benchmark": "MMLU-Pro",
+   "found_as": "MMLU",
+   "why": "as above"
+  },
+  {
+   "arxiv": "2609.35189",
+   "benchmark": "VBench2.0",
+   "found_as": "VBench",
+   "why": "different suites: VBench-2.0 evaluates different dimensions with new prompts; not a version of VBench's items"
+  },
+  {
+   "arxiv": "2610.29523",
+   "benchmark": "ViDoRe-V3 (image)",
+   "found_as": "ViDoRe V2",
+   "why": "wrong release: V2 and V3 are different document collections"
+  }
+ ]
+}
