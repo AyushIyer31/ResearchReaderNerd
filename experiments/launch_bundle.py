@@ -54,7 +54,7 @@ def main() -> None:
     copy(root / "pyproject.toml", T / "pyproject.toml"); inventory.append(("pyproject.toml", "shipped"))
     for f in sorted((root / "tests").glob("*.py")):
         copy(f, T / "tests" / f.name)
-    for f in launch.SCRIPTS + launch.INPUT_FILES + ["launch_bundle.py"]:
+    for f in launch.SCRIPTS + launch.INPUT_FILES + ["launch_bundle.py", "package_check.py"]:
         copy(HERE / f, T / "experiments" / f); inventory.append((f"experiments/{f}", "shipped"))
     for f in launch.DOCS + ["launch_manifest_2026-11-24.json", "launch_manifest_2026-11-24.md"]:
         copy(REPORT / f, T / "experiments" / "out" / "report_2026-11-08" / f)
@@ -93,7 +93,7 @@ Nothing has run. Every stage runs only through experiments/launch.py, and only a
 
 ## Verifying the package
 
-- ResearchReaderNerd/ has the repository's layout. Its code, tests, scripts, paper lists and protocol are those of public commit {man['git']['commit'][:7]} ({'a clean working tree' if not man['git']['working_tree_uncommitted'] else 'with uncommitted changes recorded in the manifest'}); the run data and input folders are not in git and are identified by their hashes in the manifest, as is every file here.
+- ResearchReaderNerd/ has the repository's layout. Its code, tests, scripts, paper lists and protocol are those of public commit {man['git']['commit'][:7]} ({'a clean working tree' if man['git']['working_tree_uncommitted'] is False else 'with uncommitted changes recorded in the manifest'}); the run data and input folders are not in git and are identified by their hashes in the manifest, as is every file here.
 - INVENTORY.md lists every item the manifest hashes and where it is. All are in this archive except the three OpenAlex response caches (oa_cache, about 350 MB), which are in {CACHE_DEST.name}.zip: unzip both into the same folder.
 - To check every hash: `cd ResearchReaderNerd && python experiments/launch.py check` prints "all files match" (with the caches unzipped; without them, only the three oa_cache entries differ). It needs no key; the OpenAlex line says the endpoint is not readable without one.
 - To run the tests: `pip install -e . && pytest` in ResearchReaderNerd/ (no network, no key).
@@ -140,6 +140,11 @@ Settled on 14 Nov by the 12 Nov availability rule (decisions/truth_decisions_202
     shutil.copytree(CACHE_DEST, stage / DEST.name)
     zc = shutil.make_archive(str(CACHE_DEST), "zip", root_dir=stage, base_dir=DEST.name)
     shutil.rmtree(stage)
+    check = subprocess.run([sys.executable, str(HERE / "package_check.py"), str(DEST)], capture_output=True, text=True)
+    print(check.stdout.strip())
+    if check.returncode:
+        Path(z).unlink(); Path(zc).unlink()
+        sys.exit("package_check failed: the archives were deleted; fix the documents and rebuild")
     print(z, f"{Path(z).stat().st_size / 1e6:.1f} MB", f"{len(sums)} files")
     print(zc, f"{Path(zc).stat().st_size / 1e6:.1f} MB")
 
