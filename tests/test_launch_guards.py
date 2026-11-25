@@ -200,3 +200,83 @@ def test_the_count_includes_the_output_schema_exactly(tmp_path, monkeypatch):
     reserved = json.loads((tmp_path / "spend.jsonl").read_text().splitlines()[0])["usd"]
     worst = llm.worst_case_usd("claude-haiku-5-5", int(436 * 1.02) + 50, 100)
     assert worst <= reserved < worst + 1e-6, "reserved at the worst case, rounded up"
+
+
+# ---------- OpenAlex balance in the documented response shape (Harsh, 25 Nov 2026) ----------
+# help.openalex.org/api/authentication documents prepaid_balance_usd; a missing or malformed balance must fail closed.
+
+DOCUMENTED = {"daily_budget_usd": 1, "daily_used_usd": 0.0, "daily_remaining_usd": 1.0, "prepaid_balance_usd": 3.18,
+              "resets_at": "2026-11-26T00:00:00.000Z"}
+
+
+class ShapeHTTP(FakeHTTP):
+    def __init__(self, body):
+        super().__init__()
+        self.body = body
+
+    def get(self, url, params=None, timeout=None, **kw):
+        self.calls.append(url)
+        body = {"rate_limit": self.body} if url.endswith("/rate-limit") else {"results": []}
+        return types.SimpleNamespace(status_code=200, headers={}, json=lambda: body)
+
+
+@pytest.mark.parametrize("balance, refused", [
+    ({"prepaid_balance_usd": 3.18}, "prepaid credit"),             # the documented field alone
+    ({"prepaid_remaining_usd": 3.18}, "prepaid credit"),           # the older field alone
+    ({"prepaid_balance_usd": 0, "prepaid_remaining_usd": 2.0}, "prepaid credit"),  # the larger counts
+    ({}, "no prepaid balance"),                                    # missing: fail closed
+    ({"prepaid_balance_usd": None}, "malformed"),
+    ({"prepaid_balance_usd": "3.18"}, "malformed"),
+    ({"prepaid_balance_usd": -1}, "malformed"),
+])
+def test_the_request_guard_reads_the_documented_balance_and_fails_closed(guarded, monkeypatch, balance, refused):
+    guarded()
+    body = {k: v for k, v in DOCUMENTED.items() if not k.startswith("prepaid")} | balance
+    h = ShapeHTTP(body)
+    monkeypatch.setattr(scholar.httpx2, "get", h.get)
+    with pytest.raises(scholar.ScholarError, match=refused):
+        REAL_GET("/works", {"filter": "cites:W1"})
+    assert not any(u.endswith("/works") for u in h.calls), "the priced request was never sent"
+
+
+def test_a_zero_documented_balance_lets_requests_through(guarded, monkeypatch):
+    guarded()
+    h = ShapeHTTP(DOCUMENTED | {"prepaid_balance_usd": 0})
+    monkeypatch.setattr(scholar.httpx2, "get", h.get)
+    REAL_GET("/works", {"filter": "cites:W1"})
+    assert h.calls[-1].endswith("/works")
+
+
+@pytest.fixture
+def launch_mod(monkeypatch, tmp_path):
+    exp = Path(__file__).resolve().parents[1] / "experiments"
+    monkeypatch.syspath_prepend(str(exp))
+    sys.modules.pop("launch", None)
+    import launch
+    monkeypatch.setattr(launch, "LAUNCH", tmp_path)
+    return launch
+
+
+def test_startup_refuses_a_documented_balance_and_a_missing_or_malformed_one(launch_mod):
+    assert "holds $3.18 of prepaid credit" in launch_mod.startup_refusal(DOCUMENTED)
+    assert "no prepaid balance" in launch_mod.startup_refusal({k: v for k, v in DOCUMENTED.items() if k != "prepaid_balance_usd"})
+    assert "malformed" in launch_mod.startup_refusal(DOCUMENTED | {"prepaid_balance_usd": "x"})
+    assert launch_mod.startup_refusal(DOCUMENTED | {"prepaid_balance_usd": 0}) is None
+
+
+def test_the_meter_records_a_decrease_of_the_documented_balance(launch_mod, monkeypatch):
+    reads = iter([DOCUMENTED, DOCUMENTED | {"prepaid_balance_usd": 3.17}])
+    monkeypatch.setattr(launch_mod, "openalex_state", lambda: next(reads))
+    m = launch_mod.Meter("B")
+    m.poll()
+    start = m.s["prepaid_spent"]
+    m.poll()
+    assert m.s["prepaid_spent"] == pytest.approx(0.01), "3.18 -> 3.17 recorded as a prepaid charge"
+    assert launch_mod.prepaid_charged(m, start), "the post-step and final checks see it"
+
+
+def test_the_meter_fails_closed_on_a_missing_or_malformed_balance(launch_mod, monkeypatch):
+    for bad in ({k: v for k, v in DOCUMENTED.items() if k != "prepaid_balance_usd"}, DOCUMENTED | {"prepaid_balance_usd": None}):
+        monkeypatch.setattr(launch_mod, "openalex_state", lambda bad=bad: bad)
+        with pytest.raises(RuntimeError, match="prepaid"):
+            launch_mod.Meter("B").poll()

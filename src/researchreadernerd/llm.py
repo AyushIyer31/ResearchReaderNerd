@@ -312,8 +312,9 @@ def _count_input(client, *, model: str, system: str, content: list[dict], schema
 
 def _reserve(client, *, model: str, system: str, content: list[dict], schema, max_tokens: int) -> str | None:
     """RRN_SPEND_CAP_USD with RRN_SPEND_LEDGER (launch runner): before a call is sent, reserve its worst-case cost in the
-    ledger, and refuse it when the ledger's spend plus that reserve would pass the cap. Spend therefore never exceeds
-    the cap, whatever happens to calls in flight. Unset, nothing is reserved."""
+    ledger, and refuse it when the ledger's spend plus that reserve would pass the cap. Calls in flight and lost responses
+    are counted at their worst case, so spend stays within the cap to the accuracy of Anthropic's token count (an
+    estimate; COUNT_MARGIN is our allowance for it). Unset, nothing is reserved."""
     cap, path = os.environ.get("RRN_SPEND_CAP_USD"), os.environ.get("RRN_SPEND_LEDGER")
     if not cap or not path:
         return None

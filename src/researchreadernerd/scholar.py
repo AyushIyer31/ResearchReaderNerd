@@ -59,6 +59,25 @@ def _price(path: str, params: dict) -> float:
     return 0.0 if path.startswith("/works/") else 0.0001
 
 
+PREPAID_FIELDS = ("prepaid_balance_usd", "prepaid_remaining_usd")  # the documented field first (help.openalex.org/api/authentication)
+
+
+def prepaid_usd(rate_limit: dict) -> float:
+    """The prepaid credit an OpenAlex rate-limit response reports: the larger of prepaid_balance_usd (the documented
+    field) and prepaid_remaining_usd, where present. Raises ValueError when neither is present or a present value is not
+    a non-negative number, so that every caller can fail closed rather than read a missing balance as zero."""
+    values = []
+    for k in PREPAID_FIELDS:
+        if k in rate_limit:
+            v = rate_limit[k]
+            if isinstance(v, bool) or not isinstance(v, (int, float)) or v != v or v < 0:
+                raise ValueError(f"OpenAlex {k} is malformed ({v!r})")
+            values.append(float(v))
+    if not values:
+        raise ValueError(f"OpenAlex rate-limit response has no prepaid balance ({', '.join(PREPAID_FIELDS)})")
+    return max(values)
+
+
 class FreeBudgetSpent(Exception):
     """RRN_OPENALEX_FREE_ONLY: the free daily budget cannot cover this request; it was not sent."""
 
@@ -77,11 +96,15 @@ def _free_guard(path: str, params: dict) -> None:
         if _FREE["remaining"] is None or time.time() - _FREE["read_at"] > 20 or _FREE["since"] >= 0.02:
             try:
                 r = httpx2.get(f"{API}/rate-limit", params={"api_key": os.environ.get("OPENALEX_API_KEY", "")}, timeout=20).json()["rate_limit"]
-            except Exception as e:  # noqa: BLE001  fail closed
-                raise FreeBudgetSpent(f"OpenAlex free budget could not be read ({type(e).__name__}); request not sent") from e
-            if (r.get("prepaid_remaining_usd") or 0) > 0:
-                raise FreeBudgetSpent("the OpenAlex key holds prepaid credit; the launch runs only with a key that holds none")
-            _FREE.update(read_at=time.time(), remaining=float(r["daily_remaining_usd"]), since=0.0)
+                prepaid = prepaid_usd(r)
+                remaining = r["daily_remaining_usd"]
+                if isinstance(remaining, bool) or not isinstance(remaining, (int, float)):
+                    raise ValueError(f"daily_remaining_usd is malformed ({remaining!r})")
+            except Exception as e:  # noqa: BLE001  fail closed: unreadable, missing or malformed means no request
+                raise FreeBudgetSpent(f"OpenAlex free budget could not be read ({type(e).__name__}: {e}); request not sent") from e
+            if prepaid > 0:
+                raise FreeBudgetSpent(f"the OpenAlex key holds ${prepaid:.2f} of prepaid credit; the launch runs only with a key that holds none")
+            _FREE.update(read_at=time.time(), remaining=float(remaining), since=0.0)
         if _FREE["remaining"] - _FREE["since"] < price + FREE_GUARD_MARGIN:
             raise FreeBudgetSpent(f"OpenAlex free daily budget spent (${_FREE['remaining'] - _FREE['since']:.3f} left); request not sent")
         _FREE["since"] += price

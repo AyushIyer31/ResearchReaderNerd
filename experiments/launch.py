@@ -1,23 +1,31 @@
-"""Launch runner for the approved plan (13 Nov 2026; Harsh approved a total ceiling of $79 including retries).
+"""Launch runner, version 2 (stages A and B; the $79 total ceiling and the stage caps agreed with Harsh on 13 Nov 2026).
 
   python launch.py freeze          write the launch manifest (config + sha256 of every file the runs read or execute)
   python launch.py check [STAGE]   verify the files against the manifest and show balances; no paid call
   python launch.py run A           stage A: cached replay (dating + Sonnet year-aware ranking on the 342 saved pools)
   python launch.py decide          apply the predeclared rule to stage A's rows; records the version-2 configuration
   python launch.py run B           stage B: live version-2 development run on the 90 existing papers
-  python launch.py run C1          stage C, part 1: draw (then pauses for the PDF check and any swap), read, user-1 runs,
-                                   Haiku alone, sealed pre-check scoring (then the truth check by hand, protocol
-                                   section 3: heldout_truth_check.py packet, Gemini's answers, review, apply)
-  python launch.py run C2          stage C, part 2, after the truth check: scoring on the checked lists, leave-one-out,
-                                   probes, leak check, age table, match sensitivity and paired bootstrap
+  python launch.py run C1 / C2     stage C (held-out sample): refused by this manifest (PACKAGE_STAGES); frozen separately
 
-Every stage, and decide, refuses to start if a file differs from the manifest. During a stage every Claude response that
-arrives (including a refused, cut-off or malformed answer) is appended to a spend ledger; a response lost to a network
-failure or to the runner stopping a step is not, which the $0.50 stop margin covers (llm.py, RRN_SPEND_LEDGER) and every OpenAlex response to an endpoint ledger (scholar.py,
-RRN_OPENALEX_LEDGER); OpenAlex dollars are read from its rate-limit endpoint before and after every step and every 30 s
-during it. A step is not started, or is stopped, and the stage ends, reported as partial, when the stage's spend reaches its cap, when all stages together reach $79, or when the
-spend projected from the share of runs done exceeds the cap once 10% are done. Stages B and C write to new folders;
-stage A writes new files (dating/, v2_rerank/, v2_offline rows) inside the as-run folders and changes no hashed file.
+Every stage, and decide, refuses to start if a file differs from the manifest.
+
+Claude spend (llm.py): before each call its input is counted with Anthropic's token-counting endpoint (the output schema
+included) and its worst case, that count plus 2% and 50 tokens, plus a full max_tokens of output, at the model's price,
+is reserved in the stage's spend ledger; the call is refused if the ledger's spend plus that reserve would pass the cap
+the runner sets for the step (RRN_SPEND_CAP_USD: the stage cap and the $79 total, each less $0.50). A reservation counts
+in full until its response arrives, so calls in flight and lost responses are counted at their worst case. The bound is
+an estimate: Anthropic describes its token count as an estimate without a stated maximum error, and the 2% plus 50-token
+allowance is ours. Every response that arrives is written to the ledger at its price and settles its reservation.
+
+OpenAlex (scholar.py): free daily budget only. The launch key holds no prepaid credit; the runner refuses a key that
+holds any, or whose balance is missing or malformed. Each priced request is refused unless the free budget covers it
+(RRN_OPENALEX_FREE_ONLY), and the rate-limit endpoint is read every 30 s during a step, after every step and at the end of
+the stage: any prepaid decrease, or an unreadable or malformed balance, stops the stage. Every OpenAlex and Semantic
+Scholar response is written to an endpoint ledger (RRN_OPENALEX_LEDGER).
+
+A stage also stops, reported as partial, when its spend projected from the share of runs done exceeds the cap once 10%
+are done. Stage B writes to new folders; stage A writes new files (dating/, v2_rerank/, v2_offline rows) inside the
+as-run folders and changes no hashed file.
 """
 from __future__ import annotations
 
@@ -259,7 +267,7 @@ def cmd_freeze(replace: bool = False) -> None:
                         "C1": "the draw starts only after decide, once stage B is complete (or the group's decision to go on after a B that stopped early is recorded in out/launch_2026-11-24/stage_b_partial_accepted.json) and once out/launch_2026-11-24/predictions_v2.json records the version-2 predictions (its sha256 goes into heldout_draw.json); the draw runs once and C1 then pauses; C1 resumes only when out/launch_2026-11-24/heldout_pdfs_checked.json marks every sampled paper's PDF checked (swaps by the recipe's rule in papers_heldout_swaps.json), and then records the sample's hashes in heldout_sample.json; the pre-check scoring (results, summary, the judge's matches and its terminal output) and the tool's runs and Haiku-alone answers (blind, abl, replay) go to out_heldout/sealed_pre_check/, which is never overwritten, so the truth-check reviewer sees none of them; a complete C1 is never run again. The truth check follows by hand (protocol section 3, as for the development sets): heldout_truth_check.py packet writes each paper's prompt and list for Gemini in its chat window with the PDF, and review and apply turn the reviewed answers into the checked lists; no API call",
                         "C2": "starts only when C1 is complete, the sample still matches heldout_sample.json, and out/launch_2026-11-24/heldout_truth_checked.json (written by 'heldout_truth_check.py apply' after the reviewer's decisions) marks every sampled paper checked and still matches the truth lists' hash; it restores the sealed runs, the judge matches again on the checked lists, and a complete C2 is never run again"},
         "caps_usd": CAPS | {"total": TOTAL_CAP}, "stop_rules": ["each Claude call refused before it is sent if its worst case would take the stage past its cap less $0.50, or all stages past $79 less $0.50", f"projected stage spend > cap once {PROJECT_AFTER:.0%} of its runs are done", "any OpenAlex prepaid charge stops the stage", "the OpenAlex rate-limit endpoint unreadable stops the stage", "checked before and after every step and every 30 s during it, and at the end of the stage"],
-        "spend_measurement": {"anthropic": "llm.ledger_spend over the stage part's spend ledger: every response that arrives at its pricing.py price (refused, cut-off and malformed answers included), plus every reservation no response has settled at its worst case. Before each call llm.py counts its input with Anthropic's counting endpoint (output schema included, plus 2% and 50 tokens), reserves input plus a full max_tokens at the model's card (rounded up), and refuses the call if the ledger's spend plus that reserve would pass RRN_SPEND_CAP_USD, which the runner sets per step from the stage cap and the total cap, each less $0.50; the SDK's own retries are off. Spend therefore cannot exceed the cap.",
+        "spend_measurement": {"anthropic": "llm.ledger_spend over the stage part's spend ledger: every response that arrives at its pricing.py price (refused, cut-off and malformed answers included), plus every reservation no response has settled at its worst case. Before each call llm.py counts its input with Anthropic's counting endpoint (output schema included, plus 2% and 50 tokens), reserves input plus a full max_tokens at the model's card (rounded up), and refuses the call if the ledger's spend plus that reserve would pass RRN_SPEND_CAP_USD, which the runner sets per step from the stage cap and the total cap, each less $0.50; the SDK's own retries are off. Spend therefore stays within the cap to the accuracy of Anthropic's token count, which Anthropic describes as an estimate without a stated maximum error; the 2% plus 50-token allowance covers that, as an estimate, not a guarantee.",
                               "openalex": "free daily budget only: the launch key holds no prepaid credit (the runner refuses a key that holds any), scholar.py refuses a priced request the free budget cannot cover (RRN_OPENALEX_FREE_ONLY), and the runner reads the rate-limit endpoint every 30 s, after every step and at the end of the stage, stopping the stage on any decrease of prepaid_remaining_usd; free budget used is reported, not counted as money; endpoint classes in the OpenAlex ledger"},
         "package_stages": list(PACKAGE_STAGES),
         "prices_usd_per_M_tokens": {m: pricing.PRICES[m] for m in (HAIKU, SONNET)},
@@ -374,7 +382,11 @@ class Meter:
         with self.lock:
             day = self.s["days"].setdefault(r["resets_at"], {"first": r["daily_used_usd"], "last": r["daily_used_usd"]})
             day["last"] = max(day["last"], r["daily_used_usd"])
-            p = r.get("prepaid_remaining_usd") or 0.0
+            from researchreadernerd.scholar import prepaid_usd
+            try:
+                p = prepaid_usd(r)  # fails closed: a missing or malformed balance stops the stage like an unreadable endpoint
+            except ValueError as e:
+                raise RuntimeError(str(e)) from e
             if self.s["last_prepaid"] is not None and p < self.s["last_prepaid"]:
                 self.s["prepaid_spent"] += self.s["last_prepaid"] - p
             self.s["last_prepaid"] = p
@@ -493,6 +505,23 @@ def ledger_cap(part: str) -> float:
     return round(min(CAPS[part[0]] - STOP_MARGIN - others_in_stage, TOTAL_CAP - STOP_MARGIN - other_stages - others_in_stage) - oa, 4)
 
 
+def startup_refusal(r: dict | None) -> str | None:
+    """Why a stage may not start on this OpenAlex key (FREE_OPENALEX_ONLY), or None: the balance must be readable and
+    zero. An unreadable endpoint is left to the meter's own check, which refuses too."""
+    if not FREE_OPENALEX_ONLY or r is None:
+        return None
+    sys.path.insert(0, str(ROOT / "src"))
+    from researchreadernerd.scholar import prepaid_usd
+    try:
+        p = prepaid_usd(r)
+    except ValueError as e:
+        return f"REFUSED: {e}; the launch needs a readable balance of zero"
+    if p > 0:
+        return (f"REFUSED: the OpenAlex key holds ${p:.2f} of prepaid credit; the launch runs only with a key that holds none, "
+                "so that OpenAlex cannot bill beyond its free daily budget")
+    return None
+
+
 def prepaid_charged(meter, start: float) -> bool:
     return FREE_OPENALEX_ONLY and meter.s.get("prepaid_spent", 0.0) > start + 1e-9
 
@@ -548,11 +577,8 @@ def run_stage(stage: str) -> int:
                 shutil.copytree(sealed / d, HERE / HELDOUT[0] / d)
     if stage == "B":
         seed_stage_b()
-    if FREE_OPENALEX_ONLY:  # checked before the meter records anything, so a refused key leaves no trace in the meter
-        r = openalex_state()
-        if r and (r.get("prepaid_remaining_usd") or 0) > 0:
-            print(f"REFUSED: the OpenAlex key holds ${r['prepaid_remaining_usd']:.2f} of prepaid credit; the launch runs only with a key that holds "
-                  "none, so that OpenAlex cannot bill beyond its free daily budget"); return 2
+    if why := startup_refusal(openalex_state()):  # checked before the meter records anything, so a refused key leaves no trace
+        print(why); return 2
     meter = Meter(meter_key)
     try:
         meter.poll()
@@ -709,11 +735,20 @@ def cmd_decide() -> int:
     print(json.dumps(d, indent=1)); return 0
 
 
+def prepaid_text(r: dict) -> str:
+    sys.path.insert(0, str(ROOT / "src"))
+    from researchreadernerd.scholar import prepaid_usd
+    try:
+        return f"${prepaid_usd(r):.2f}"
+    except ValueError as e:
+        return f"not readable ({e})"
+
+
 def cmd_check(stage: str | None) -> int:
     bad = mismatches()
     print("manifest:", "all files match" if not bad else f"{len(bad)} differ:\n  " + "\n  ".join(bad[:40]))
     r = openalex_state()
-    print("OpenAlex:", f"daily ${r['daily_remaining_usd']:.2f} left of ${r['daily_budget_usd']}, prepaid ${r.get('prepaid_remaining_usd') or 0:.2f}" if r else "rate-limit endpoint not readable")
+    print("OpenAlex:", f"daily ${r['daily_remaining_usd']:.2f} left of ${r['daily_budget_usd']}, prepaid {prepaid_text(r)}" if r else "rate-limit endpoint not readable")
     print("Anthropic key:", "set" if (ROOT / ".env").exists() and "ANTHROPIC_API_KEY" in (ROOT / ".env").read_text() else "missing")
     print("decision:", json.loads(DECISION.read_text())["version_2"] if DECISION.exists() else "not yet (after stage A)")
     for s, parts in PARTS.items():

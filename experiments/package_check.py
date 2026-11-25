@@ -28,7 +28,13 @@ STALE = [
     ("Launch manifest and configuration (14 November 2026)", "old title"),
     ("about $22 of OpenAlex credit", "paid OpenAlex is no longer used"),
     ("If OpenAlex bills title lookups at its search price", "paid OpenAlex is no longer used"),
+    ("cannot exceed the cap", "the Claude bound is an estimate (Harsh, 25 Nov)"),
+    ("never exceeds the cap", "the Claude bound is an estimate"),
+    ("spend at most equals the cap", "the Claude bound is an estimate"),
+    ("Spend therefore never exceeds", "the Claude bound is an estimate"),
+    ("which the $0.50 stop margin covers", "lost responses are now counted at their worst case"),
 ]
+CODE = ["experiments/launch.py", "src/researchreadernerd/llm.py", "src/researchreadernerd/scholar.py"]  # docstrings checked too
 
 
 def main() -> int:
@@ -38,6 +44,7 @@ def main() -> int:
     docs = {"README.md": DEST / "README.md", "INVENTORY.md": DEST / "INVENTORY.md",
             "launch_manifest_2026-11-24.md": REP / "launch_manifest_2026-11-24.md", "protocol_2026-11-24.md": REP / "protocol_2026-11-24.md",
             "launch_cost_worksheet_2026-11-24.md": REP / "launch_cost_worksheet_2026-11-24.md"}
+    docs |= {f: DEST / "ResearchReaderNerd" / f for f in CODE}
     text = {k: p.read_text() for k, p in docs.items()}
 
     for name, t in text.items():
