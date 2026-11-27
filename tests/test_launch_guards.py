@@ -280,3 +280,70 @@ def test_the_meter_fails_closed_on_a_missing_or_malformed_balance(launch_mod, mo
         monkeypatch.setattr(launch_mod, "openalex_state", lambda bad=bad: bad)
         with pytest.raises(RuntimeError, match="prepaid"):
             launch_mod.Meter("B").poll()
+
+
+# ---------- spend watcher (27 Nov 2026: stage B stop at 13:03) ----------
+
+class FakeProc:
+    def __init__(self, done=False):
+        self.done, self.terminated = done, False
+
+    def poll(self):
+        return 0 if self.done else None
+
+    def terminate(self):
+        self.terminated = True; self.done = True
+
+
+class CountingMeter:
+    def __init__(self):
+        self.polls, self.s = 0, {"prepaid_spent": 0.0, "daily_left": 1.0}
+
+    def poll(self):
+        self.polls += 1
+
+
+def test_a_watcher_whose_step_ended_does_not_watch_the_next_step(launch_mod, monkeypatch):
+    """The watcher of a short step wakes after its step has ended and the next step has started: it must return without
+    reading spend, because it is bound to its own step's process (it used to read the loop's rebound 'proc')."""
+    short, nxt = FakeProc(), FakeProc()
+    meter = CountingMeter()
+
+    def sleep(s):  # the short step ends while its watcher sleeps; the next step is then running
+        short.done = True
+    monkeypatch.setattr(launch_mod.time, "sleep", sleep)
+    monkeypatch.setattr(launch_mod, "over_cap", lambda *a: None)
+    launch_mod.watch_step(short, meter, "B", [], 0.0, [], [])
+    assert meter.polls == 0 and not nxt.terminated
+
+
+def test_a_watcher_stops_its_own_step_when_spend_cannot_be_read(launch_mod, monkeypatch):
+    proc, reason = FakeProc(), []
+
+    class Broken(CountingMeter):
+        def poll(self):
+            raise RuntimeError("OpenAlex spend could not be read from the rate-limit endpoint")
+    monkeypatch.setattr(launch_mod.time, "sleep", lambda s: None)
+    launch_mod.watch_step(proc, Broken(), "B", [], 0.0, reason, [])
+    assert proc.terminated and reason and "could not be read" in reason[0]
+
+
+def test_the_meter_file_is_never_seen_truncated(launch_mod, monkeypatch):
+    """Meter writes replace the file whole, so a reader (another stage part's Meter) never parses an empty file."""
+    import threading
+    monkeypatch.setattr(launch_mod, "openalex_state", lambda: DOCUMENTED | {"prepaid_balance_usd": 0.0})
+    m = launch_mod.Meter("B")
+    m.poll()
+    errors, stop = [], threading.Event()
+
+    def read():
+        while not stop.is_set():
+            try:
+                launch_mod.Meter("B")
+            except json.JSONDecodeError as e:
+                errors.append(e)
+    t = threading.Thread(target=read); t.start()
+    for _ in range(300):
+        m.poll()
+    stop.set(); t.join()
+    assert errors == []

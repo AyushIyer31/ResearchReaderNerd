@@ -393,7 +393,7 @@ class Meter:
             self.s["daily_left"] = r["daily_remaining_usd"]
             self.s["resets_at"] = r.get("resets_at")
             self.s["funds_left"] = r["daily_remaining_usd"] + (0.0 if FREE_OPENALEX_ONLY else p)
-            self.f.write_text(json.dumps(self.s, indent=1))
+            write_atomic(self.f, json.dumps(self.s, indent=1))
 
     def openalex(self) -> float:
         """OpenAlex money counted against the caps. With FREE_OPENALEX_ONLY only prepaid credit is money (and any charge
@@ -464,6 +464,34 @@ def log(stage: str, msg: str) -> None:
     print(line, flush=True)
     with open(LAUNCH / f"log_{stage}.txt", "a") as f:
         f.write(line + "\n")
+
+
+def watch_step(proc, meter, meter_key: str, steps: list[dict], prepaid_at_start: float, reason: list, pause: list) -> None:
+    """Spend watcher of one step, run in its own thread. It is bound to its own step's process, so a watcher still asleep
+    when its (short) step ends returns on waking instead of watching the next step (27 Nov 2026: watchers of steps shorter
+    than POLL_S had read the loop's rebound 'proc' and kept running alongside the next step's watcher)."""
+    while proc.poll() is None:
+        time.sleep(POLL_S)
+        if proc.poll() is not None:
+            return
+        try:
+            meter.poll()
+            why = over_cap(meter, meter_key, steps)
+            if not why and FREE_OPENALEX_ONLY and meter.s.get("prepaid_spent", 0) > prepaid_at_start + 1e-9:
+                why = "OpenAlex prepaid credit was charged while the run is limited to the free daily budget"
+            if not why and FREE_OPENALEX_ONLY and meter.s.get("daily_left", 1.0) < FREE_PAUSE_BELOW:
+                pause.append(True); proc.terminate(); return
+        except Exception as e:  # noqa: BLE001  fail closed: a step is never left running unmetered
+            why = f"spend could not be read ({type(e).__name__}: {e})"
+        if why:
+            reason.append(why); proc.terminate(); return
+
+
+def write_atomic(path: Path, text: str) -> None:
+    """Write a file whole: a reader sees the old or the new content, never a truncated file."""
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text)
+    os.replace(tmp, path)
 
 
 def state_of(stage: str) -> str | None:
@@ -616,24 +644,7 @@ def run_stage(stage: str) -> int:
             out = open(sealed / f"score_stdout_step{i}.txt", "w")
         proc = subprocess.Popen([PY, *st["cmd"]], cwd=HERE, env=env, stdout=out, stderr=subprocess.STDOUT if out else None)
         reason, pause = [], []
-
-        def watch():
-            while proc.poll() is None:
-                time.sleep(POLL_S)
-                if proc.poll() is not None:
-                    return
-                try:
-                    meter.poll()
-                    why = over_cap(meter, meter_key, steps)
-                    if not why and FREE_OPENALEX_ONLY and meter.s.get("prepaid_spent", 0) > prepaid_at_start + 1e-9:
-                        why = "OpenAlex prepaid credit was charged while the run is limited to the free daily budget"
-                    if not why and FREE_OPENALEX_ONLY and meter.s.get("daily_left", 1.0) < FREE_PAUSE_BELOW:
-                        pause.append(True); proc.terminate(); return
-                except Exception as e:  # noqa: BLE001  fail closed: a step is never left running unmetered
-                    why = f"spend could not be read ({type(e).__name__}: {e})"
-                if why:
-                    reason.append(why); proc.terminate(); return
-        t = threading.Thread(target=watch, daemon=True); t.start()
+        t = threading.Thread(target=watch_step, args=(proc, meter, meter_key, steps, prepaid_at_start, reason, pause), daemon=True); t.start()
         rc = proc.wait(); t.join(timeout=1)
         try:
             meter.poll()
